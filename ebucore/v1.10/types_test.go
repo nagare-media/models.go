@@ -29,8 +29,9 @@ import (
 )
 
 var (
-	lastModified    = time.Now()
-	testEBUCoreMain = ebucore.Main{
+	lastModified = time.Now()
+
+	want = ebucore.Main{
 		Version:               ebucore.SchemaVersion,
 		WritingLibraryName:    "nagare media",
 		WritingLibraryVersion: "1.0",
@@ -205,7 +206,7 @@ var (
 // TODO: unmarshal
 
 func TestMarshalXML(t *testing.T) {
-	str, err := xml.MarshalIndent(testEBUCoreMain, "", "   ")
+	str, err := xml.MarshalIndent(want, "", "   ")
 	if err != nil {
 		t.Fatal("marshal failed")
 	}
@@ -214,7 +215,7 @@ func TestMarshalXML(t *testing.T) {
 }
 
 func TestMarshalJSON(t *testing.T) {
-	str, err := json.MarshalIndent(testEBUCoreMain, "", "   ")
+	str, err := json.MarshalIndent(want, "", "   ")
 	if err != nil {
 		t.Fatal("marshal failed")
 	}
