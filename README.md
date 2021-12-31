@@ -13,3 +13,8 @@ The `github.com/nagare-media/models.go/dcterms` package implements the DCMI Meta
 ## DCMI Type Vocabulary
 
 The `github.com/nagare-media/models.go/dcmitype` package implements the DCMI Type Vocabulary.
+
+## EBU Core Metadata Set ("EBUCore")
+
+The `github.com/nagare-media/models.go/ebucore/...` package implement the EBU Core Metadata Set ("EBUCore") in the
+specified version.
