@@ -31,7 +31,7 @@ import (
 var (
 	lastModified = time.Now()
 
-	want = ebucore.Main{
+	want = &ebucore.Main{
 		Version:               ebucore.SchemaVersion,
 		WritingLibraryName:    "nagare media",
 		WritingLibraryVersion: "1.0",
