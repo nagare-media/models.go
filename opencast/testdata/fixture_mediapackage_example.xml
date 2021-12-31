@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mediapackage xmlns="http://mediapackage.opencastproject.org" id="515e94e8-eb31-4400-a2dd-98f96d4cac22" start="2021-12-31T15:20:02.422575+01:00" duration="420000">
+  <title>Example</title>
+  <seriestitle>Example Series</seriestitle>
+  <language>deu</language>
+  <series>0c07eda3-d895-40dc-a92a-44f02ef42cd1</series>
+  <license>ALLRIGHTS</license>
+  <creators>
+    <creator>Prof. John Doe</creator>
+  </creators>
+  <contributors>
+    <contributor>Max Mustermann</contributor>
+  </contributors>
+  <subjects>
+    <subject>example</subject>
+    <subject>golang</subject>
+    <subject>test</subject>
+  </subjects>
+  <media>
+    <track id="b2bc6d47-4790-4209-af0e-e035fceed403" type="presenter/delivery" ref="self;example-for=tests">
+      <mimetype>video/mp4</mimetype>
+      <url>https://cdn.opencast/assets/assets/515e94e8-eb31-4400-a2dd-98f96d4cac22/b2bc6d47-4790-4209-af0e-e035fceed403/1/presenter.mp4</url>
+      <size>1302193</size>
+      <checksum type="md5">18c24857427ed587c787583e85975b04</checksum>
+      <tags>
+        <tag>1080p-quality</tag>
+        <tag>archive</tag>
+        <tag>engage-download</tag>
+      </tags>
+      <duration>420000</duration>
+      <audio id="audio-1">
+        <framecount>21000</framecount>
+        <encoder type="AAC (Advanced Audio Coding)"/>
+        <bitdepth>24</bitdepth>
+        <channels>2</channels>
+        <samplingrate>48000</samplingrate>
+        <bitrate>2280</bitrate>
+      </audio>
+      <video id="video-1">
+        <framecount>10500</framecount>
+        <encoder type="H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"/>
+        <bitrate>769473</bitrate>
+        <framerate>25</framerate>
+        <resolution>1920x1080</resolution>
+        <scantype type="Progressive"/>
+      </video>
+    </track>
+  </media>
+  <metadata>
+    <catalog id="305b30fe-c318-4cb9-a1e3-562703fa1df4" type="dublincore/episode">
+      <mimetype>text/xml</mimetype>
+      <url>https://cdn.opencast/assets/assets/515e94e8-eb31-4400-a2dd-98f96d4cac22/305b30fe-c318-4cb9-a1e3-562703fa1df4/1/dublincore.xml</url>
+      <checksum type="md5">611a78ab33e2270b9f4e6b947edb14f0</checksum>
+      <tags>
+        <tag>archive</tag>
+        <tag>engage-download</tag>
+      </tags>
+    </catalog>
+  </metadata>
+  <attachments>
+    <attachment id="f22c5937-8139-4c3e-9f89-e33d51830fe8" type="presenter/timeline+preview" ref="track:b2bc6d47-4790-4209-af0e-e035fceed403;example-for=tests">
+      <mimetype>image/png</mimetype>
+      <url>https://cdn.opencast/assets/assets/515e94e8-eb31-4400-a2dd-98f96d4cac22/f22c5937-8139-4c3e-9f89-e33d51830fe8/1/timelinepreviews.png</url>
+      <size>3168</size>
+      <checksum type="md5">dc83e111ed27effc1d1b4d61aa1c33c1</checksum>
+      <tags>
+        <tag>archive</tag>
+        <tag>engage-download</tag>
+      </tags>
+      <additionalProperties>
+        <property key="resolutionY">-1</property>
+        <property key="imageCount">100</property>
+        <property key="resolutionX">160</property>
+        <property key="imageSizeY">10</property>
+        <property key="imageSizeX">10</property>
+      </additionalProperties>
+    </attachment>
+  </attachments>
+  <publications>
+    <publication id="9643d5d3-3e2a-4ab6-8333-9777e916f710" channel="engage-player">
+      <url>https://portal.opencast/watch/515e94e8-eb31-4400-a2dd-98f96d4cac22</url>
+      <tags>
+        <tag>archive</tag>
+      </tags>
+    </publication>
+    <publication id="10582745-d600-4ab0-acfb-397e8f37b54d" channel="api">
+      <url>https://api.opencast/api/event/515e94e8-eb31-4400-a2dd-98f96d4cac22</url>
+      <tags>
+        <tag>archive</tag>
+      </tags>
+    </publication>
+  </publications>
+</mediapackage>

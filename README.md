@@ -18,3 +18,7 @@ The `github.com/nagare-media/models.go/dcmitype` package implements the DCMI Typ
 
 The `github.com/nagare-media/models.go/ebucore/...` package implement the EBU Core Metadata Set ("EBUCore") in the
 specified version.
+
+## Opencast
+
+The `github.com/nagare-media/models.go/opencast` package implements types used in [Opencast](https://opencast.org/).
