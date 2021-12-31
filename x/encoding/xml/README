@@ -1,0 +1,1 @@
+Vendored encoding/xml package from https://github.com/ydnar/go/tree/xmlns-fixes (see https://github.com/golang/go/pull/48641)
