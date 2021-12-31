@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xmlns="http://example.org/myapp/"
+          xmlns:dc="http://purl.org/dc/elements/1.1/"
+          xmlns:xml="http://www.w3.org/XML/1998/namespace">
+  <dc:title>TestTitle</dc:title>
+  <dc:title xml:lang="de">TestTitleDe</dc:title>
+  <dc:title xml:lang="nl">TestTitleNl</dc:title>
+  <dc:creator>TestCreator</dc:creator>
+  <dc:subject>TestSubject</dc:subject>
+  <dc:description>TestDescription</dc:description>
+  <dc:publisher>TestPublisher</dc:publisher>
+  <dc:contributor>TestContributor</dc:contributor>
+  <dc:date>TestDate</dc:date>
+  <dc:type>TestType</dc:type>
+  <dc:format>TestFormat</dc:format>
+  <dc:identifier>TestIdentifier</dc:identifier>
+  <dc:source>TestSource</dc:source>
+  <dc:language>TestLanguage</dc:language>
+  <dc:relation>TestRelation</dc:relation>
+  <dc:coverage>TestCoverage</dc:coverage>
+  <dc:rights>TestRights</dc:rights>
+</metadata>

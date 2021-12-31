@@ -1,0 +1,85 @@
+{
+  "dc:title": [
+    {
+      "#value": "TestTitle"
+    },
+    {
+      "#value": "TestTitleDe",
+      "@xml:lang": "de"
+    },
+    {
+      "#value": "TestTitleNl",
+      "@xml:lang": "nl"
+    }
+  ],
+  "dc:creator": [
+    {
+      "#value": "TestCreator"
+    }
+  ],
+  "dc:subject": [
+    {
+      "#value": "TestSubject"
+    }
+  ],
+  "dc:description": [
+    {
+      "#value": "TestDescription"
+    }
+  ],
+  "dc:publisher": [
+    {
+      "#value": "TestPublisher"
+    }
+  ],
+  "dc:contributor": [
+    {
+      "#value": "TestContributor"
+    }
+  ],
+  "dc:date": [
+    {
+      "#value": "TestDate"
+    }
+  ],
+  "dc:type": [
+    {
+      "#value": "TestType"
+    }
+  ],
+  "dc:format": [
+    {
+      "#value": "TestFormat"
+    }
+  ],
+  "dc:identifier": [
+    {
+      "#value": "TestIdentifier"
+    }
+  ],
+  "dc:source": [
+    {
+      "#value": "TestSource"
+    }
+  ],
+  "dc:language": [
+    {
+      "#value": "TestLanguage"
+    }
+  ],
+  "dc:relation": [
+    {
+      "#value": "TestRelation"
+    }
+  ],
+  "dc:coverage": [
+    {
+      "#value": "TestCoverage"
+    }
+  ],
+  "dc:rights": [
+    {
+      "#value": "TestRights"
+    }
+  ]
+}
