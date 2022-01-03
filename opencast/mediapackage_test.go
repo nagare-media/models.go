@@ -24,7 +24,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/nagare-media/models.go/opencast"
-	"github.com/nagare-media/models.go/x/encoding/xml"
+	"github.com/nagare-media/models.go/third_party/encoding/xml"
 )
 
 var (

@@ -17,7 +17,7 @@ limitations under the License.
 package opencast
 
 import (
-	"github.com/nagare-media/models.go/x/encoding/xml"
+	"github.com/nagare-media/models.go/third_party/encoding/xml"
 )
 
 type Attachment struct {

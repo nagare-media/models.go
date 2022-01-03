@@ -19,7 +19,7 @@ package v1_10
 import (
 	"github.com/nagare-media/models.go/base"
 	"github.com/nagare-media/models.go/dc"
-	"github.com/nagare-media/models.go/x/encoding/xml"
+	"github.com/nagare-media/models.go/third_party/encoding/xml"
 )
 
 const (

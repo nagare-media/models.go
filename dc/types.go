@@ -16,7 +16,7 @@ limitations under the License.
 
 package dc
 
-import "github.com/nagare-media/models.go/x/encoding/xml"
+import "github.com/nagare-media/models.go/third_party/encoding/xml"
 
 const (
 	SchemaVersion = "2008-02-11"
