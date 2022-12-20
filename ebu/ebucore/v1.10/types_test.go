@@ -22,8 +22,8 @@ import (
 	"time"
 
 	"github.com/nagare-media/models.go/base"
-	"github.com/nagare-media/models.go/dc"
-	ebucore "github.com/nagare-media/models.go/ebucore/v1.10"
+	"github.com/nagare-media/models.go/dcmi/dc"
+	ebucore "github.com/nagare-media/models.go/ebu/ebucore/v1.10"
 	"github.com/nagare-media/models.go/third_party/encoding/xml"
 	"github.com/senseyeio/duration"
 )

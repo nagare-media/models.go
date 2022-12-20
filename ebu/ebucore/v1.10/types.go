@@ -18,7 +18,7 @@ package v1_10
 
 import (
 	"github.com/nagare-media/models.go/base"
-	"github.com/nagare-media/models.go/dc"
+	"github.com/nagare-media/models.go/dcmi/dc"
 	"github.com/nagare-media/models.go/third_party/encoding/xml"
 )
 
@@ -3604,16 +3604,16 @@ type PositionInteractionRange struct {
 //
 // The typeDefinition/typeLabel must match those in the referred audioChannelFormats:
 //
-//   DirectSpeakers: For channel-based audio, where each channel feeds a speaker directly. Type 0001.
+//	DirectSpeakers: For channel-based audio, where each channel feeds a speaker directly. Type 0001.
 //
-//   Matrix: For channel-based audio where channels are matrixed together, such as Mid-Side, Lt/Rt. Type 0002.
+//	Matrix: For channel-based audio where channels are matrixed together, such as Mid-Side, Lt/Rt. Type 0002.
 //
-//   Objects: For object-based audio where channels represent audio objects (or parts of objects), so include positional
-//            information. Type 0003.
+//	Objects: For object-based audio where channels represent audio objects (or parts of objects), so include positional
+//	         information. Type 0003.
 //
-//   HOA: For scene-based audio where Ambisonics and HOA are used. Type 0004.
+//	HOA: For scene-based audio where Ambisonics and HOA are used. Type 0004.
 //
-//   Binaural: For binaural audio, where playback is over headphones. Type 0005.
+//	Binaural: For binaural audio, where playback is over headphones. Type 0005.
 type AudioPackFormat struct {
 	// A set of references to audioChannels.
 	AudioChannelFormatIDRef []String `xml:"urn:ebu:metadata-schema:ebucore ebucore:audioChannelFormatIDRef,omitempty" json:"ebucore:audioChannelFormatIDRef,omitempty"`
@@ -3700,16 +3700,16 @@ const (
 //
 // Currently, there are five different typeDefinitions:
 //
-//   DirectSpeakers: For channel-based audio, where each audio channel feeds a speaker directly. Type 0001.
+//	DirectSpeakers: For channel-based audio, where each audio channel feeds a speaker directly. Type 0001.
 //
-//   Matrix: For channel-based audio where channels are matrixed together, such as Mid-Side, Lt/Rt. Type 0002.
+//	Matrix: For channel-based audio where channels are matrixed together, such as Mid-Side, Lt/Rt. Type 0002.
 //
-//   Objects: For object-based audio where channels represent audio objects (or parts of objects), so include
-//            positional information. Type 0003.
+//	Objects: For object-based audio where channels represent audio objects (or parts of objects), so include
+//	         positional information. Type 0003.
 //
-//   HOA: For scene-based audio where Ambisonics and HOA are used. Type 0004.
+//	HOA: For scene-based audio where Ambisonics and HOA are used. Type 0004.
 //
-//   Binaural: For binaural audio, where playback is over headphones. Type 0005.
+//	Binaural: For binaural audio, where playback is over headphones. Type 0005.
 type AudioChannelFormat struct {
 	// Sets a high or low cut-off frequency for the audio in Hz.
 	Frequency *[2]*Frequency `xml:"urn:ebu:metadata-schema:ebucore ebucore:frequency,omitempty" json:"ebucore:frequency,omitempty"`
@@ -3767,16 +3767,16 @@ const (
 //
 // Currently, there are five different typeDefinitions:
 //
-//   DirectSpeakers: For channel-based audio, where each channel feeds a speaker directly. Type 0001.
+//	DirectSpeakers: For channel-based audio, where each channel feeds a speaker directly. Type 0001.
 //
-//   Matrix: For channel-based audio where channels are matrixed together, such as Mid-Side, Lt/Rt. Type 0002.
+//	Matrix: For channel-based audio where channels are matrixed together, such as Mid-Side, Lt/Rt. Type 0002.
 //
-//   Objects: For object-based audio where channels represent audio objects (or parts of objects), so include positional
-//            information. Type 0003.
+//	Objects: For object-based audio where channels represent audio objects (or parts of objects), so include positional
+//	         information. Type 0003.
 //
-//   HOA: For scene-based audio where Ambisonics and HOA are used. Type 0004.
+//	HOA: For scene-based audio where Ambisonics and HOA are used. Type 0004.
 //
-//   Binaural: For binaural audio, where playback is over headphones. Type 0005.
+//	Binaural: For binaural audio, where playback is over headphones. Type 0005.
 type AudioBlockFormat struct {
 	// TODO: either
 	//       or
@@ -4473,7 +4473,7 @@ type SegmentParameterDataOutput struct {
 
 // A complexType to determine a dynamic parameter along an associated timeline. Some parameters are constant over the
 // extraction time period. in this case only one segment appears with a simple or structured value. In this case
-// interval=''.
+// interval=”.
 type ParameterSegment struct {
 	// To define a time segment by its startTime, endTime and optionally a time interval at which the parameter value is
 	// extracted. The parameter value(s) is given by the segment element. If interval != '', the segment value is a list
