@@ -14,5 +14,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// ebu package implementing models from the European Broadcasting Union (EBU).
+// ebu implements models from the European Broadcasting Union (EBU).
 package ebu

@@ -14,5 +14,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// dcmi package implementing models from the Dublin Core™ Metadata Initiative (DCMI).
+// dcmi implements models from the Dublin Core™ Metadata Initiative (DCMI).
 package dcmi
