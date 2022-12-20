@@ -17,7 +17,7 @@ limitations under the License.
 package dcterms
 
 import (
-	"github.com/nagare-media/models.go/dc"
+	"github.com/nagare-media/models.go/dcmi/dc"
 	"github.com/nagare-media/models.go/third_party/encoding/xml"
 )
 

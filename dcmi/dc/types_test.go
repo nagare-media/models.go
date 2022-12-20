@@ -23,7 +23,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
-	"github.com/nagare-media/models.go/dc"
+	"github.com/nagare-media/models.go/dcmi/dc"
 	"github.com/nagare-media/models.go/third_party/encoding/xml"
 )
 

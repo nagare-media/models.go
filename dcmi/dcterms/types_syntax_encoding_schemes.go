@@ -16,7 +16,7 @@ limitations under the License.
 
 package dcterms
 
-import "github.com/nagare-media/models.go/dc"
+import "github.com/nagare-media/models.go/dcmi/dc"
 
 const (
 	BoxXSIType      = "dcterms:Box"
