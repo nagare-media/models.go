@@ -723,12 +723,12 @@ type Parameter struct {
 	Exclusions []int64 `json:"exclusions,omitempty"`
 
 	// must be set for non-array datatypes
-	// must be nil for array datatypes
+	// must be nil for array datatype
 	// +optional
 	Values []ParameterValue `json:"values,omitempty"`
 
 	// must be nil for non-array datatypes
-	// must be set for array datatypes
+	// must be set for array datatype
 	// +optional
 	Schema map[string]interface{} `json:"schema,omitempty"`
 }
