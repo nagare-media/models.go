@@ -1,0 +1,2135 @@
+{
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://github.com/MPEGGroup/NBMP/blob/master/nbmp-schema-definitions.json",
+  "$vocabularies": [
+    "https://json-schema.org/draft/2019-09/vocab/validation",
+    "https://json-schema.org/draft/2019-09/vocab/format"
+  ],
+  "$comment": "This schema defines the definitions part of ISO/IEC 23090-8-2022 Network Based Media Processing (NBMP), 2nd edition (https://www.iso.org/standard/77839.html)",
+  "title": "ISO/IEC 23090-8:2022 Network Based Media Processing schema-definitions, 2nd Edition",
+  "scheme": {
+    "title": "Scheme Descriptor Schema",
+    "type": "object",
+    "required": [
+      "uri"
+    ],
+    "properties": {
+      "uri": {
+        "type": "string",
+        "format": "uri"
+      }
+    }
+  },
+  "general": {
+    "title": "General Descriptor Schema",
+    "type": "object",
+    "required": [
+      "id",
+      "name",
+      "description",
+      "input-ports",
+      "output-ports",
+      "state"
+    ],
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "name": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "rank": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "nbmp-brand": {
+        "type": "string",
+        "format": "uri",
+        "pattern": "^urn:mpeg:mpegi:nbmp:(2([0-9]{3})):([a-zA-Z0-9_]+)$",
+        "additionalProperties": false
+      },
+      "published-time": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "priority": {
+        "type": "number"
+      },
+      "location": {
+        "type": "string"
+      },
+      "task-group": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "object",
+          "required": [
+            "group-id",
+            "task-id"
+          ],
+          "properties": {
+            "group-id": {
+              "type": "string"
+            },
+            "task-id": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "group-type": {
+              "type": "string",
+              "enum": [
+                "distance",
+                "sync",
+                "virtual"
+              ],
+              "default": "distance"
+            },
+            "group-mode": {
+              "type": "string",
+              "enum": [
+                "synchronous",
+                "asynchronous"
+              ],
+              "default": "synchronous"
+            },
+            "net-zero": {
+              "type": "boolean",
+              "default": "false"
+            }
+          }
+        }
+      },
+      "input-ports": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "object",
+          "required": [
+            "port-name",
+            "bind"
+          ],
+          "properties": {
+            "port-name": {
+              "type": "string"
+            },
+            "bind": {
+              "type": "object",
+              "required": [
+                "stream-id",
+                "name"
+              ],
+              "properties": {
+                "stream-id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "keywords": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "output-ports": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "object",
+          "required": [
+            "port-name",
+            "bind"
+          ],
+          "properties": {
+            "port-name": {
+              "type": "string"
+            },
+            "bind": {
+              "type": "object",
+              "required": [
+                "stream-id",
+                "name"
+              ],
+              "properties": {
+                "stream-id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "keywords": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "is-group": {
+        "type": "boolean",
+        "default": false
+      },
+      "nonessential": {
+        "type": "boolean",
+        "default": false
+      },
+      "state": {
+        " type": "string"
+      }
+    }
+  },
+  "input": {
+    "title": "Input Descriptor Schema",
+    "type": "object",
+    "anyOf": [
+      {
+        "required": [
+          "media-parameters"
+        ]
+      },
+      {
+        "required": [
+          "metadata-parameters"
+        ]
+      }
+    ],
+    "properties": {
+      "media-parameters": {
+        "type": "array",
+        "minItems": 0,
+        "uniqueItems": true,
+        "items": {
+          "type": "object",
+          "required": [
+            "stream-id",
+            "name",
+            "keywords",
+            "mime-type",
+            "protocol",
+            "caching-server-url"
+          ],
+          "properties": {
+            "stream-id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "keywords": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "mime-type": {
+              "type": "string"
+            },
+            "video-format": {
+              "$ref": "#/configuration/parameters"
+            },
+            "audio-format": {
+              "$ref": "#/configuration/parameters"
+            },
+            "image-format": {
+              "$ref": "#/configuration/parameters"
+            },
+            "codec-type": {
+              "type": "string"
+            },
+            "protocol": {
+              "type": "string"
+            },
+            "mode": {
+              "type": "string",
+              "enum": [
+                "push",
+                "pull"
+              ],
+              "default": "push"
+            },
+            "throughput": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "buffersize": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "availability-duration": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "timeout": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "caching-server-url": {
+              "type": "string",
+              "format": "uri"
+            },
+            "completion-timeout": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "metadata-parameters": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "minItems": 0,
+          "uniqueItems": true,
+          "required": [
+            "stream-id",
+            "name",
+            "keywords",
+            "mime-type",
+            "protocol"
+          ],
+          "properties": {
+            "stream-id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "keywords": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "mime-type": {
+              "type": "string"
+            },
+            "codec-type": {
+              "type": "string"
+            },
+            "protocol": {
+              "type": "string"
+            },
+            "mode": {
+              "type": "string",
+              "enum": [
+                "push",
+                "pull"
+              ],
+              "default": "push"
+            },
+            "max-size": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "min-interval": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "availability-duration": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "timeout": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "caching-server-url": {
+              "type": "string"
+            },
+            "scheme-uri": {
+              "type": "string",
+              "format": "uri"
+            },
+            "completion-timeout": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    }
+  },
+  "output": {
+    "title": "Output Descriptor Schema",
+    "type": "object",
+    "anyOf": [
+      {
+        "required": [
+          "media-parameters"
+        ]
+      },
+      {
+        "required": [
+          "metadata-parameters"
+        ]
+      }
+    ],
+    "properties": {
+      "media-parameters": {
+        "type": "array",
+        "minItems": 0,
+        "uniqueItems": true,
+        "items": {
+          "type": "object",
+          "required": [
+            "stream-id",
+            "name",
+            "keywords",
+            "mime-type",
+            "protocol",
+            "caching-server-url"
+          ],
+          "properties": {
+            "stream-id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "keywords": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "mime-type": {
+              "type": "string"
+            },
+            "video-format": {
+              "$ref": "#/configuration/parameters"
+            },
+            "audio-format": {
+              "$ref": "#/configuration/parameters"
+            },
+            "image-format": {
+              "$ref": "#/configuration/parameters"
+            },
+            "codec-type": {
+              "type": "string"
+            },
+            "protocol": {
+              "type": "string"
+            },
+            "mode": {
+              "type": "string",
+              "enum": [
+                "push",
+                "pull"
+              ],
+              "default": "push"
+            },
+            "throughput": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "buffersize": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "availability-duration": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "timeout": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "caching-server-url": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        }
+      },
+      "metadata-parameters": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "minItems": 0,
+          "uniqueItems": true,
+          "required": [
+            "stream-id",
+            "name",
+            "keywords",
+            "mime-type",
+            "protocol"
+          ],
+          "properties": {
+            "stream-id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "keywords": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "mime-type": {
+              "type": "string"
+            },
+            "codec-type": {
+              "type": "string"
+            },
+            "protocol": {
+              "type": "string"
+            },
+            "mode": {
+              "type": "string",
+              "enum": [
+                "push",
+                "pull"
+              ],
+              "default": "push"
+            },
+            "max-size": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "min-interval": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "availability-duration": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "timeout": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "caching-server-url": {
+              "type": "string"
+            },
+            "scheme-uri": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        }
+      }
+    }
+  },
+  "processing": {
+    "title": "Processing Descriptor Schema",
+    "type": "object",
+    "required": [
+      "keywords",
+      "image"
+    ],
+    "properties": {
+      "keywords": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "string"
+        }
+      },
+      "image": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "object",
+          "required": [
+            "url"
+          ],
+          "properties": {
+            "is-dynamic": {
+              "type": "boolean",
+              "default": false
+            },
+            "url": {
+              "type": "string",
+              "format": "url"
+            },
+            "static-image-info": {
+              "type": "object",
+              "required": [
+                "os",
+                "version",
+                "architecture",
+                "environment"
+              ],
+              "properties": {
+                "os": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                },
+                "architecture": {
+                  "type": "string"
+                },
+                "environment": {
+                  "type": "string"
+                },
+                "patch-url": {
+                  "type": "string",
+                  "format": "url"
+                },
+                "patch-script": {
+                  "type": "object"
+                }
+              }
+            },
+            "dynamic-image-info": {
+              "type": "object",
+              "required": [
+                "scheme",
+                "information"
+              ],
+              "properties": {
+                "scheme": {
+                  "type": "string",
+                  "format": "url"
+                },
+                "information": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "start-time": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "connection-map": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "object",
+          "required": [
+            "connection-id",
+            "from",
+            "to"
+          ],
+          "properties": {
+            "connection-id": {
+              "type": "string"
+            },
+            "from": {
+              "type": "object",
+              "required": [
+                "id",
+                "instance",
+                "port-name"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "instance": {
+                  "type": "string"
+                },
+                "port-name": {
+                  "type": "string"
+                },
+                "output-restrictions": {
+                  "$ref": "#/output"
+                }
+              }
+            },
+            "to": {
+              "type": "object",
+              "required": [
+                "id",
+                "instance",
+                "port-name"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "instance": {
+                  "type": "string"
+                },
+                "port-name": {
+                  "type": "string"
+                },
+                "input-restrictions": {
+                  "$ref": "#/input"
+                }
+              }
+            },
+            "flowcontrol": {
+              "$ref": "#/requirement/flowcontrol"
+            },
+            "co-located": {
+              "type": "boolean",
+              "default": false
+            },
+            "breakable": {
+              "type": "boolean",
+              "default": true
+            },
+            "other-parameters": {
+              "$ref": "#/configuration/parameters"
+            }
+          }
+        }
+      },
+      "function-restrictions": {
+        "type": "array",
+        "uniqueItems": true,
+        "items": {
+          "type": "object",
+          "required": [
+            "instance"
+          ],
+          "properties": {
+            "instance": {
+              "type": "string"
+            },
+            "general": {
+              "$ref": "#/general"
+            },
+            "processing": {
+              "$ref": "#/processing"
+            },
+            "requirements": {
+              "$ref": "#/requirements"
+            },
+            "configuration": {
+              "$ref": "#/configuration"
+            },
+            "client-assistant": {
+              "$ref": "#/client-assistant"
+            },
+            "failover": {
+              "$ref": "#/failover"
+            },
+            "monitoring": {
+              "$ref": "#/monitoring"
+            },
+            "reporting": {
+              "$ref": "#/reporting"
+            },
+            "notification": {
+              "$ref": "#/notification"
+            },
+            "step": {
+              "$ref": "#/step"
+            },
+            "security": {
+              "$ref": "#/security"
+            },
+            "blacklist": {
+              "type": "array",
+              "uniqueItems": true,
+              "minItems": 1,
+              "item": {
+                "type": "string",
+                "enum": [
+                  "requirement",
+                  "client-assistant",
+                  "fail-over",
+                  "monitoring",
+                  "reporting",
+                  "notification",
+                  "security"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "requirement": {
+    "title": "Requirements Descriptor Schema",
+    "type": "object",
+    "properties": {
+      "flowcontrol": {
+        "type": "object",
+        "minProperties": 1,
+        "properties": {
+          "typical-delay": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "min-delay": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "max-delay": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "min-throughput": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "max-throughput": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "averaging-window": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "hardware": {
+        "type": "object",
+        "minProperties": 1,
+        "properties": {
+          "vcpu": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "vgpu": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "ram": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "disk": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "placement": {
+            "type": "string",
+            "pattern": "(^[A-Z]{2}$)|(^[A-Z]{2}-.*)"
+          }
+        }
+      },
+      "security": {
+        "type": "object",
+        "minProperties": 1,
+        "properties": {
+          "tls": {
+            "type": "boolean",
+            "default": false
+          },
+          "ipsec": {
+            "type": "boolean",
+            "default": false
+          },
+          "cenc": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "workflow-task": {
+        "type": "object",
+        "minProperties": 1,
+        "properties": {
+          "function-fusible": {
+            "type": "boolean",
+            "default": false
+          },
+          "function-enhancable": {
+            "type": "boolean",
+            "default": false
+          },
+          "execution-mode": {
+            "type": "string",
+            "enum": [
+              "streaming",
+              "step",
+              "hybrid"
+            ],
+            "default": "streaming"
+          },
+          "proximity": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "other-task-id",
+                "distance"
+              ],
+              "properties": {
+                "other-task-id": {
+                  "type": "string"
+                },
+                "distance": {
+                  "type": "integer",
+                  "minimum": -1
+                }
+              }
+            }
+          },
+          "proximity-equation": {
+            "type": "object",
+            "required": [
+              "distance-parameters",
+              "distance-equation"
+            ],
+            "properties": {
+              "distance-parameters": {
+                "$ref": "#/variables"
+              },
+              "distance-equation": {
+                "type": "string"
+              }
+            }
+          },
+          "split-efficiency": {
+            "type": "object",
+            "properties": {
+              "split-norm": {
+                "type": "string",
+                "enum": [
+                  "pnorm",
+                  "custom"
+                ],
+                "default": "pnorm"
+              },
+              "split-equation": {
+                "type": "string",
+                "default": "2"
+              },
+              "split-result": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      },
+      "resource-estimators": {
+        "type": "object",
+        "required": [
+          "default-values"
+        ],
+        "properties": {
+          "default-values": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "value"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "computational-estimator": {
+            "type": "string"
+          },
+          "memory-estimator": {
+            "type": "string"
+          },
+          "bandwidth-estimator": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "configuration": {
+    "title": "Configuration Descriptor Schema",
+    "type": "object",
+    "required": [
+      "parameters"
+    ],
+    "properties": {
+      "parameters": {
+        "type": "array",
+        "uniqueItems": true,
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "name",
+            "id",
+            "datatype"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "id": {
+              "type": "integer"
+            },
+            "discription": {
+              "type": "string"
+            },
+            "datatype": {
+              "type": "string",
+              "enum": [
+                "boolean",
+                "integer",
+                "number",
+                "string",
+                "array"
+              ]
+            },
+            "conditions": {
+              "type": "array",
+              "uniqueItems": true,
+              "description": "List of ids that shall exist for this parameter to become valid",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "exclusions": {
+              "type": "array",
+              "description": "List of configurarion ids that shall not exist for this parameter to become valid",
+              "uniqueItems": true,
+              "items": {
+                "type": "integer"
+              }
+            }
+          },
+          "oneof": [
+            {
+              "if": {
+                "properties": {
+                  "datatype": {
+                    "const": "boolean"
+                  }
+                }
+              },
+              "then": {
+                "requires": [
+                  "values"
+                ],
+                "properties": {
+                  "values": {
+                    "type": "array",
+                    "minitems": 1,
+                    "maxitems": 2,
+                    "uniqueItems": true,
+                    "item": {
+                      "type": "object",
+                      "required": [
+                        "name",
+                        "id",
+                        "restrictions"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "integer"
+                        },
+                        "restrictions": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "datatype": {
+                    "const": "integer"
+                  }
+                }
+              },
+              "then": {
+                "requires": [
+                  "values"
+                ],
+                "properties": {
+                  "values": {
+                    "type": "array",
+                    "minitems": 1,
+                    "uniqueItems": true,
+                    "item": {
+                      "type": "object",
+                      "required": [
+                        "name",
+                        "id",
+                        "restrictions"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "integer"
+                        },
+                        "restrictions": {
+                          "type": "object",
+                          "properties": {
+                            "min-value": {
+                              "type": "integer"
+                            },
+                            "max-value": {
+                              "type": "integer"
+                            },
+                            "increment": {
+                              "type": "integer"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "datatype": {
+                    "const": "number"
+                  }
+                }
+              },
+              "then": {
+                "requires": [
+                  "values"
+                ],
+                "properties": {
+                  "values": {
+                    "type": "array",
+                    "minitems": 1,
+                    "uniqueItems": true,
+                    "item": {
+                      "type": "object",
+                      "required": [
+                        "name",
+                        "id",
+                        "restrictions"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "integer"
+                        },
+                        "restrictions": {
+                          "type": "object",
+                          "properties": {
+                            "min-value": {
+                              "type": "number"
+                            },
+                            "max-value": {
+                              "type": "number"
+                            },
+                            "increment": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "datatype": {
+                    "const": "string"
+                  }
+                }
+              },
+              "then": {
+                "requires": [
+                  "values"
+                ],
+                "properties": {
+                  "values": {
+                    "type": "array",
+                    "minitems": 1,
+                    "uniqueItems": true,
+                    "item": {
+                      "type": "object",
+                      "required": [
+                        "name",
+                        "id",
+                        "restrictions"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "integer"
+                        },
+                        "restrictions": {
+                          "type": "array",
+                          "minItems": 1,
+                          "uniqueItems": true,
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "datatype": {
+                    "const": "array"
+                  }
+                }
+              },
+              "then": {
+                "requires": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "type": "array"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "startup-delay": {
+    "title": "Startup-delay Descriptor Schema ",
+    "type": "object",
+    "required": [
+      "startup-delay-value"
+    ],
+    "properties": {
+      "startup-delay-value": {
+        "type": "integer",
+        "minimum": 0
+      }
+    }
+  },
+  "client-assistant": {
+    "title": "Client-Assistance Descriptor Schema ",
+    "type": "object",
+    "required": [
+      "client-assistance-flag"
+    ],
+    "properties": {
+      "client-assistance-flag": {
+        "type": "boolean",
+        "default": false
+      },
+      "measurement-collection-list": {
+        "type": "object"
+      },
+      "source-assistance-information": {
+        "type": "object"
+      }
+    }
+  },
+  "failover": {
+    "title": "Failover Descriptor Schema",
+    "type": "object",
+    "required": [
+      "failover-mode",
+      "failover-delay"
+    ],
+    "properties": {
+      "failover-mode": {
+        "type": "string",
+        "enum": [
+          "restart-immediately",
+          "restart-with-delay",
+          "continue-with-last-good-state",
+          "execute-backup-deployment",
+          "exit"
+        ]
+      },
+      "failover-delay": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "backup-deployment-url": {
+        "type": "string",
+        "format": "url"
+      },
+      "persistence-url": {
+        "type": "string",
+        "format": "url"
+      },
+      "persistence-interval": {
+        "type": "integer",
+        "minimum": 0
+      }
+    }
+  },
+  "events": {
+    "title": "Events Descriptor Schema",
+    "type": "array",
+    "minItems": 1,
+    "uniqueItems": true,
+    "items": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "definition": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    }
+  },
+  "variables": {
+    "title": "Variables Descriptor Schema",
+    "type": "array",
+    "minItems": 1,
+    "uniqueItems": true,
+    "items": {
+      "required": [
+        "name",
+        "definition",
+        "unit",
+        "var-type"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "definition": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "var-type": {
+          "type": "string",
+          "enum": [
+            "string",
+            "integer",
+            "float",
+            "boolean",
+            "number"
+          ]
+        },
+        "value": {
+          "type": "string"
+        },
+        "min": {
+          "type": "integer"
+        },
+        "max": {
+          "type": "integer"
+        },
+        "url": {
+          "type": "string",
+          "format": "url"
+        },
+        "children": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/variables"
+          },
+          "default": []
+        }
+      }
+    }
+  },
+  "monitoring": {
+    "title": "Monitoring Descriptor Schema",
+    "type": "object",
+    "minProperties": 1,
+    "properties": {
+      "event": {
+        "$ref": "#/events"
+      },
+      "variable": {
+        "$ref": "#/variables"
+      },
+      "system-events": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "object"
+        }
+      },
+      "system-variables": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "object"
+        }
+      }
+    }
+  },
+  "reporting": {
+    "title": "Reporting Descriptor Schema",
+    "type": "object",
+    "required": [
+      "reporting-type",
+      "reporting-interval",
+      "report-start-time",
+      "url",
+      "delivery-method"
+    ],
+    "properties": {
+      "event": {
+        "$ref": "#/events"
+      },
+      "variable": {
+        "$ref": "#/variables"
+      },
+      "system-events": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "object"
+        }
+      },
+      "system-variables": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "object"
+        }
+      },
+      "report-type": {
+        "type": "string"
+      },
+      "reporting-interval": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "report-start-time": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "url": {
+        "type": "string",
+        "format": "url"
+      },
+      "delivery-method": {
+        "type": "string",
+        "default": "HTTP POST"
+      }
+    }
+  },
+  "notification": {
+    "title": "Notifications Descriptor Schema",
+    "type": "object",
+    "required": [
+      "notification-time",
+      "severity-level",
+      "notification-type",
+      "urls"
+    ],
+    "properties": {
+      "event": {
+        "$ref": "#/events"
+      },
+      "variable": {
+        "$ref": "#/variables"
+      },
+      "system-events": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "object"
+        }
+      },
+      "system-variables": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "object"
+        }
+      },
+      "notification-time": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "severity-level": {
+        "type": "string"
+      },
+      "notification-type": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "enum": [
+            "congestion",
+            "application",
+            "system"
+          ]
+        }
+      },
+      "urls": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "format": "url"
+        }
+      },
+      "notification-interval": {
+        "type": "integer",
+        "minimum": 0,
+        "default": 0
+      }
+    }
+  },
+  "assertion": {
+    "title": "Assertion Descriptor Schema",
+    "type": "object",
+    "required": [
+      "min-priority",
+      "min-priority-action",
+      "assertion"
+    ],
+    "properties": {
+      "min-priority": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "min-priority-action": {
+        "type": "string"
+      },
+      "support-verification": {
+        "type": "boolean",
+        "default": false
+      },
+      "verification-acknowledgement": {
+        "type": "string"
+      },
+      "certificate": {
+        "type": "string"
+      },
+      "assertion": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "object",
+          "required": [
+            "name",
+            "value-predicate"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "value-predicate": {
+              "type": "object",
+              "required": [
+                "evaluation-condition",
+                "check-value",
+                "aggregation",
+                "priority",
+                "action"
+              ],
+              "properties": {
+                "evaluation-condition": {
+                  "type": "string",
+                  "enum": [
+                    "quality",
+                    "computational",
+                    "input",
+                    "output"
+                  ]
+                },
+                "check-value": {
+                  "type": "object"
+                },
+                "aggregation": {
+                  "type": "string",
+                  "enum": [
+                    "sum",
+                    "min",
+                    "max",
+                    "avg"
+                  ]
+                },
+                "offset": {
+                  "type": "string"
+                },
+                "priority": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "rebuild",
+                    "restart",
+                    "wait"
+                  ]
+                },
+                "action-parameters": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "request": {
+    "title": "Request Descriptor Schema",
+    "type": "object",
+    "required": [
+      "request-id",
+      "task-id"
+    ],
+    "properties": {
+      "request-id": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "priority": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "task-id": {
+        "type": "string"
+      }
+    }
+  },
+  "acknowledge": {
+    "title": "Acknowledge Descriptor Schema",
+    "type": "object",
+    "required": [
+      "status"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "fulfilled",
+          "failed",
+          "not-supported",
+          "partially-fulfilled"
+        ]
+      },
+      "unsupported": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "string"
+        }
+      },
+      "failed": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "string"
+        }
+      },
+      "partial": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "repository": {
+    "title": "Repository Descriptor schema",
+    "type": "object",
+    "required": [
+      "location"
+    ],
+    "properties": {
+      "mode": {
+        "type": "string",
+        "enum": [
+          "strict",
+          "preferred",
+          "available"
+        ],
+        "default": "available"
+      },
+      "location": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "object",
+          "required": [
+            "url",
+            "name",
+            "description"
+          ],
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "url"
+            },
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": {
+    "title": "Security Descriptor Schema",
+    "type": "object",
+    "required": [
+      "name",
+      "authentication-method"
+    ],
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "scope": {
+        "type": "string",
+        "enum": [
+          "data",
+          "function",
+          "task"
+        ],
+        "default": "data"
+      },
+      "authentication-method": {
+        "type": "string"
+      },
+      "authority-url": {
+        "type": "string",
+        "format": "url"
+      },
+      "certificate": {
+        "type": "string"
+      },
+      "auth-token": {
+        "type": "string"
+      },
+      "client-grants": {
+        "type": "string"
+      },
+      "auth-token-expires": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "auth-token-renew": {
+        "type ": "string"
+      },
+      "auth-token-rotation": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+  "step": {
+    "title": "Step Descriptor Schema",
+    "type": "object",
+    "minProperties": 1,
+    "properties": {
+      "step-mode": {
+        "type": "string",
+        "enum": [
+          "stream",
+          "stateful",
+          "stateless"
+        ],
+        "default": "stream"
+      },
+      "variable-duration": {
+        "type": "boolean",
+        "default": "false"
+      },
+      "segment-duration": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "segment-location": {
+        "type": "boolean",
+        "default": false
+      },
+      "segment-sequence": {
+        "type": "boolean",
+        "default": false
+      },
+      "segment-metadata-supported-formats": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "enum": [
+            "nbmp-location-bytestream-2022",
+            "nbmp-sequence-bytestream-2022",
+            "nbmp-location-json-2022",
+            "nbmp-sequence-json-2022"
+          ]
+        }
+      },
+      "operating-units": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "temporal-overlap": {
+        "type": "integer",
+        "minimum": 0,
+        "default": 0
+      },
+      "number-of-dimensions": {
+        "type": "integer",
+        "minimum": 0,
+        "default": 0
+      },
+      "higher-dimension-segment-divisors": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "higher-dimensions-descriptions": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "enum": [
+            "width",
+            "height",
+            "RGB",
+            "depth",
+            "YUV",
+            "V-PCC"
+          ]
+        }
+      },
+      "higher-dimensions-segment-order": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "higher-dimension-overlap": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "higher-dimension-operation-units": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 1
+        }
+      }
+    }
+  },
+  "capabilities": {
+    "title": "Capabilities Descriptor Schema",
+    "type": "object",
+    "minProperties": 1,
+    "properties": {
+      "resource-availability": {
+        "type": "array",
+        "minItems": 1,
+        "item": {
+          "type": "object",
+          "minProperties": 1,
+          "properties": {
+            "key": {
+              "type": "string",
+              "enum": [
+                "vcpu",
+                "vgpu",
+                "ram",
+                "disk",
+                "power"
+              ]
+            },
+            "absolute-value": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "availability": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        }
+      },
+      "placement": {
+        "$ref": "#/requirement/hardware/placement"
+      },
+      "location": {
+        "type": "string"
+      },
+      "repository": {
+        "$ref": "#/repository"
+      },
+      "functions": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "$ref": "nbmp-function-schema.json"
+        }
+      },
+      "connectivity": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "item": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "forward": {
+              "type": "object",
+              "properties": {
+                "min-delay": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "max-throughput": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "averaging-window": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            },
+            "return": {
+              "type": "object",
+              "properties": {
+                "min-delay": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "max-throughput": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "averaging-window": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            }
+          }
+        }
+      },
+      "persistency-capabilities": {
+        "type": "boolean",
+        "default": "true"
+      },
+      "secure-persistency": {
+        "type": "boolean",
+        "default": "false"
+      },
+      "persistence-storage-url": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "item": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    }
+  },
+  "scale": {
+    "title": "Scale Descriptor Schema",
+    "type": "object",
+    "required": [
+      "id",
+      "status"
+    ],
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "scaling-type": {
+        "type": "string",
+        "enum": [
+          "MPE",
+          "split-merge"
+        ],
+        "default": "MPE"
+      },
+      "scaling-factor": {
+        "type": "integer",
+        "minimum": 1,
+        "default": 1
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "capabilities",
+          "consider",
+          "request",
+          "passed",
+          "failed"
+        ],
+        "default": "failed"
+      },
+      "target-id": {
+        "type": "string"
+      }
+    }
+  },
+  "schedule": {
+    "title": "Schedule Descriptor Schema",
+    "type": "object",
+    "required": [
+      "id",
+      "status"
+    ],
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "schedule-type": {
+        "type": "string",
+        "enum": [
+          "duration",
+          "segment"
+        ],
+        "default": "duration"
+      },
+      "schedule-table": {
+        "type": "array",
+        "minitems": 1,
+        "item": {
+          "type": "object",
+          "required": [
+            "taskortaskgroup-id"
+          ],
+          "properties": {
+            "task-id": {
+              "type": "string"
+            },
+            "start-time": {
+              "type": "string",
+              "default": ""
+            },
+            "duration": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 1
+            },
+            "timescale": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 1
+            }
+          }
+        }
+      },
+      "number-of-segments": {
+        "type": "integer",
+        "minimum": 1,
+        "default": 1
+      },
+      "loop": {
+        "type": "boolean",
+        "default": "false"
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "capabilities",
+          "consider",
+          "request",
+          "passed",
+          "failed"
+        ],
+        "default": "failed"
+      }
+    }
+  }
+}
