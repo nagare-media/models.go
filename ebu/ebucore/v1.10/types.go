@@ -61,7 +61,7 @@ type Main struct {
 	DocumentID string `xml:"documentId,attr,omitempty" json:"@documentId,omitempty"`
 
 	// A location at which the document containing the metadata instance can be found
-	DocumentLocation base.URL `xml:"documentLocation,attr,omitempty" json:"@documentLocation,omitempty"`
+	DocumentLocation base.URI `xml:"documentLocation,attr,omitempty" json:"@documentLocation,omitempty"`
 
 	// An attribute to specify the dominant language used to express metadata information in the document, which can be
 	// superceded each time an language attribute or element is available a different levels of description granularity
@@ -963,7 +963,7 @@ type TargetAudience struct {
 	Reason string `xml:"reason,attr,omitempty" json:"@reason,omitempty"`
 
 	// A link to a visual representation of the target audience rating, if available
-	LinkToLogo base.URL `xml:"linkToLogo,attr,omitempty" json:"@linkToLogo,omitempty"`
+	LinkToLogo base.URI `xml:"linkToLogo,attr,omitempty" json:"@linkToLogo,omitempty"`
 
 	// A flag to signal that content has not been rated (if set to "true")
 	NotRated bool `xml:"notRated,attr,omitempty" json:"@notRated,omitempty"`
@@ -989,7 +989,7 @@ type AudienceLevel struct {
 	Reason string `xml:"reason,attr,omitempty" json:"@reason,omitempty"`
 
 	// A link to a visual representation of the target audience rating, if available
-	LinkToLogo base.URL `xml:"linkToLogo,attr,omitempty" json:"@linkToLogo,omitempty"`
+	LinkToLogo base.URI `xml:"linkToLogo,attr,omitempty" json:"@linkToLogo,omitempty"`
 
 	// A flag to signal that content has not been rated (if set to "true")
 	NotRated bool `xml:"notRated,attr,omitempty" json:"@notRated,omitempty"`
@@ -1105,7 +1105,7 @@ type Location struct {
 	Note string `xml:"note,attr,omitempty" json:"@note,omitempty"`
 
 	// An identifier to support the management of location in databases and RDF
-	LocationID base.URL `xml:"locationId,attr,omitempty" json:"@locationId,omitempty"`
+	LocationID base.URI `xml:"locationId,attr,omitempty" json:"@locationId,omitempty"`
 }
 
 type Name struct {
@@ -1138,7 +1138,7 @@ type PeriodOfTime struct {
 	PeriodName []Element `xml:"urn:ebu:metadata-schema:ebucore ebucore:periodName,omitempty" json:"ebucore:periodName,omitempty"`
 
 	// An identifier to support the management of time periods (e.g. historical or repetitive event) in databases and RDF.
-	PeriodID base.URL `xml:"periodId,attr,omitempty" json:"@periodId,omitempty"`
+	PeriodID base.URI `xml:"periodId,attr,omitempty" json:"@periodId,omitempty"`
 }
 
 // An all-purpose field to identify information (rights management statement or reference to a service providing such
@@ -1201,10 +1201,10 @@ type Rights struct {
 	Note string `xml:"note,attr,omitempty" json:"@note,omitempty"`
 
 	// A list of ID references identifying formats in which the content is available and to which the set of rights apply.
-	FormatIDRefs base.URL `xml:"formatIDRefs,attr,omitempty" json:"@formatIDRefs,omitempty"`
+	FormatIDRefs base.URI `xml:"formatIDRefs,attr,omitempty" json:"@formatIDRefs,omitempty"`
 
 	// An ID to be used as reference to the associated rights
-	RightsID base.URL `xml:"rightsID,attr,omitempty" json:"@rightsID,omitempty"`
+	RightsID base.URI `xml:"rightsID,attr,omitempty" json:"@rightsID,omitempty"`
 }
 
 type ProcessingRestrictionFlag struct {
@@ -1235,7 +1235,7 @@ type Event struct {
 	Location []Location `xml:"urn:ebu:metadata-schema:ebucore ebucore:location,omitempty" json:"ebucore:location,omitempty"`
 
 	// An identifier to support the management of location in databases and RDF
-	EventID base.URL `xml:"eventId,attr,omitempty" json:"@eventId,omitempty"`
+	EventID base.URI `xml:"eventId,attr,omitempty" json:"@eventId,omitempty"`
 
 	// The date when the event started.
 	Start base.Date `xml:"start,attr,omitempty" json:"@start,omitempty"`
@@ -1436,7 +1436,7 @@ type PublicationHistory struct {
 	// To describe a publication event.
 	PublicationEvent []PublicationEvent `xml:"urn:ebu:metadata-schema:ebucore ebucore:publicationEvent,omitempty" json:"ebucore:publicationEvent,omitempty"`
 
-	PublicationHistoryID base.URL `xml:"publicationHistoryId,attr,omitempty" json:"@publicationHistoryId,omitempty"`
+	PublicationHistoryID base.URI `xml:"publicationHistoryId,attr,omitempty" json:"@publicationHistoryId,omitempty"`
 }
 
 // To provide information about the publication history.
@@ -1444,7 +1444,7 @@ type Planning struct {
 	// To describe a publication event.
 	PublicationEvent []PublicationEvent `xml:"urn:ebu:metadata-schema:ebucore ebucore:publicationEvent,omitempty" json:"ebucore:publicationEvent,omitempty"`
 
-	PlanningID base.URL `xml:"planningId,attr,omitempty" json:"@planningId,omitempty"`
+	PlanningID base.URI `xml:"planningId,attr,omitempty" json:"@planningId,omitempty"`
 }
 
 // To describe when, where, in which formats and under which rights conditions the resource has been distributed.
@@ -1478,7 +1478,7 @@ type PublicationEvent struct {
 	RelatedPublicationEvent []PublicationEvent `xml:"urn:ebu:metadata-schema:ebucore ebucore:relatedPublicationEvent,omitempty" json:"ebucore:relatedPublicationEvent,omitempty"`
 
 	// To uniquely identify a pèublication event.
-	PublicationEventID base.URL `xml:"publicationEventId,attr,omitempty" json:"@publicationEventId,omitempty"`
+	PublicationEventID base.URI `xml:"publicationEventId,attr,omitempty" json:"@publicationEventId,omitempty"`
 
 	// To provide a human readable name for a publication event.
 	PublicationEventName string `xml:"publicationEventName,attr,omitempty" json:"@publicationEventName,omitempty"`
@@ -1504,10 +1504,10 @@ type PublicationEvent struct {
 	Note string `xml:"note,attr,omitempty" json:"@note,omitempty"`
 
 	// to identify the format in which content has been published
-	FormatIdRef base.URL `xml:"formatIdRef,attr,omitempty" json:"@formatIdRef,omitempty"`
+	FormatIdRef base.URI `xml:"formatIdRef,attr,omitempty" json:"@formatIdRef,omitempty"`
 
 	// to identify all the rights associated with the publication event
-	RightsIDRefs base.URL `xml:"rightsIDRefs,attr,omitempty" json:"@rightsIDRefs,omitempty"`
+	RightsIDRefs base.URI `xml:"rightsIDRefs,attr,omitempty" json:"@rightsIDRefs,omitempty"`
 }
 
 // To provide information on the service associated with the publication.
@@ -1522,10 +1522,10 @@ type PublicationService struct {
 	PublicationSource *OrganisationDetails `xml:"urn:ebu:metadata-schema:ebucore ebucore:publicationSource,omitempty" json:"ebucore:publicationSource,omitempty"`
 
 	// To uniquely identify the service.
-	ServiceID base.URL `xml:"serviceId,attr,omitempty" json:"@serviceId,omitempty"`
+	ServiceID base.URI `xml:"serviceId,attr,omitempty" json:"@serviceId,omitempty"`
 
 	// A logo to visually identifiy the publication service
-	LinkToLogo base.URL `xml:"linkToLogo,attr,omitempty" json:"@linkToLogo,omitempty"`
+	LinkToLogo base.URI `xml:"linkToLogo,attr,omitempty" json:"@linkToLogo,omitempty"`
 }
 
 // The medium on which the title was published
@@ -1536,7 +1536,7 @@ type PublicationMedium struct {
 	Value string `xml:",chardata" json:"#value"`
 
 	// To uniquely identify the medium.
-	PublicationMediumID base.URL `xml:"publicationMediumId,attr,omitempty" json:"@publicationMediumId,omitempty"`
+	PublicationMediumID base.URI `xml:"publicationMediumId,attr,omitempty" json:"@publicationMediumId,omitempty"`
 }
 
 // The channel on which the title was transmitted
@@ -1548,10 +1548,10 @@ type PublicationChannel struct {
 	Value string `xml:",chardata" json:"#value"`
 
 	// To uniquely identify the publication channel.
-	PublicationChannelID base.URL `xml:"publicationChannelId,attr,omitempty" json:"@publicationChannelId,omitempty"`
+	PublicationChannelID base.URI `xml:"publicationChannelId,attr,omitempty" json:"@publicationChannelId,omitempty"`
 
 	// A logo to visually identifiy the publication channel
-	LinkToLogo base.URL `xml:"linkToLogo,attr,omitempty" json:"@linkToLogo,omitempty"`
+	LinkToLogo base.URI `xml:"linkToLogo,attr,omitempty" json:"@linkToLogo,omitempty"`
 }
 
 // The physical or digital manifestation of the resource. Use the descriptor Format to identify the format of a
@@ -1640,7 +1640,7 @@ type Format struct {
 	DateModified *DateModified `xml:"urn:ebu:metadata-schema:ebucore ebucore:dateModified,omitempty" json:"ebucore:dateModified,omitempty"`
 
 	// To uniquely identify a format.
-	FormatID base.URL `xml:"formatId,attr,omitempty" json:"@formatId,omitempty"`
+	FormatID base.URI `xml:"formatId,attr,omitempty" json:"@formatId,omitempty"`
 
 	// To provide information on the version of the format.
 	FormatVersionID string `xml:"formatVersionId,attr,omitempty" json:"@formatVersionId,omitempty"`
@@ -1657,7 +1657,7 @@ type Medium struct {
 	TypeAttributes
 
 	// To uniquely identify the medium.
-	MediumID base.URL `xml:"mediumId,attr,omitempty" json:"@mediumId,omitempty"`
+	MediumID base.URI `xml:"mediumId,attr,omitempty" json:"@mediumId,omitempty"`
 }
 
 type AcquisitionData struct {
@@ -1795,7 +1795,7 @@ type SigningFormat struct {
 	// To specify the format of signing being used e.g. living person or avatar
 	FormatAttributes
 
-	SigningFormatID        base.URL `xml:"signingFormatId,attr,omitempty" json:"@signingFormatId,omitempty"`
+	SigningFormatID        base.URI `xml:"signingFormatId,attr,omitempty" json:"@signingFormatId,omitempty"`
 	SigningFormatVersionID string   `xml:"signingFormatVersionId,attr,omitempty" json:"@signingFormatVersionId,omitempty"`
 	SigningFormatName      string   `xml:"signingFormatName,attr,omitempty" json:"@signingFormatName,omitempty"`
 
@@ -1806,7 +1806,7 @@ type SigningFormat struct {
 	TrackName string `xml:"trackName,attr,omitempty" json:"@trackName,omitempty"`
 
 	// A pointer to the file with the signing in available as a separte resource.
-	SigningSourceURI base.URL `xml:"signingSourceUri,attr,omitempty" json:"@signingSourceUri,omitempty"`
+	SigningSourceURI base.URI `xml:"signingSourceUri,attr,omitempty" json:"@signingSourceUri,omitempty"`
 
 	// To providing information on the signing language.
 	Language string `xml:"language,attr,omitempty" json:"@language,omitempty"`
@@ -1831,10 +1831,10 @@ type ContainerFormat struct {
 	Comment []Comment `xml:"urn:ebu:metadata-schema:ebucore ebucore:comment,omitempty" json:"ebucore:comment,omitempty"`
 
 	// To uniquely identify a container.
-	ContainerFormatID base.URL `xml:"containerFormatId,attr,omitempty" json:"@containerFormatId,omitempty"`
+	ContainerFormatID base.URI `xml:"containerFormatId,attr,omitempty" json:"@containerFormatId,omitempty"`
 
 	// To identify a version of the container format.
-	ContainerFormatVersionID base.URL `xml:"containerFormatVersionId,attr,omitempty" json:"@containerFormatVersionId,omitempty"`
+	ContainerFormatVersionID base.URI `xml:"containerFormatVersionId,attr,omitempty" json:"@containerFormatVersionId,omitempty"`
 
 	// To attribute a name to the container format.
 	ContainerFormatName string `xml:"containerFormatName,attr,omitempty" json:"@containerFormatName,omitempty"`
@@ -1869,16 +1869,16 @@ type TimecodeFormat struct {
 	Comment []Comment `xml:"urn:ebu:metadata-schema:ebucore ebucore:comment,omitempty" json:"ebucore:comment,omitempty"`
 
 	// To uniquely identify a timecode format.
-	TimecodeFormatID base.URL `xml:"timecodeFormatId,attr,omitempty" json:"@timecodeFormatId,omitempty"`
+	TimecodeFormatID base.URI `xml:"timecodeFormatId,attr,omitempty" json:"@timecodeFormatId,omitempty"`
 
 	// To identify a version of the timecode format.
-	TimecodeFormatVersionID base.URL `xml:"timecodeFormatVersionId,attr,omitempty" json:"@timecodeFormatVersionId,omitempty"`
+	TimecodeFormatVersionID base.URI `xml:"timecodeFormatVersionId,attr,omitempty" json:"@timecodeFormatVersionId,omitempty"`
 
 	// To attribute a name to the timecode format.
-	TimecodeFormatName base.URL `xml:"timecodeFormatName,attr,omitempty" json:"@timecodeFormatName,omitempty"`
+	TimecodeFormatName base.URI `xml:"timecodeFormatName,attr,omitempty" json:"@timecodeFormatName,omitempty"`
 
 	// To additional information on the timecode format.
-	TimecodeFormatDefinition base.URL `xml:"timecodeFormatDefinition,attr,omitempty" json:"@timecodeFormatDefinition,omitempty"`
+	TimecodeFormatDefinition base.URI `xml:"timecodeFormatDefinition,attr,omitempty" json:"@timecodeFormatDefinition,omitempty"`
 }
 
 type TimecodeTrack struct {
@@ -1908,16 +1908,16 @@ type MetadataFormat struct {
 	Comment []Comment `xml:"urn:ebu:metadata-schema:ebucore ebucore:comment,omitempty" json:"ebucore:comment,omitempty"`
 
 	// To uniquely identify a timecode format.
-	MetadataFormatID base.URL `xml:"metadataFormatId,attr,omitempty" json:"@metadataFormatId,omitempty"`
+	MetadataFormatID base.URI `xml:"metadataFormatId,attr,omitempty" json:"@metadataFormatId,omitempty"`
 
 	// To identify a version of the timecode format.
-	MetadataFormatVersionID base.URL `xml:"metadataFormatVersionId,attr,omitempty" json:"@metadataFormatVersionId,omitempty"`
+	MetadataFormatVersionID base.URI `xml:"metadataFormatVersionId,attr,omitempty" json:"@metadataFormatVersionId,omitempty"`
 
 	// To attribute a name to the timecode format.
-	MetadataFormatName base.URL `xml:"metadataFormatName,attr,omitempty" json:"@metadataFormatName,omitempty"`
+	MetadataFormatName base.URI `xml:"metadataFormatName,attr,omitempty" json:"@metadataFormatName,omitempty"`
 
 	// To additional information on the timecode format.
-	MetadataFormatDefinition base.URL `xml:"metadataFormatDefinition,attr,omitempty" json:"@metadataFormatDefinition,omitempty"`
+	MetadataFormatDefinition base.URI `xml:"metadataFormatDefinition,attr,omitempty" json:"@metadataFormatDefinition,omitempty"`
 }
 
 type MetadataTrack struct {
@@ -1987,7 +1987,7 @@ type Entity struct {
 	AgentFee []AgentFee `xml:"urn:ebu:metadata-schema:ebucore ebucore:agentFee,omitempty" json:"ebucore:agentFee,omitempty"`
 
 	// To provide a unique Id for the entity.
-	EntityID base.URL `xml:"entityId,attr,omitempty" json:"@entityId,omitempty"`
+	EntityID base.URI `xml:"entityId,attr,omitempty" json:"@entityId,omitempty"`
 }
 
 type Role struct {
@@ -2045,7 +2045,7 @@ type Animal struct {
 	AnimalCharacterName *Element `xml:"urn:ebu:metadata-schema:ebucore ebucore:animalCharacterName,omitempty" json:"ebucore:animalCharacterName,omitempty"`
 
 	// To associate an id with an animal.
-	AnimalID base.URL `xml:"animalId,attr,omitempty" json:"@animalId,omitempty"`
+	AnimalID base.URI `xml:"animalId,attr,omitempty" json:"@animalId,omitempty"`
 }
 
 type AnimalColourCode struct {
@@ -2146,7 +2146,7 @@ type ContactDetails struct {
 	AdditionalInformation []AdditionalInformation `xml:"urn:ebu:metadata-schema:ebucore ebucore:additionalInformation,omitempty" json:"ebucore:additionalInformation,omitempty"`
 
 	// To provide a unique identifier for a contact.
-	ContactID base.URL `xml:"contactId,attr,omitempty" json:"@contactId,omitempty"`
+	ContactID base.URI `xml:"contactId,attr,omitempty" json:"@contactId,omitempty"`
 
 	// To provide a date when this information was last known to be valid.
 	LastUpdate base.Date `xml:"lastUpdate,attr,omitempty" json:"@lastUpdate,omitempty"`
@@ -2196,10 +2196,10 @@ type OrganisationDetails struct {
 	Contacts []Entity `xml:"urn:ebu:metadata-schema:ebucore ebucore:contacts,omitempty" json:"ebucore:contacts,omitempty"`
 
 	// To provide a unique identifier for an organisation.
-	OrganisationID base.URL `xml:"organisationId,attr,omitempty" json:"@organisationId,omitempty"`
+	OrganisationID base.URI `xml:"organisationId,attr,omitempty" json:"@organisationId,omitempty"`
 
 	// A logo to visually identifiy an organisation
-	LinkToLogo base.URL `xml:"linkToLogo,attr,omitempty" json:"@linkToLogo,omitempty"`
+	LinkToLogo base.URI `xml:"linkToLogo,attr,omitempty" json:"@linkToLogo,omitempty"`
 
 	// To provide a date when this information was known to be valid.
 	LastUpdate base.Date `xml:"lastUpdate,attr,omitempty" json:"@lastUpdate,omitempty"`
@@ -2216,7 +2216,7 @@ type OrganisationDepartment struct {
 	Element
 
 	// To provide a unique identifier for a department within an organisation.
-	DepartmentID base.URL `xml:"departmentId,attr,omitempty" json:"@departmentId,omitempty"`
+	DepartmentID base.URI `xml:"departmentId,attr,omitempty" json:"@departmentId,omitempty"`
 }
 
 // Detailed contact information for a person or organisation.
@@ -2325,7 +2325,7 @@ type Award struct {
 	Date []Date `xml:"urn:ebu:metadata-schema:ebucore ebucore:date,omitempty" json:"ebucore:date,omitempty"`
 
 	// An identifier associated with the award.
-	AwardID base.URL `xml:"awardId,attr,omitempty" json:"@awardId,omitempty"`
+	AwardID base.URI `xml:"awardId,attr,omitempty" json:"@awardId,omitempty"`
 }
 
 type Category struct {
@@ -2393,7 +2393,7 @@ type Rating struct {
 	Reason string `xml:"reason,attr,omitempty" json:"@reason,omitempty"`
 
 	// A link to a visual representation of the rating, if available
-	LinkToLogo base.URL `xml:"linkToLogo,attr,omitempty" json:"@linkToLogo,omitempty"`
+	LinkToLogo base.URI `xml:"linkToLogo,attr,omitempty" json:"@linkToLogo,omitempty"`
 
 	// A flag to signal that content has not been rated (if set to "true")
 	NotRated bool `xml:"notRated,attr,omitempty" json:"@notRated,omitempty"`
@@ -2410,7 +2410,7 @@ type TypeAttributes struct {
 	TypeDefinition string `xml:"typeDefinition,attr,omitempty" json:"@typeDefinition,omitempty"`
 
 	// A URI to link e.g. to a type in a classification scheme.
-	TypeLink base.URL `xml:"typeLink,attr,omitempty" json:"@typeLink,omitempty"`
+	TypeLink base.URI `xml:"typeLink,attr,omitempty" json:"@typeLink,omitempty"`
 
 	// To identify a source of attribution.
 	TypeSource string `xml:"typeSource,attr,omitempty" json:"@typeSource,omitempty"`
@@ -2432,7 +2432,7 @@ type FormatAttributes struct {
 	FormatDefinition string `xml:"formatDefinition,attr,omitempty" json:"@formatDefinition,omitempty"`
 
 	// A URI to link e.g. to a format in a classification scheme.
-	FormatLink base.URL `xml:"formatLink,attr,omitempty" json:"@formatLink,omitempty"`
+	FormatLink base.URI `xml:"formatLink,attr,omitempty" json:"@formatLink,omitempty"`
 
 	// To identify a source of attribution.
 	FormatSource string `xml:"formatSource,attr,omitempty" json:"@formatSource,omitempty"`
@@ -2454,7 +2454,7 @@ type StatusAttributes struct {
 	StatusDefinition string `xml:"statusDefinition,attr,omitempty" json:"@statusDefinition,omitempty"`
 
 	// A URI to link e.g. to a status in a classification scheme.
-	StatusLink base.URL `xml:"statusLink,attr,omitempty" json:"@statusLink,omitempty"`
+	StatusLink base.URI `xml:"statusLink,attr,omitempty" json:"@statusLink,omitempty"`
 
 	// To identify a source of attribution.
 	StatusSource string `xml:"statusSource,attr,omitempty" json:"@statusSource,omitempty"`
@@ -2521,7 +2521,7 @@ type ImageFormat struct {
 	Comment []Comment `xml:"urn:ebu:metadata-schema:ebucore ebucore:comment,omitempty" json:"ebucore:comment,omitempty"`
 
 	// To uniquely identify an image format.
-	ImageFormatID base.URL `xml:"imageFormatId,attr,omitempty" json:"@imageFormatId,omitempty"`
+	ImageFormatID base.URI `xml:"imageFormatId,attr,omitempty" json:"@imageFormatId,omitempty"`
 
 	// To provide a version number associated with an image format.
 	ImageFormatVersionID string `xml:"imageFormatVersionId,attr,omitempty" json:"@imageFormatVersionId,omitempty"`
@@ -2640,7 +2640,7 @@ type VideoFormat struct {
 	Comment []Comment `xml:"urn:ebu:metadata-schema:ebucore ebucore:comment,omitempty" json:"ebucore:comment,omitempty"`
 
 	// To uniquely identify a video format.
-	VideoFormatID base.URL `xml:"videoFormatId,attr,omitempty" json:"@videoFormatId,omitempty"`
+	VideoFormatID base.URI `xml:"videoFormatId,attr,omitempty" json:"@videoFormatId,omitempty"`
 
 	// To provide information on the version of a video format.
 	VideoFormatVersionID string `xml:"videoFormatVersionId,attr,omitempty" json:"@videoFormatVersionId,omitempty"`
@@ -2820,7 +2820,7 @@ type AudioFormat struct {
 	Comment []Comment `xml:"urn:ebu:metadata-schema:ebucore ebucore:comment,omitempty" json:"ebucore:comment,omitempty"`
 
 	// To uniquely identify an audio format.
-	AudioFormatID base.URL `xml:"audioFormatId,attr,omitempty" json:"@audioFormatId,omitempty"`
+	AudioFormatID base.URI `xml:"audioFormatId,attr,omitempty" json:"@audioFormatId,omitempty"`
 
 	// To provide information on the version of an audio format.
 	AudioFormatVersionID string `xml:"audioFormatVersionId,attr,omitempty" json:"@audioFormatVersionId,omitempty"`
@@ -2903,7 +2903,7 @@ type DataFormat struct {
 	Comment []Comment `xml:"urn:ebu:metadata-schema:ebucore ebucore:comment,omitempty" json:"ebucore:comment,omitempty"`
 
 	// To uniquely identify a data format.
-	DataFormatID base.URL `xml:"dataFormatId,attr,omitempty" json:"@dataFormatId,omitempty"`
+	DataFormatID base.URI `xml:"dataFormatId,attr,omitempty" json:"@dataFormatId,omitempty"`
 
 	// To provide version information on a data format.
 	DataFormatVersionID string `xml:"dataFormatVersionId,attr,omitempty" json:"@dataFormatVersionId,omitempty"`
@@ -2949,7 +2949,7 @@ type AncillaryDataFormat struct {
 	WrappingType *Int `xml:"urn:ebu:metadata-schema:ebucore ebucore:wrappingType,omitempty" json:"ebucore:wrappingType,omitempty"`
 
 	// To uniquely identify and ancillary data format.
-	AncillaryDataFormatID base.URL `xml:"ancillaryDataFormatId,attr,omitempty" json:"@ancillaryDataFormatId,omitempty"`
+	AncillaryDataFormatID base.URI `xml:"ancillaryDataFormatId,attr,omitempty" json:"@ancillaryDataFormatId,omitempty"`
 
 	// A human readable name for an ancillary data format.
 	AncillaryDataFormatName string `xml:"ancillaryDataFormatName,attr,omitempty" json:"@ancillaryDataFormatName,omitempty"`
@@ -2967,7 +2967,7 @@ type SubtitlingFormat struct {
 	FormatAttributes
 
 	// To uniquely identify a subtitling format.
-	SubtitlingFormatID base.URL `xml:"subtitlingFormatId,attr,omitempty" json:"@subtitlingFormatId,omitempty"`
+	SubtitlingFormatID base.URI `xml:"subtitlingFormatId,attr,omitempty" json:"@subtitlingFormatId,omitempty"`
 
 	// A human readable name for the subtitling format.
 	SubtitlingFormatName string `xml:"subtitlingFormatName,attr,omitempty" json:"@subtitlingFormatName,omitempty"`
@@ -2982,7 +2982,7 @@ type SubtitlingFormat struct {
 	TrackName string `xml:"trackName,attr,omitempty" json:"@trackName,omitempty"`
 
 	// A pointer to the file containing the subtitling.
-	SubtitlingSourceURI base.URL `xml:"subtitlingSourceUri,attr,omitempty" json:"@subtitlingSourceUri,omitempty"`
+	SubtitlingSourceURI base.URI `xml:"subtitlingSourceUri,attr,omitempty" json:"@subtitlingSourceUri,omitempty"`
 
 	// The language used for subtitling.
 	Language string `xml:"language,attr,omitempty" json:"@language,omitempty"`
@@ -3003,7 +3003,7 @@ type CaptioningFormat struct {
 	FormatAttributes
 
 	// To uniquely identify a captioning format.
-	CaptioningFormatID base.URL `xml:"captioningFormatId,attr,omitempty" json:"@captioningFormatId,omitempty"`
+	CaptioningFormatID base.URI `xml:"captioningFormatId,attr,omitempty" json:"@captioningFormatId,omitempty"`
 
 	// To provide a human readable name for the captioning format.
 	CaptioningFormatName string `xml:"captioningFormatName,attr,omitempty" json:"@captioningFormatName,omitempty"`
@@ -3018,7 +3018,7 @@ type CaptioningFormat struct {
 	TrackName string `xml:"trackName,attr,omitempty" json:"@trackName,omitempty"`
 
 	// A pointer to the file containing captioning
-	CaptioningSourceURI base.URL `xml:"captioningSourceUri,attr,omitempty" json:"@captioningSourceUri,omitempty"`
+	CaptioningSourceURI base.URI `xml:"captioningSourceUri,attr,omitempty" json:"@captioningSourceUri,omitempty"`
 
 	// A group of attributes to specify the captioning language.
 	Language string `xml:"language,attr,omitempty" json:"@language,omitempty"`
@@ -3064,7 +3064,7 @@ type DocumentFormat struct {
 	Comment []Comment `xml:"urn:ebu:metadata-schema:ebucore ebucore:comment,omitempty" json:"ebucore:comment,omitempty"`
 
 	// To uniquely identify a document format.
-	DocumentFormatID base.URL `xml:"documentFormatId,attr,omitempty" json:"@documentFormatId,omitempty"`
+	DocumentFormatID base.URI `xml:"documentFormatId,attr,omitempty" json:"@documentFormatId,omitempty"`
 
 	// To provide information on the version of a document format.
 	DocumentFormatVersionID string `xml:"documentFormatVersionId,attr,omitempty" json:"@documentFormatVersionId,omitempty"`
@@ -3661,7 +3661,7 @@ type AudioPackFormat struct {
 	TypeDefinition AudioPackFormatTypeDefinition `xml:"typeDefinition,attr,omitempty" json:"@typeDefinition,omitempty"`
 
 	// A URI to link e.g. to a type in a classification scheme.
-	TypeLink base.URL `xml:"typeLink,attr,omitempty" json:"@typeLink,omitempty"`
+	TypeLink base.URI `xml:"typeLink,attr,omitempty" json:"@typeLink,omitempty"`
 
 	// To identify a source of attribution.
 	TypeSource string `xml:"typeSource,attr,omitempty" json:"@typeSource,omitempty"`
@@ -3733,7 +3733,7 @@ type AudioChannelFormat struct {
 	TypeDefinition AudioPackFormatTypeDefinition `xml:"typeDefinition,attr,omitempty" json:"@typeDefinition,omitempty"`
 
 	// A URI to link e.g. to a type in a classification scheme.
-	TypeLink base.URL `xml:"typeLink,attr,omitempty" json:"@typeLink,omitempty"`
+	TypeLink base.URI `xml:"typeLink,attr,omitempty" json:"@typeLink,omitempty"`
 
 	// To identify a source of attribution.
 	TypeSource string `xml:"typeSource,attr,omitempty" json:"@typeSource,omitempty"`
@@ -4539,7 +4539,7 @@ type Comment struct {
 }
 
 type URIValue struct {
-	Value base.URL `xml:",chardata" json:"#value"`
+	Value base.URI `xml:",chardata" json:"#value"`
 }
 
 type TimeValue struct {

@@ -2,8 +2,8 @@ package base
 
 import "net/url"
 
-type URL string
+type URI string
 
-func (u URL) URL() (*url.URL, error) {
+func (u URI) URL() (*url.URL, error) {
 	return url.Parse(string(u))
 }

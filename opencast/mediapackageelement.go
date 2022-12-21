@@ -31,7 +31,7 @@ type MediaPackageElement struct {
 	Reference *MediaPackageReference `xml:"ref,attr,omitempty"`
 
 	MimeType MimeType  `xml:"http://mediapackage.opencastproject.org mimetype,omitempty"`
-	URL      base.URL  `xml:"http://mediapackage.opencastproject.org url,omitempty"`
+	URL      base.URI  `xml:"http://mediapackage.opencastproject.org url,omitempty"`
 	Size     int64     `xml:"http://mediapackage.opencastproject.org size,omitempty"`
 	Checksum *Checksum `xml:"http://mediapackage.opencastproject.org checksum,omitempty"`
 	Tags     []string  `xml:"http://mediapackage.opencastproject.org tags>tag,omitempty"`
