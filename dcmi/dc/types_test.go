@@ -17,8 +17,9 @@ limitations under the License.
 package dc_test
 
 import (
+	"bytes"
 	"encoding/json"
-	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -53,7 +54,7 @@ var (
 )
 
 func TestUnmarshalXML(t *testing.T) {
-	str, err := ioutil.ReadFile("testdata/fixture_example.xml")
+	str, err := os.ReadFile("testdata/fixture_example.xml")
 	if err != nil {
 		t.Fatal("reading file failed")
 	}
@@ -79,13 +80,15 @@ func TestMarshalXML(t *testing.T) {
 }
 
 func TestUnmarshalJSON(t *testing.T) {
-	str, err := ioutil.ReadFile("testdata/fixture_example.json")
+	str, err := os.ReadFile("testdata/fixture_example.json")
 	if err != nil {
 		t.Fatal("reading file failed")
 	}
 
 	got := &dc.Elements{}
-	err = json.Unmarshal(str, got)
+	decoder := json.NewDecoder(bytes.NewReader(str))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&got)
 	if err != nil {
 		t.Fatalf("unmarshal failed: %s", err)
 	}

@@ -17,7 +17,7 @@ limitations under the License.
 package opencast_test
 
 import (
-	"io/ioutil"
+	"os"
 	"testing"
 	"time"
 
@@ -165,7 +165,7 @@ var (
 )
 
 func TestUnmarshalMediaPackage(t *testing.T) {
-	str, err := ioutil.ReadFile("testdata/fixture_mediapackage_example.xml")
+	str, err := os.ReadFile("testdata/fixture_mediapackage_example.xml")
 	if err != nil {
 		t.Fatal("could not read file")
 	}
