@@ -30,14 +30,14 @@ const (
 )
 
 const (
-	WorkflowDefinitionDocumentMIMEType = "application/mpeg-nbmp-wdd+json"
-	WorkflowDefinitionDocumentExt      = "wdd"
+	WorkflowDescriptionDocumentMIMEType = "application/mpeg-nbmp-wdd+json"
+	WorkflowDescriptionDocumentExt      = "wdd"
 
-	TaskDefinitionDocumentMIMEType = "application/mpeg-nbmp-tdd+json"
-	TaskDefinitionDocumentExt      = "tdd"
+	TaskDescriptionDocumentMIMEType = "application/mpeg-nbmp-tdd+json"
+	TaskDescriptionDocumentExt      = "tdd"
 
-	FunctionDefinitionDocumentMIMEType = "application/mpeg-nbmp-fdd+json"
-	FunctionDefinitionDocumentExt      = "fdd"
+	FunctionDescriptionDocumentMIMEType = "application/mpeg-nbmp-fdd+json"
+	FunctionDescriptionDocumentExt      = "fdd"
 )
 
 type Function struct {
