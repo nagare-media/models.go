@@ -238,6 +238,7 @@ type General struct {
 	PublishedTime *time.Time `json:"published-time,omitempty"`
 
 	// priority information for the resource
+	// shall not be present for function description documents
 	// +optional
 	Priority *uint64 `json:"priority,omitempty"` // TODO: should this be float64?
 
@@ -247,17 +248,20 @@ type General struct {
 	// +optional
 	TaskGroup []TaskGroupItem `json:"task-group,omitempty"`
 
+	// shall not be present for workflow description documents
 	// +optional
 	InputPorts []Port `json:"input-ports"`
 
+	// shall not be present for workflow description documents
 	// +optional
 	OutputPorts []Port `json:"output-ports"`
 
 	// value ‘true’ indicates containing descriptor describes a function group or task workflow
 	// If the value is ‘true’, a connection-map object shall exist in this description.
 	// default is false
+	// this is a pointer as this field should not be present in workflow description documents
 	// +optional
-	IsGroup bool `json:"is-group"`
+	IsGroup *bool `json:"is-group,omitempty"`
 
 	// default is false
 	// +optional
@@ -346,6 +350,8 @@ type MediaParameter struct {
 	//
 	// For functions, it is defined in the function descriptor. For tasks, it is assigned by the workflow manager. For
 	// workflows, it is assigned by the NBMP source.
+	//
+	// shall not be present for function description documents
 	StreamID string `json:"stream-id"`
 
 	// string name assigned to this input
@@ -430,6 +436,8 @@ type MetadataParameter struct {
 	//
 	// For functions, it is defined in the function descriptor. For tasks, it is assigned by the workflow manager. For
 	// workflows, it is assigned by the NBMP source.
+	//
+	// shall not be present for function description documents
 	StreamID string `json:"stream-id"`
 
 	// string name assigned to this input
@@ -504,17 +512,23 @@ var (
 
 type Processing struct {
 	// list of keywords that can be used to execute a search in the function repository
+	// TODO: the JSON schema requires this field; the NBMP specification forbids this field for task description
+	//       documents ("shall not"); the NBMP specification requires this parameter for processing descriptors. All are
+	//       normative.
 	Keywords []string `json:"keywords"`
 
 	Image []ProcessingImage `json:"image"`
 
 	// resource’s start time
+	// shall not be present for function description documents
 	// +optional
 	StartTime *time.Time `json:"start-time,omitempty"`
 
+	// shall not be present for task description documents
 	// +optional
 	ConnectionMap []ConnectionMapping `json:"connection-map,omitempty"`
 
+	// shall not be present for task description documents
 	// +optional
 	FunctionRestrictions []FunctionRestriction `json:"function-restrictions,omitempty"`
 }
@@ -528,6 +542,9 @@ type ProcessingImage struct {
 	IsDynamic bool `json:"is-dynamic"`
 
 	// pointer to the resource implementation, according to IETF RFC 3986
+	// TODO: the JSON schema requires this field; the NBMP specification forbids this field for workflow description
+	//       documents ("shall not"); the NBMP specification requires this parameter for processing descriptors. All are
+	//       normative.
 	URL base.URI `json:"url"`
 
 	// +optional
@@ -611,6 +628,7 @@ type ConnectionMappingPort struct {
 type ConnectionMappingFrom struct {
 	ConnectionMappingPort
 
+	// TODO: is this only used for function groups?
 	// +optional
 	OutputRestrictions *Output `json:"output-restrictions,omitempty"`
 }
@@ -618,6 +636,7 @@ type ConnectionMappingFrom struct {
 type ConnectionMappingTo struct {
 	ConnectionMappingPort
 
+	// TODO: is this only used for function groups?
 	// +optional
 	InputRestrictions *Input `json:"input-restrictions,omitempty"`
 }
@@ -693,6 +712,8 @@ type Requirement struct {
 
 type FlowcontrolRequirement struct {
 	// typical expected delay for the resource (in millisecond)
+	// For workflows this specifies the end-to-end delay requirements for the workflow.
+	// For tasks this specifies the delay requirements for the task.
 	// +optional
 	TypicalDelay *uint64 `json:"typical-delay,omitempty"`
 
@@ -884,6 +905,7 @@ type Parameter struct {
 
 	// must be nil for non-array datatypes
 	// must be set for array datatype
+	// TODO: this is an array in the JSON schema, but must (likely) be an JSON schema object.
 	// +optional
 	Schema map[string]interface{} `json:"schema,omitempty"`
 }
@@ -1041,9 +1063,11 @@ type ClientAssistant struct {
 	// default is false
 	ClientAssistanceFlag bool `json:"client-assistance-flag"`
 
+	// shall not be present for function description documents
 	// +optional
 	MeasurementCollectionList map[string]interface{} `json:"measurement-collection-list,omitempty"`
 
+	// shall not be present for function description documents
 	// +optional
 	SourceAssistanceInformation map[string]interface{} `json:"source-assistance-information,omitempty"`
 }
@@ -1157,6 +1181,7 @@ type Monitoring struct {
 	// +optional
 	Event []Event `json:"event,omitempty"`
 
+	// shall not be present for workflow description documents
 	// +optional
 	Variable []Variable `json:"variable,omitempty"`
 
