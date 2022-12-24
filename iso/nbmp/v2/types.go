@@ -26,7 +26,7 @@ import (
 
 const (
 	// TODO: update this with the new spec
-	SchemeURI = "urn:mpeg:mpegi:nbmp:2023"
+	SchemaURI = "urn:mpeg:mpegi:nbmp:2023"
 )
 
 const (
@@ -240,7 +240,7 @@ type General struct {
 	// priority information for the resource
 	// shall not be present for function description documents
 	// +optional
-	Priority *uint64 `json:"priority,omitempty"` // TODO: should this be float64?
+	Priority *uint64 `json:"priority,omitempty"`
 
 	// +optional
 	Location *string `json:"location,omitempty"`
@@ -248,13 +248,23 @@ type General struct {
 	// +optional
 	TaskGroup []TaskGroupItem `json:"task-group,omitempty"`
 
+	// input-ports and output-ports objects specify the endpoints where the data is communicated from NBMP sources to
+	// tasks; and between tasks; and from tasks to NBMP sinks.
+	//
 	// shall not be present for workflow description documents
-	// +optional
-	InputPorts []Port `json:"input-ports"`
+	// TODO: the JSON schema requires this field; the NBMP specification forbids this field for workflow description
+	//       documents ("shall not"); the NBMP specification requires this parameter for general descriptors. All are
+	//       normative.
+	InputPorts []Port `json:"input-ports,omitempty"`
 
+	// input-ports and output-ports objects specify the endpoints where the data is communicated from NBMP sources to
+	// tasks; and between tasks; and from tasks to NBMP sinks.
+	//
 	// shall not be present for workflow description documents
-	// +optional
-	OutputPorts []Port `json:"output-ports"`
+	// TODO: the JSON schema requires this field; the NBMP specification forbids this field for workflow description
+	//       documents ("shall not"); the NBMP specification requires this parameter for general descriptors. All are
+	//       normative.
+	OutputPorts []Port `json:"output-ports,omitempty"`
 
 	// value ‘true’ indicates containing descriptor describes a function group or task workflow
 	// If the value is ‘true’, a connection-map object shall exist in this description.
@@ -265,7 +275,7 @@ type General struct {
 
 	// default is false
 	// +optional
-	Nonessential bool `json:"nonessential"`
+	Nonessential bool `json:"nonessential,omitempty"`
 
 	// +optional
 	State *State `json:"state"`
@@ -315,13 +325,21 @@ var (
 )
 
 type Port struct {
+	// unique string among all port-names of this resource defining the logic name for input or output
 	PortName string `json:"port-name"`
 
+	// The bind object specifies how to associate a port name to a stream, either input or output. For NBMP functions,
+	// they provide static information about the port names and their binding data formats and protocols. For NBMP tasks,
+	// they provide information about the needs for connections between ports and input and output streams by NBMP
+	// workflow manager.
 	Bind PortBinding `json:"bind"`
 }
 
 type PortBinding struct {
-	StreamID string `json:"stream-id"`
+	// TODO: this is required in the 2nd edition JSON schema but not in the 2020 NBMP specification. Forcing this field
+	//       probably does not make sens for function descriptions?
+	// +optional
+	StreamID *string `json:"stream-id,omitempty"`
 
 	Name string `json:"name"`
 
@@ -350,6 +368,10 @@ type MediaParameter struct {
 	//
 	// For functions, it is defined in the function descriptor. For tasks, it is assigned by the workflow manager. For
 	// workflows, it is assigned by the NBMP source.
+	//
+	// TODO: the JSON schema requires this field; the NBMP specification forbids this field for function description
+	//       documents ("shall not"); the NBMP specification requires this parameter for Input/Output descriptors. All are
+	//       normative.
 	//
 	// shall not be present for function description documents
 	StreamID string `json:"stream-id"`
@@ -419,11 +441,12 @@ type MediaParameter struct {
 	// +optional
 	Timeout *uint64 `json:"timeout,omitempty"`
 
-	// URL (according to IETF RFC 3986) of the server where the media will be sent from or the location from where the
-	// media can be fetched from
+	// URL (according to IETF RFC 3986) of the server where the media will be sent to/from or the location to/from where
+	// the media can be fetched to/from
 	//
-	// NOTE When this parameter is missing for a workflow, the workflow manager can assign origination information of the
-	// appropriate media processing entity to the media source so the media source can ingest media using that protocol.
+	// NOTE When this parameter is missing for a workflow, the workflow manager can assign origination/destination
+	// information of the appropriate media processing entity to the media source so the media source/sink can ingest
+	// media using that protocol.
 	CachingServerURL base.URI `json:"caching-server-url"`
 
 	// must not be set for Outputs
@@ -436,6 +459,10 @@ type MetadataParameter struct {
 	//
 	// For functions, it is defined in the function descriptor. For tasks, it is assigned by the workflow manager. For
 	// workflows, it is assigned by the NBMP source.
+	//
+	// TODO: the JSON schema requires this field; the NBMP specification forbids this field for function description
+	//       documents ("shall not"); the NBMP specification requires this parameter for Input/Output descriptors. All are
+	//       normative.
 	//
 	// shall not be present for function description documents
 	StreamID string `json:"stream-id"`
@@ -585,9 +612,9 @@ type DynamicImageInfo struct {
 type ConnectionMapping struct {
 	ConnectionID string `json:"connection-id"`
 
-	From ConnectionMappingFrom `json:"from"`
+	From ConnectionMappingPort `json:"from"`
 
-	To ConnectionMappingTo `json:"to"`
+	To ConnectionMappingPort `json:"to"`
 
 	// +optional
 	Flowcontrol *FlowcontrolRequirement `json:"flowcontrol,omitempty"`
@@ -623,22 +650,16 @@ type ConnectionMappingPort struct {
 
 	// specifies function’s logic port name
 	PortName string `json:"port-name"`
-}
 
-type ConnectionMappingFrom struct {
-	ConnectionMappingPort
-
-	// TODO: is this only used for function groups?
-	// +optional
-	OutputRestrictions *Output `json:"output-restrictions,omitempty"`
-}
-
-type ConnectionMappingTo struct {
-	ConnectionMappingPort
-
-	// TODO: is this only used for function groups?
+	// restrictions to the output descriptor parameters
+	// This object shall not be present in “from” objects.
 	// +optional
 	InputRestrictions *Input `json:"input-restrictions,omitempty"`
+
+	// restrictions to the input descriptor parameters
+	// This object shall not be present in “to” objects.
+	// +optional
+	OutputRestrictions *Output `json:"output-restrictions,omitempty"`
 }
 
 type FunctionRestriction struct {
@@ -678,19 +699,19 @@ type FunctionRestriction struct {
 	Security *Security `json:"security,omitempty"`
 
 	// +optional
-	Blacklist []FunctionBlacklist `json:"blacklist,omitempty"`
+	Blacklist []Blacklist `json:"blacklist,omitempty"`
 }
 
-type FunctionBlacklist string
+type Blacklist string
 
 var (
-	RequirementFunctionBlacklist     FunctionBlacklist = "requirement"
-	ClientAssistantFunctionBlacklist FunctionBlacklist = "client-assistant"
-	FailOverFunctionBlacklist        FunctionBlacklist = "fail-over"
-	MonitoringFunctionBlacklist      FunctionBlacklist = "monitoring"
-	ReportingFunctionBlacklist       FunctionBlacklist = "reporting"
-	NotificationFunctionBlacklist    FunctionBlacklist = "notification"
-	SecurityFunctionBlacklist        FunctionBlacklist = "security"
+	RequirementBlacklist     Blacklist = "requirement"
+	ClientAssistantBlacklist Blacklist = "client-assistant"
+	FailOverBlacklist        Blacklist = "fail-over"
+	MonitoringBlacklist      Blacklist = "monitoring"
+	ReportingBlacklist       Blacklist = "reporting"
+	NotificationBlacklist    Blacklist = "notification"
+	SecurityBlacklist        Blacklist = "security"
 )
 
 type Requirement struct {
@@ -1281,7 +1302,7 @@ type Assertion struct {
 	MinPriority uint64 `json:"min-priority"`
 
 	// common action for all lower priority assertions i.e. assertions whose priority is less than minpriority
-	MinPriorityAction string `json:"min-priority-action"`
+	MinPriorityAction AssertionAction `json:"min-priority-action"`
 
 	// indicates whether the resource supports providing verification information for validating function assertions
 	// default is false
@@ -1308,7 +1329,7 @@ type AssertionItem struct {
 
 type AssertionValuePredicate struct {
 	// condition against which the parameter will be checked with the given value.
-	EvaluationCondition AssertionValuePredicateEvaluationCondition `json:"evaluation-condition"`
+	EvaluationCondition AssertionEvaluationCondition `json:"evaluation-condition"`
 
 	// value against which the parameter value will be checked
 	CheckValue map[string]interface{} `json:"check-value"`
@@ -1328,7 +1349,7 @@ type AssertionValuePredicate struct {
 	//
 	// The above actions may only be set for workflow and shall not be set for any task. A task may ignore any of these
 	// actions if it is requested.
-	Action AssertionValuePredicateAction `json:"action"`
+	Action AssertionAction `json:"action"`
 
 	// parameters for an action represented using ‘action’ is performed
 	//
@@ -1337,13 +1358,20 @@ type AssertionValuePredicate struct {
 	ActionParameters []string `json:"action-parameters,omitempty"`
 }
 
-type AssertionValuePredicateEvaluationCondition string
+type AssertionEvaluationCondition string
 
 var (
-	QualityAssertionValuePredicateEvaluationCondition       AssertionValuePredicateEvaluationCondition = "quality"
-	ComputationalAssertionValuePredicateEvaluationCondition AssertionValuePredicateEvaluationCondition = "computational"
-	InputAssertionValuePredicateEvaluationCondition         AssertionValuePredicateEvaluationCondition = "input"
-	OutputAssertionValuePredicateEvaluationCondition        AssertionValuePredicateEvaluationCondition = "output"
+	// provides description to create assertions that check the quality of media processing
+	QualityAssertionEvaluationCondition AssertionEvaluationCondition = "quality"
+
+	// provides description to create assertions that check the computational requirements of media processing
+	ComputationalAssertionEvaluationCondition AssertionEvaluationCondition = "computational"
+
+	// provides description to create assertions that check whether the workflow input is of certain kind
+	InputAssertionEvaluationCondition AssertionEvaluationCondition = "input"
+
+	// provides description to create assertions that check whether the workflow output is of certain kind
+	OutputAssertionEvaluationCondition AssertionEvaluationCondition = "output"
 )
 
 type AssertionValuePredicateAggregation string
@@ -1362,17 +1390,17 @@ var (
 	AvgAssertionValuePredicateAggregation AssertionValuePredicateAggregation = "avg"
 )
 
-type AssertionValuePredicateAction string
+type AssertionAction string
 
 var (
 	// rebuild the workflow
-	RebuildAssertionValuePredicateAction AssertionValuePredicateAction = "rebuild"
+	RebuildAssertionAction AssertionAction = "rebuild"
 
 	// restart the workflow with the same tasks to satisfy the assertion
-	RestartAssertionValuePredicateAction AssertionValuePredicateAction = "restart"
+	RestartAssertionAction AssertionAction = "restart"
 
 	// wait for a certain time to continue execution of the workflow
-	WaitAssertionValuePredicateAction AssertionValuePredicateAction = "wait"
+	WaitAssertionAction AssertionAction = "wait"
 )
 
 type Request struct {
