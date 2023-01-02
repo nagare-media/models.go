@@ -230,6 +230,9 @@ type General struct {
 	Rank *uint64 `json:"rank,omitempty"`
 
 	// URN must match ^urn:mpeg:mpegi:nbmp:(2([0-9]{3})):([a-zA-Z0-9_]+)$
+	// TODO: Annex C (informative) describes urn:mpeg:mpegi:nbmp:... as brand name to identify MPEG compatible functions.
+	//       Can this be interpreted that non-compatible custom functions should use a different namespace thus not
+	//       matching the pattern?
 	// +optional
 	NBMPBrand *base.URI `json:"nbmp-brand,omitempty"`
 
