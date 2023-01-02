@@ -27,9 +27,14 @@ import (
 	nbmp "github.com/nagare-media/models.go/iso/nbmp/v2"
 )
 
-func TestUnmarshalConfiguration(t *testing.T) {
+var (
+	nagareBrand = base.URI("urn:nagare-media:engine:schema:nbmp:v1apha1")
+	now         = time.Now()
+)
+
+func TestUnmarshalConfigurations(t *testing.T) {
 	files := []string{
-		"testdata/example-parameter-representation.json",
+		"testdata/nbmp/example-parameter-representation.json",
 	}
 
 	for _, file := range files {
@@ -48,21 +53,21 @@ func TestUnmarshalConfiguration(t *testing.T) {
 	}
 }
 
-func TestUnmarshalFunction(t *testing.T) {
+func TestUnmarshalFunctions(t *testing.T) {
 	files := []string{
 		// TODO: These examples are provided by MPEG, but do not follow the normative JSON schema
 		//       (see https://github.com/MPEGGroup/NBMP/issues/40)
-		// "testdata/function-RTP-360sticher.json",
-		// "testdata/function-RTP-cgtranscoder.json",
-		// "testdata/function-RTP-cropping.json",
-		// "testdata/function-RTP-dash-packager.json",
-		// "testdata/function-RTP-fifo.json",
-		// "testdata/function-RTP-omaf-packager.json",
-		// "testdata/function-RTP-pcdecoder.json",
-		// "testdata/function-RTP-pcencoder.json",
-		// "testdata/function-RTP-selectorcompositor.json",
-		"testdata/function-RTP-merger.json",
-		"testdata/function-RTP-splitter.json",
+		// "testdata/nbmp/function-RTP-360sticher.json",
+		// "testdata/nbmp/function-RTP-cgtranscoder.json",
+		// "testdata/nbmp/function-RTP-cropping.json",
+		// "testdata/nbmp/function-RTP-dash-packager.json",
+		// "testdata/nbmp/function-RTP-fifo.json",
+		// "testdata/nbmp/function-RTP-omaf-packager.json",
+		// "testdata/nbmp/function-RTP-pcdecoder.json",
+		// "testdata/nbmp/function-RTP-pcencoder.json",
+		// "testdata/nbmp/function-RTP-selectorcompositor.json",
+		"testdata/nbmp/function-RTP-merger.json",
+		"testdata/nbmp/function-RTP-splitter.json",
 	}
 
 	for _, file := range files {
@@ -81,77 +86,68 @@ func TestUnmarshalFunction(t *testing.T) {
 	}
 }
 
-func TestMarshalWorkflow(t *testing.T) {
+func TestUnmarshalWorkflows(t *testing.T) {
+	files := []string{
+		"testdata/nagare/v2_nbmp_live.wdd",
+		"testdata/nagare/v2_nbmp_vod.wdd",
+	}
+
+	for _, file := range files {
+		str, err := os.ReadFile(file)
+		if err != nil {
+			t.Fatalf("could not read file %s: %s", file, err)
+		}
+
+		wd := nbmp.Workflow{}
+		decoder := json.NewDecoder(bytes.NewReader(str))
+		decoder.DisallowUnknownFields()
+		err = decoder.Decode(&wd)
+		if err != nil {
+			t.Fatalf("could not unmarshal workflow: %s", err)
+		}
+	}
+}
+
+func TestMarshalWorkflowLive(t *testing.T) {
 	var (
-		nagareBrand = base.URI("urn:mpeg:mpegi:nbmp:2023:nagare")
-		now         = time.Now()
-		videoIn1    = "videoIn1"
-		videoOut1   = "videoOut1"
-		videoOut2   = "videoOut2"
-		breakable   = true
-		vcpu        = uint64(2)
-		ram         = uint64(1 * 1024)
+		inputStream  = "input"
+		outputStream = "output"
+
+		breakable = true
 	)
 
 	wf := nbmp.Workflow{
 		Scheme: &nbmp.Scheme{nbmp.SchemaURI},
 		General: nbmp.General{
-			ID:            "0dec3a70-2b4a-4444-8904-387f896bb90b",
+			ID:            "7e5b8825-9442-499f-95fe-abf8f03970c7",
 			NBMPBrand:     &nagareBrand,
 			State:         &nbmp.InstantiatedState,
-			Name:          "Test workflow",
-			Description:   "This workflow is used as a test case",
+			Name:          "Live workflow",
+			Description:   "A simple live workflow.",
 			PublishedTime: &now,
-		},
-
-		Repository: &nbmp.Repository{
-			Mode: &nbmp.StrictRepositoryMode,
-			Location: []nbmp.RepositoryLocation{{
-				URL:         "https://engine.nagare.media/functions",
-				Name:        "Example function repository",
-				Description: "This is a function repository example",
-			}},
 		},
 
 		Input: nbmp.Input{
 			MediaParameters: []nbmp.MediaParameter{{
-				StreamID:         videoIn1,
-				Name:             videoIn1,
-				Keywords:         []string{"master"},
+				StreamID:         inputStream,
+				Name:             inputStream,
 				MimeType:         "video/mp4",
-				Protocol:         "http",
+				Protocol:         "rtmp",
 				Mode:             &nbmp.PullMediaAccessMode,
-				CachingServerURL: "https://engine.nagare.media/master.mp4",
-				VideoFormat: []nbmp.Parameter{{
-					Name:     "stereo3d",
-					ID:       1,
-					Datatype: nbmp.StringDatatype,
-					Values: []nbmp.ParameterValue{nbmp.StringParameterValue{
-						Name:         "value",
-						ID:           11,
-						Restrictions: []string{"side by side"},
-					}},
-				}},
+				CachingServerURL: "rtmp://nagare.media/app/input",
+				Keywords:         []string{},
 			}},
 		},
 
 		Output: nbmp.Output{
 			MediaParameters: []nbmp.MediaParameter{{
-				StreamID:         videoOut1,
-				Name:             videoOut1,
-				Keywords:         []string{"720p"},
+				StreamID:         outputStream,
+				Name:             outputStream,
 				MimeType:         "video/mp4",
-				Protocol:         "http",
+				Protocol:         "dash-cmaf-ingest",
 				Mode:             &nbmp.PushMediaAccessMode,
-				CachingServerURL: "http://engine.nagare.media/720p.mp4",
-			}, {
-				StreamID:         videoOut2,
-				Name:             videoOut2,
-				Keywords:         []string{"livestream"},
-				MimeType:         "video/mp4",
-				Protocol:         "rtmp",
-				Mode:             &nbmp.PushMediaAccessMode,
-				CachingServerURL: "rtmp://engine.nagare.media/live/stream",
+				CachingServerURL: base.URI("http://nagare.media/cmaf/example.str/Switching(video)/Streams(output.cmfv)"),
+				Keywords:         []string{},
 			}},
 		},
 
@@ -159,79 +155,385 @@ func TestMarshalWorkflow(t *testing.T) {
 			Keywords: []string{},
 			Image:    []nbmp.ProcessingImage{},
 
-			ConnectionMap: []nbmp.ConnectionMapping{{
-				ConnectionID: "transcode720p -> loop-stream",
-				Breakable:    &breakable,
-				From: nbmp.ConnectionMappingPort{
-					ID:       "transcode-function",
-					Instance: "transcode720p",
-					PortName: "video-output",
-				},
-				To: nbmp.ConnectionMappingPort{
-					ID:       "push-rtmp-stream-function",
-					Instance: "loop-stream",
-					PortName: "video-input",
-				},
-			}},
-
-			FunctionRestrictions: []nbmp.FunctionRestriction{{
-				Instance: "transcode720p",
-				General: &nbmp.General{
-					ID:          "transcode720p",
-					Name:        "transcode720p",
-					Description: "Transcode input video to 720p",
-					InputPorts: []nbmp.Port{{
-						PortName: "video-input",
-						Bind: nbmp.PortBinding{
-							StreamID: &videoIn1,
-							Name:     "video-input",
-						},
-					}},
-					OutputPorts: []nbmp.Port{{
-						PortName: "video-output",
-						Bind: nbmp.PortBinding{
-							StreamID: &videoOut1,
-							Name:     "video-output",
-						},
-					}},
-				},
-				Requirements: &nbmp.Requirement{
-					Hardware: &nbmp.HardwareRequirement{
-						VCPU: &vcpu,
-						RAM:  &ram,
+			ConnectionMap: []nbmp.ConnectionMapping{
+				{
+					ConnectionID: "watermark -> package-cmaf",
+					Breakable:    &breakable,
+					From: nbmp.ConnectionMappingPort{
+						ID:       "watermark-function",
+						Instance: "watermark",
+						PortName: "output1",
+					},
+					To: nbmp.ConnectionMappingPort{
+						ID:       "package-function",
+						Instance: "package-cmaf",
+						PortName: "input1",
 					},
 				},
-				Configuration: &nbmp.Configuration{Parameters: []nbmp.Parameter{{
-					Name:     "codec",
-					ID:       1,
-					Datatype: nbmp.StringDatatype,
-					Values: []nbmp.ParameterValue{nbmp.StringParameterValue{
-						Name:         "codec",
-						ID:           2,
-						Restrictions: []string{"h264"},
-					}},
-				}}},
-			}, {
-				Instance: "loop-stream",
-				General: &nbmp.General{
-					ID:          "loop-stream",
-					Name:        "loop-stream",
-					Description: "Stream input video as loop to an RTMP destination",
-					InputPorts: []nbmp.Port{{
-						PortName: "video-input",
-						Bind: nbmp.PortBinding{
-							Name: "video-input",
-						},
-					}},
-					OutputPorts: []nbmp.Port{{
-						PortName: "video-output",
-						Bind: nbmp.PortBinding{
-							StreamID: &videoOut2,
-							Name:     "video-output",
-						},
-					}},
+			},
+
+			FunctionRestrictions: []nbmp.FunctionRestriction{
+				{
+					Instance: "watermark",
+					General: &nbmp.General{
+						ID:          "watermark",
+						Name:        "watermark",
+						Description: "watermark",
+						InputPorts: []nbmp.Port{{
+							PortName: "input1",
+							Bind: nbmp.PortBinding{
+								StreamID: &inputStream,
+								Name:     "input1",
+							},
+						}},
+						OutputPorts: []nbmp.Port{{
+							PortName: "output1",
+							Bind: nbmp.PortBinding{
+								// StreamID: "????",
+								Name: "output1",
+							},
+						}},
+					},
 				},
+				{
+					Instance: "package-cmaf",
+					General: &nbmp.General{
+						ID:          "package-cmaf",
+						Name:        "package-cmaf",
+						Description: "package-cmaf",
+						InputPorts: []nbmp.Port{{
+							PortName: "input1",
+							Bind: nbmp.PortBinding{
+								// StreamID: "????",
+								Name: "input1",
+							},
+						}},
+						OutputPorts: []nbmp.Port{{
+							PortName: "output1",
+							Bind: nbmp.PortBinding{
+								StreamID: &outputStream,
+								Name:     "output1",
+							},
+						}},
+					},
+				},
+			},
+		},
+
+		Requirement: nbmp.Requirement{
+			WorkflowTask: &nbmp.WorkflowTaskRequirement{
+				ExecutionMode: &nbmp.StreamingExecutionMode,
+			},
+		},
+
+		Failover: &nbmp.Failover{
+			FailoverMode: nbmp.ContinueWithLastGoodStateFailoverMode,
+		},
+	}
+
+	_, err := json.Marshal(wf)
+	if err != nil {
+		t.Fatalf("could not marshal to JSON: %s:", err)
+	}
+}
+
+func TestMarshalWorkflowVoD(t *testing.T) {
+	var (
+		inputVideo = "input.mp4"
+
+		outputMasterPlaylist = "master.m3u8"
+		output1080pPlaylist  = "variant-1080p.m3u8"
+		output1080pMedia     = "1080p.cmfv"
+		output720pPlaylist   = "variant-720p.m3u8"
+		output720pMedia      = "720p.cmfv"
+		outputAudioPlaylist  = "variant-audio.m3u8"
+		outputAudioMedia     = "audio.cmfa"
+
+		breakable = true
+	)
+
+	wf := nbmp.Workflow{
+		Scheme: &nbmp.Scheme{nbmp.SchemaURI},
+		General: nbmp.General{
+			ID:            "8406e61f-9ff5-4000-9185-3af62b54108c",
+			NBMPBrand:     &nagareBrand,
+			State:         &nbmp.InstantiatedState,
+			Name:          "VoD workflow",
+			Description:   "A simple VoD workflow.",
+			PublishedTime: &now,
+		},
+
+		Input: nbmp.Input{
+			MediaParameters: []nbmp.MediaParameter{{
+				StreamID:         inputVideo,
+				Name:             inputVideo,
+				MimeType:         "video/mp4",
+				Protocol:         "http",
+				Mode:             &nbmp.PullMediaAccessMode,
+				CachingServerURL: "https://nagare.media/input.mp4",
+				Keywords:         []string{},
 			}},
+		},
+
+		Output: nbmp.Output{
+			MediaParameters: []nbmp.MediaParameter{{
+				StreamID:         outputMasterPlaylist,
+				Name:             outputMasterPlaylist,
+				MimeType:         "application/vnd.apple.mpegurl",
+				Protocol:         "s3",
+				Mode:             &nbmp.PushMediaAccessMode,
+				CachingServerURL: base.URI("s3://nagare.media/output/" + outputMasterPlaylist),
+				Keywords:         []string{},
+			}, {
+				StreamID:         output1080pPlaylist,
+				Name:             output1080pPlaylist,
+				MimeType:         "application/vnd.apple.mpegurl",
+				Protocol:         "s3",
+				Mode:             &nbmp.PushMediaAccessMode,
+				CachingServerURL: base.URI("s3://nagare.media/output/" + output1080pPlaylist),
+				Keywords:         []string{},
+			}, {
+				StreamID:         output1080pMedia,
+				Name:             output1080pMedia,
+				MimeType:         "video/mp4",
+				Protocol:         "s3",
+				Mode:             &nbmp.PushMediaAccessMode,
+				CachingServerURL: base.URI("s3://nagare.media/output/" + output1080pMedia),
+				Keywords:         []string{},
+			}, {
+				StreamID:         output720pPlaylist,
+				Name:             output720pPlaylist,
+				MimeType:         "application/vnd.apple.mpegurl",
+				Protocol:         "s3",
+				Mode:             &nbmp.PushMediaAccessMode,
+				CachingServerURL: base.URI("s3://nagare.media/output/" + output720pPlaylist),
+				Keywords:         []string{},
+			}, {
+				StreamID:         output720pMedia,
+				Name:             output720pMedia,
+				MimeType:         "video/mp4",
+				Protocol:         "s3",
+				Mode:             &nbmp.PushMediaAccessMode,
+				CachingServerURL: base.URI("s3://nagare.media/output/" + output720pMedia),
+				Keywords:         []string{},
+			}, {
+				StreamID:         outputAudioPlaylist,
+				Name:             outputAudioPlaylist,
+				MimeType:         "application/vnd.apple.mpegurl",
+				Protocol:         "s3",
+				Mode:             &nbmp.PushMediaAccessMode,
+				CachingServerURL: base.URI("s3://nagare.media/output/" + outputAudioPlaylist),
+				Keywords:         []string{},
+			}, {
+				StreamID:         outputAudioMedia,
+				Name:             outputAudioMedia,
+				MimeType:         "audio/mp4",
+				Protocol:         "s3",
+				Mode:             &nbmp.PushMediaAccessMode,
+				CachingServerURL: base.URI("s3://nagare.media/output/" + outputAudioMedia),
+				Keywords:         []string{},
+			}},
+		},
+
+		Processing: nbmp.Processing{
+			Keywords: []string{},
+			Image:    []nbmp.ProcessingImage{},
+
+			ConnectionMap: []nbmp.ConnectionMapping{
+				{
+					ConnectionID: "transcode-1080p -> package-cmaf-hls",
+					Breakable:    &breakable,
+					From: nbmp.ConnectionMappingPort{
+						ID:       "transcode-function",
+						Instance: "transcode-1080p",
+						PortName: "output1",
+					},
+					To: nbmp.ConnectionMappingPort{
+						ID:       "package-function",
+						Instance: "package-cmaf-hls",
+						PortName: "input1",
+					},
+				},
+				{
+					ConnectionID: "transcode-720p -> package-cmaf-hls",
+					Breakable:    &breakable,
+					From: nbmp.ConnectionMappingPort{
+						ID:       "transcode-function",
+						Instance: "transcode-720p",
+						PortName: "output1",
+					},
+					To: nbmp.ConnectionMappingPort{
+						ID:       "package-function",
+						Instance: "package-cmaf-hls",
+						PortName: "input2",
+					},
+				},
+				{
+					ConnectionID: "transcode-audio -> package-cmaf-hls",
+					Breakable:    &breakable,
+					From: nbmp.ConnectionMappingPort{
+						ID:       "transcode-function",
+						Instance: "transcode-audio",
+						PortName: "output1",
+					},
+					To: nbmp.ConnectionMappingPort{
+						ID:       "package-function",
+						Instance: "package-cmaf-hls",
+						PortName: "input3",
+					},
+				},
+			},
+
+			FunctionRestrictions: []nbmp.FunctionRestriction{
+				{
+					Instance: "transcode-1080p",
+					General: &nbmp.General{
+						ID:          "transcode-1080p",
+						Name:        "transcode-1080p",
+						Description: "transcode-1080p",
+						InputPorts: []nbmp.Port{{
+							PortName: "input1",
+							Bind: nbmp.PortBinding{
+								StreamID: &inputVideo,
+								Name:     "input1",
+							},
+						}},
+						OutputPorts: []nbmp.Port{{
+							PortName: "output1",
+							Bind: nbmp.PortBinding{
+								// StreamID: "????",
+								Name: "output1",
+							},
+						}},
+					},
+				},
+				{
+					Instance: "transcode-720p",
+					General: &nbmp.General{
+						ID:          "transcode-720p",
+						Name:        "transcode-720p",
+						Description: "transcode-720p",
+						InputPorts: []nbmp.Port{{
+							PortName: "input1",
+							Bind: nbmp.PortBinding{
+								StreamID: &inputVideo,
+								Name:     "input1",
+							},
+						}},
+						OutputPorts: []nbmp.Port{{
+							PortName: "output1",
+							Bind: nbmp.PortBinding{
+								// StreamID: "????",
+								Name: "output1",
+							},
+						}},
+					},
+				},
+				{
+					Instance: "transcode-audio",
+					General: &nbmp.General{
+						ID:          "transcode-audio",
+						Name:        "transcode-audio",
+						Description: "transcode-audio",
+						InputPorts: []nbmp.Port{{
+							PortName: "input1",
+							Bind: nbmp.PortBinding{
+								StreamID: &inputVideo,
+								Name:     "input1",
+							},
+						}},
+						OutputPorts: []nbmp.Port{{
+							PortName: "output1",
+							Bind: nbmp.PortBinding{
+								// StreamID: "????",
+								Name: "output1",
+							},
+						}},
+					},
+				},
+				{
+					Instance: "package-cmaf-hls",
+					General: &nbmp.General{
+						ID:          "package-cmaf-hls",
+						Name:        "package-cmaf-hls",
+						Description: "package-cmaf-hls",
+						InputPorts: []nbmp.Port{
+							{
+								PortName: "input1",
+								Bind: nbmp.PortBinding{
+									// StreamID: "????",
+									Name: "input1",
+								},
+							},
+							{
+								PortName: "input2",
+								Bind: nbmp.PortBinding{
+									// StreamID: "????",
+									Name: "input2",
+								},
+							},
+							{
+								PortName: "input3",
+								Bind: nbmp.PortBinding{
+									// StreamID: "????",
+									Name: "input3",
+								},
+							},
+						},
+						OutputPorts: []nbmp.Port{
+							{
+								PortName: "output1",
+								Bind: nbmp.PortBinding{
+									StreamID: &outputMasterPlaylist,
+									Name:     "output1",
+								},
+							},
+							{
+								PortName: "output2",
+								Bind: nbmp.PortBinding{
+									StreamID: &output1080pPlaylist,
+									Name:     "output2",
+								},
+							},
+							{
+								PortName: "output3",
+								Bind: nbmp.PortBinding{
+									StreamID: &output1080pMedia,
+									Name:     "output3",
+								},
+							},
+							{
+								PortName: "output4",
+								Bind: nbmp.PortBinding{
+									StreamID: &output720pPlaylist,
+									Name:     "output4",
+								},
+							},
+							{
+								PortName: "output5",
+								Bind: nbmp.PortBinding{
+									StreamID: &output720pMedia,
+									Name:     "output5",
+								},
+							},
+							{
+								PortName: "output6",
+								Bind: nbmp.PortBinding{
+									StreamID: &outputAudioPlaylist,
+									Name:     "output6",
+								},
+							},
+							{
+								PortName: "output7",
+								Bind: nbmp.PortBinding{
+									StreamID: &outputAudioMedia,
+									Name:     "output7",
+								},
+							},
+						},
+					},
+				},
+			},
 		},
 
 		Requirement: nbmp.Requirement{
@@ -239,7 +541,7 @@ func TestMarshalWorkflow(t *testing.T) {
 				TLS: true,
 			},
 			WorkflowTask: &nbmp.WorkflowTaskRequirement{
-				ExecutionMode: &nbmp.StreamingExecutionMode,
+				ExecutionMode: &nbmp.StepExecutionMode,
 			},
 		},
 
