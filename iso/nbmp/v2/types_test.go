@@ -179,6 +179,7 @@ func TestMarshalWorkflowLive(t *testing.T) {
 						ID:          "watermark",
 						Name:        "watermark",
 						Description: "watermark",
+						NBMPBrand:   &nagareBrand,
 						InputPorts: []nbmp.Port{{
 							PortName: "input1",
 							Bind: nbmp.PortBinding{
@@ -201,6 +202,7 @@ func TestMarshalWorkflowLive(t *testing.T) {
 						ID:          "package-cmaf",
 						Name:        "package-cmaf",
 						Description: "package-cmaf",
+						NBMPBrand:   &nagareBrand,
 						InputPorts: []nbmp.Port{{
 							PortName: "input1",
 							Bind: nbmp.PortBinding{
@@ -391,6 +393,7 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 						ID:          "transcode-1080p",
 						Name:        "transcode-1080p",
 						Description: "transcode-1080p",
+						NBMPBrand:   &nagareBrand,
 						InputPorts: []nbmp.Port{{
 							PortName: "input1",
 							Bind: nbmp.PortBinding{
@@ -413,6 +416,7 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 						ID:          "transcode-720p",
 						Name:        "transcode-720p",
 						Description: "transcode-720p",
+						NBMPBrand:   &nagareBrand,
 						InputPorts: []nbmp.Port{{
 							PortName: "input1",
 							Bind: nbmp.PortBinding{
@@ -435,6 +439,7 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 						ID:          "transcode-audio",
 						Name:        "transcode-audio",
 						Description: "transcode-audio",
+						NBMPBrand:   &nagareBrand,
 						InputPorts: []nbmp.Port{{
 							PortName: "input1",
 							Bind: nbmp.PortBinding{
@@ -457,6 +462,7 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 						ID:          "package-cmaf-hls",
 						Name:        "package-cmaf-hls",
 						Description: "package-cmaf-hls",
+						NBMPBrand:   &nagareBrand,
 						InputPorts: []nbmp.Port{
 							{
 								PortName: "input1",
