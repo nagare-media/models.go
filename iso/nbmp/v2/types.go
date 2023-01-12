@@ -513,8 +513,9 @@ type MetadataParameter struct {
 	// +optional
 	AvailabilityDuration *uint64 `json:"availability-duration,omitempty"`
 
+	// must be >= 1
 	// +optional
-	Timeout *uint64 `json:"timeout,omitempty"` // >= 1
+	Timeout *uint64 `json:"timeout,omitempty"`
 
 	// URL (according to IETF RFC 3986) of the server where the media will be sent from or the location from where the
 	// media can be fetched from
