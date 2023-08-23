@@ -1,7 +1,7 @@
 # nagare media Go models
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/nagare-media/models.go?style=flat-square)](https://goreportcard.com/report/github.com/nagare-media/models.go)
-![Go Version](https://img.shields.io/badge/go%20version-%3E=1.19-61CFDD.svg?style=flat-square)
+![Go Version](https://img.shields.io/badge/go%20version-%3E=1.21-61CFDD.svg?style=flat-square)
 [![PkgGoDev](https://pkg.go.dev/badge/mod/github.com/nagare-media/models.go)](https://pkg.go.dev/github.com/nagare-media/models.go)
 
 Implementation of common types used in nagare media projects.
