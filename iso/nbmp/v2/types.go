@@ -208,12 +208,14 @@ type Task struct {
 	Schedule *Schedule `json:"schedule,omitempty"`
 }
 
+// This descriptor provides a scheme identifier to identify the base scheme used for its descriptors.
 type Scheme struct {
 	// identifies the scheme for this document
 	// It shall be a valid URI according to IETF RFC 3986.
 	URI base.URI `json:"uri"`
 }
 
+// This descriptor provides general details about the underlying resource.
 type General struct {
 	// unique string in the scope of repository/workflow of the resource
 	ID string `json:"id"`
@@ -350,6 +352,8 @@ type PortBinding struct {
 	Keywords []string `json:"keywords,omitempty"`
 }
 
+// This descriptor provides the parameters of the underlying resource’s inputs. The input descriptor consists of two
+// arrays of objects: one for the media inputs and one for metadata inputs.
 type Input struct {
 	// +optional
 	MediaParameters []MediaParameter `json:"media-parameters,omitempty"`
@@ -358,6 +362,8 @@ type Input struct {
 	MetadataParameters []MetadataParameter `json:"metadata-parameters,omitempty"`
 }
 
+// This descriptor provides the parameters of the underlying resource’s outputs. The output descriptor consists of two
+// arrays of objects: one for the media outputs and one for metadata outputs.
 type Output struct {
 	// +optional
 	MediaParameters []MediaParameter `json:"media-parameters,omitempty"`
@@ -526,6 +532,10 @@ type MetadataParameter struct {
 	CachingServerURL *base.URI `json:"caching-server-url,omitempty"`
 
 	// URL (according to IETF RFC 3986) or scheme identifier of metadata
+	//
+	// The schema-uri refers to a metadata-dictionary object that consists of a set of parameter-value pairs. The
+	// parameters’ names, data types and value ranges are defined by the metadata scheme owner.
+	//
 	// +optional
 	SchemeURI *base.URI `json:"scheme-uri,omitempty"`
 
@@ -541,6 +551,8 @@ var (
 	PullMediaAccessMode MediaAccessMode = "pull"
 )
 
+// This descriptor provides high-level details about the requested media processing of a workflow by listing the set of
+// tasks to be performed on the input media data.
 type Processing struct {
 	// list of keywords that can be used to execute a search in the function repository
 	// TODO: the JSON schema requires this field; the NBMP specification forbids this field for task description
@@ -555,7 +567,11 @@ type Processing struct {
 	// +optional
 	StartTime *time.Time `json:"start-time,omitempty"`
 
+	// The array of connection-map object provides a description of the media workflow DAG, i.e. the connection
+	// information between different tasks in the graph. Each element in this array represents an edge in the DAG.
+	//
 	// shall not be present for task description documents
+	//
 	// +optional
 	ConnectionMap []ConnectionMapping `json:"connection-map,omitempty"`
 
@@ -718,6 +734,7 @@ var (
 	SecurityBlacklist        Blacklist = "security"
 )
 
+// This descriptor provides requirements parameters that can be configured for the underlying resource.
 type Requirement struct {
 	// +optional
 	Flowcontrol *FlowcontrolRequirement `json:"flowcontrol,omitempty"`
@@ -900,6 +917,7 @@ type DefaultValue struct {
 	Value string `json:"value"`
 }
 
+// This descriptor provides configuration information for the underlying resource.
 type Configuration struct {
 	Parameters []Parameter `json:"parameters"`
 }
@@ -1066,11 +1084,13 @@ type StringParameterValue struct {
 	Restrictions []string `json:"restrictions"`
 }
 
+// This descriptor provides information for a delayed startup of the underlying resource.
 type StartupDelay struct {
 	// amount of delay before task startup in seconds
 	StartupDelayValue uint64 `json:"startup-delay-value"`
 }
 
+// This descriptor provides client assistance information for the underlying resource.
 type ClientAssistant struct {
 	// indicates whether the resource requires/supports client monitoring/assistance
 	//
@@ -1088,11 +1108,30 @@ type ClientAssistant struct {
 	// default is false
 	ClientAssistanceFlag bool `json:"client-assistance-flag"`
 
+	// object representing the list of measurements to be collected
+	//
+	// Each element of the list represents a measurement to be collected.
+	//
+	// Following is a sample list of measurements to be supported:
+	// * viewPortCollection
+	// * deviceCapabilityCollection
+	// * userPreferencesCollection
+	//
+	// The object may include the frequency of collection for each parameter.
+	//
+	// The elements of this objects shall be described using parameter schema
+	//
 	// shall not be present for function description documents
+	//
 	// +optional
 	MeasurementCollectionList map[string]interface{} `json:"measurement-collection-list,omitempty"`
 
+	// list of objects where each object represents different type information from NBMP source
+	//
+	// The elements of this objects shall be described using parameter schema.
+	//
 	// shall not be present for function description documents
+	//
 	// +optional
 	SourceAssistanceInformation map[string]interface{} `json:"source-assistance-information,omitempty"`
 }
@@ -1145,6 +1184,8 @@ var (
 	ExitFailoverMode FailoverMode = "exit"
 )
 
+// This descriptor provides events for the underlying resource. For a function, this descriptor describes the events
+// that can be monitored, reported or used in notification in the task or workflow implementing this function.
 type Event struct {
 	// event’s name
 	// +optional
@@ -1159,6 +1200,8 @@ type Event struct {
 	URL *base.URI `json:"url,omitempty"`
 }
 
+// This descriptor provides variables for the underlying resource. For a function, this descriptor describes the
+// variables that can be monitored and/or reported in the function.
 type Variable struct {
 	// variable’s name
 	Name string `json:"name"`
@@ -1202,6 +1245,7 @@ var (
 	NumberVariableType  VariableType = "number"
 )
 
+// This descriptor provides monitoring information for the underlying resource.
 type Monitoring struct {
 	// +optional
 	Event []Event `json:"event,omitempty"`
@@ -1217,6 +1261,7 @@ type Monitoring struct {
 	SystemVariables []map[string]interface{} `json:"system-variables,omitempty"`
 }
 
+// This descriptor provides reporting information for the underlying resource.
 type Reporting struct {
 	// +optional
 	Event []Event `json:"event,omitempty"`
@@ -1253,6 +1298,7 @@ var (
 	HTTP_POSTDeliveryMethod DeliveryMethod = "HTTP POST"
 )
 
+// This descriptor provides notification information for the underlying resource.
 type Notification struct {
 	// +optional
 	Event []Event `json:"event,omitempty"`
@@ -1301,6 +1347,7 @@ var (
 	SystemNotificationType NotificationType = "system"
 )
 
+// This descriptor provides assertion information for validating the underlying resource.
 type Assertion struct {
 	// minimum priority above which all assertions with higher priority shall be processed
 	MinPriority uint64 `json:"min-priority"`
@@ -1407,6 +1454,8 @@ var (
 	WaitAssertionAction AssertionAction = "wait"
 )
 
+// This descriptor provides information for the request sent by a task.  It can be used for identifying the repeated and
+// identical requests, the priority of request compared to other received requests, and the requesting task.
 type Request struct {
 	// unique unsigned integer to identify this NBMP request
 	//
@@ -1423,6 +1472,7 @@ type Request struct {
 	TaskID string `json:"task-id"`
 }
 
+// This descriptor indicated whether a description or a descriptor is fulfilled during the processing of a request.
 type Acknowledge struct {
 	// indicates the status of the item
 	Status AcknowledgeStatus `json:"status"`
@@ -1457,6 +1507,7 @@ var (
 	PartiallyFulfilledAcknowledgeStatus AcknowledgeStatus = "partially-fulfilled"
 )
 
+// This descriptor provides the list of function repositories to be used in creating a workflow.
 type Repository struct {
 	// provides the mode for the repository preference
 	//
@@ -1496,6 +1547,8 @@ type RepositoryLocation struct {
 	Description string `json:"description"`
 }
 
+// These should have zero or multiple authentication descriptors, depending on the concrete use cases, inputs, and
+// outputs.
 type Security struct {
 	// identifier can be used by input, output, processing descriptors
 	Name string `json:"name"`
@@ -1556,6 +1609,9 @@ var (
 	TaskSecurityScope SecurityScope = "task"
 )
 
+// This descriptor provides information for stateful and stateless step operation of the underlying resource. A resource
+// with step descriptor shall include one metadata for each input for receiving the sequence number and/or
+// start/duration of each input instance. Each input instance has a duration equal to “segment-duration”.
 type Step struct {
 	// defining the resource running mode
 	// default is "stream"
