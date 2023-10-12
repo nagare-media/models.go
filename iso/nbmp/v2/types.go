@@ -671,12 +671,12 @@ type ConnectionMappingPort struct {
 	// specifies function’s logic port name
 	PortName string `json:"port-name"`
 
-	// restrictions to the output descriptor parameters
+	// restrictions to the input descriptor parameters
 	// This object shall not be present in “from” objects.
 	// +optional
 	InputRestrictions *Input `json:"input-restrictions,omitempty"`
 
-	// restrictions to the input descriptor parameters
+	// restrictions to the output descriptor parameters
 	// This object shall not be present in “to” objects.
 	// +optional
 	OutputRestrictions *Output `json:"output-restrictions,omitempty"`
