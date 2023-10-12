@@ -337,16 +337,17 @@ type Port struct {
 	// they provide static information about the port names and their binding data formats and protocols. For NBMP tasks,
 	// they provide information about the needs for connections between ports and input and output streams by NBMP
 	// workflow manager.
-	Bind PortBinding `json:"bind"`
+	// TODO: optional due to changes discussed in ISO/IEC JTC 1/SC 29/WG 03 N0951
+	// +optional
+	Bind *PortBinding `json:"bind,omitempty"`
 }
 
 type PortBinding struct {
-	// TODO: this is required in the 2nd edition JSON schema but not in the 2020 NBMP specification. Forcing this field
-	//       probably does not make sens for function descriptions?
-	// +optional
-	StreamID *string `json:"stream-id,omitempty"`
+	StreamID string `json:"stream-id"`
 
-	Name string `json:"name"`
+	// TODO: optional due to changes discussed in ISO/IEC JTC 1/SC 29/WG 03 N0951
+	// +optional
+	Name *string `json:"name,omitempty"`
 
 	// +optional
 	Keywords []string `json:"keywords,omitempty"`

@@ -109,12 +109,7 @@ func TestUnmarshalWorkflows(t *testing.T) {
 }
 
 func TestMarshalWorkflowLive(t *testing.T) {
-	var (
-		inputStream  = "input"
-		outputStream = "output"
-
-		breakable = true
-	)
+	var breakable = true
 
 	wf := nbmp.Workflow{
 		Scheme: &nbmp.Scheme{nbmp.SchemaURI},
@@ -129,8 +124,8 @@ func TestMarshalWorkflowLive(t *testing.T) {
 
 		Input: nbmp.Input{
 			MediaParameters: []nbmp.MediaParameter{{
-				StreamID:         inputStream,
-				Name:             inputStream,
+				StreamID:         "input-wf",
+				Name:             "input-wf",
 				MimeType:         "video/mp4",
 				Protocol:         "rtmp",
 				Mode:             &nbmp.PullMediaAccessMode,
@@ -141,8 +136,8 @@ func TestMarshalWorkflowLive(t *testing.T) {
 
 		Output: nbmp.Output{
 			MediaParameters: []nbmp.MediaParameter{{
-				StreamID:         outputStream,
-				Name:             outputStream,
+				StreamID:         "output-wf",
+				Name:             "output-wf",
 				MimeType:         "video/mp4",
 				Protocol:         "dash-cmaf-ingest",
 				Mode:             &nbmp.PushMediaAccessMode,
@@ -162,12 +157,12 @@ func TestMarshalWorkflowLive(t *testing.T) {
 					From: nbmp.ConnectionMappingPort{
 						ID:       "watermark-function",
 						Instance: "watermark",
-						PortName: "output1",
+						PortName: "output-watermark",
 					},
 					To: nbmp.ConnectionMappingPort{
 						ID:       "package-function",
 						Instance: "package-cmaf",
-						PortName: "input1",
+						PortName: "input-package-cmaf",
 					},
 				},
 			},
@@ -181,18 +176,13 @@ func TestMarshalWorkflowLive(t *testing.T) {
 						Description: "watermark",
 						NBMPBrand:   &nagareBrand,
 						InputPorts: []nbmp.Port{{
-							PortName: "input1",
-							Bind: nbmp.PortBinding{
-								StreamID: &inputStream,
-								Name:     "input1",
+							PortName: "input-package-cmaf",
+							Bind: &nbmp.PortBinding{
+								StreamID: "input-wf",
 							},
 						}},
 						OutputPorts: []nbmp.Port{{
-							PortName: "output1",
-							Bind: nbmp.PortBinding{
-								// StreamID: "????",
-								Name: "output1",
-							},
+							PortName: "output-watermark",
 						}},
 					},
 				},
@@ -204,17 +194,12 @@ func TestMarshalWorkflowLive(t *testing.T) {
 						Description: "package-cmaf",
 						NBMPBrand:   &nagareBrand,
 						InputPorts: []nbmp.Port{{
-							PortName: "input1",
-							Bind: nbmp.PortBinding{
-								// StreamID: "????",
-								Name: "input1",
-							},
+							PortName: "input-package-cmaf",
 						}},
 						OutputPorts: []nbmp.Port{{
-							PortName: "output1",
-							Bind: nbmp.PortBinding{
-								StreamID: &outputStream,
-								Name:     "output1",
+							PortName: "output-package-cmaf",
+							Bind: &nbmp.PortBinding{
+								StreamID: "output-wf",
 							},
 						}},
 					},
@@ -240,19 +225,7 @@ func TestMarshalWorkflowLive(t *testing.T) {
 }
 
 func TestMarshalWorkflowVoD(t *testing.T) {
-	var (
-		inputVideo = "input.mp4"
-
-		outputMasterPlaylist = "master.m3u8"
-		output1080pPlaylist  = "variant-1080p.m3u8"
-		output1080pMedia     = "1080p.cmfv"
-		output720pPlaylist   = "variant-720p.m3u8"
-		output720pMedia      = "720p.cmfv"
-		outputAudioPlaylist  = "variant-audio.m3u8"
-		outputAudioMedia     = "audio.cmfa"
-
-		breakable = true
-	)
+	var breakable = true
 
 	wf := nbmp.Workflow{
 		Scheme: &nbmp.Scheme{nbmp.SchemaURI},
@@ -267,8 +240,8 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 
 		Input: nbmp.Input{
 			MediaParameters: []nbmp.MediaParameter{{
-				StreamID:         inputVideo,
-				Name:             inputVideo,
+				StreamID:         "input-wf",
+				Name:             "input-wf",
 				MimeType:         "video/mp4",
 				Protocol:         "http",
 				Mode:             &nbmp.PullMediaAccessMode,
@@ -279,60 +252,60 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 
 		Output: nbmp.Output{
 			MediaParameters: []nbmp.MediaParameter{{
-				StreamID:         outputMasterPlaylist,
-				Name:             outputMasterPlaylist,
+				StreamID:         "output-master-playlist-wf",
+				Name:             "output-master-playlist-wf",
 				MimeType:         "application/vnd.apple.mpegurl",
 				Protocol:         "s3",
 				Mode:             &nbmp.PushMediaAccessMode,
-				CachingServerURL: base.URI("s3://nagare.media/output/" + outputMasterPlaylist),
+				CachingServerURL: base.URI("s3://nagare.media/output/master.m3u8"),
 				Keywords:         []string{},
 			}, {
-				StreamID:         output1080pPlaylist,
-				Name:             output1080pPlaylist,
+				StreamID:         "output-1080p-playlist-wf",
+				Name:             "output-1080p-playlist-wf",
 				MimeType:         "application/vnd.apple.mpegurl",
 				Protocol:         "s3",
 				Mode:             &nbmp.PushMediaAccessMode,
-				CachingServerURL: base.URI("s3://nagare.media/output/" + output1080pPlaylist),
+				CachingServerURL: base.URI("s3://nagare.media/output/variant-1080p.m3u8"),
 				Keywords:         []string{},
 			}, {
-				StreamID:         output1080pMedia,
-				Name:             output1080pMedia,
+				StreamID:         "output-1080p-wf",
+				Name:             "output-1080p-wf",
 				MimeType:         "video/mp4",
 				Protocol:         "s3",
 				Mode:             &nbmp.PushMediaAccessMode,
-				CachingServerURL: base.URI("s3://nagare.media/output/" + output1080pMedia),
+				CachingServerURL: base.URI("s3://nagare.media/output/1080p.cmfv"),
 				Keywords:         []string{},
 			}, {
-				StreamID:         output720pPlaylist,
-				Name:             output720pPlaylist,
+				StreamID:         "output-720p-playlist-wf",
+				Name:             "output-720p-playlist-wf",
 				MimeType:         "application/vnd.apple.mpegurl",
 				Protocol:         "s3",
 				Mode:             &nbmp.PushMediaAccessMode,
-				CachingServerURL: base.URI("s3://nagare.media/output/" + output720pPlaylist),
+				CachingServerURL: base.URI("s3://nagare.media/output/variant-720p.m3u8"),
 				Keywords:         []string{},
 			}, {
-				StreamID:         output720pMedia,
-				Name:             output720pMedia,
+				StreamID:         "output-720p-wf",
+				Name:             "output-720p-wf",
 				MimeType:         "video/mp4",
 				Protocol:         "s3",
 				Mode:             &nbmp.PushMediaAccessMode,
-				CachingServerURL: base.URI("s3://nagare.media/output/" + output720pMedia),
+				CachingServerURL: base.URI("s3://nagare.media/output/720p.cmfv"),
 				Keywords:         []string{},
 			}, {
-				StreamID:         outputAudioPlaylist,
-				Name:             outputAudioPlaylist,
+				StreamID:         "output-audio-playlist-wf",
+				Name:             "output-audio-playlist-wf",
 				MimeType:         "application/vnd.apple.mpegurl",
 				Protocol:         "s3",
 				Mode:             &nbmp.PushMediaAccessMode,
-				CachingServerURL: base.URI("s3://nagare.media/output/" + outputAudioPlaylist),
+				CachingServerURL: base.URI("s3://nagare.media/output/variant-audio.m3u8"),
 				Keywords:         []string{},
 			}, {
-				StreamID:         outputAudioMedia,
-				Name:             outputAudioMedia,
+				StreamID:         "output-audio-wf",
+				Name:             "output-audio-wf",
 				MimeType:         "audio/mp4",
 				Protocol:         "s3",
 				Mode:             &nbmp.PushMediaAccessMode,
-				CachingServerURL: base.URI("s3://nagare.media/output/" + outputAudioMedia),
+				CachingServerURL: base.URI("s3://nagare.media/output/audio.cmfa"),
 				Keywords:         []string{},
 			}},
 		},
@@ -348,12 +321,12 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 					From: nbmp.ConnectionMappingPort{
 						ID:       "transcode-function",
 						Instance: "transcode-1080p",
-						PortName: "output1",
+						PortName: "output-transcode-1080p",
 					},
 					To: nbmp.ConnectionMappingPort{
 						ID:       "package-function",
 						Instance: "package-cmaf-hls",
-						PortName: "input1",
+						PortName: "input-1080p-package-cmaf-hls",
 					},
 				},
 				{
@@ -362,12 +335,12 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 					From: nbmp.ConnectionMappingPort{
 						ID:       "transcode-function",
 						Instance: "transcode-720p",
-						PortName: "output1",
+						PortName: "output-transcode-720p",
 					},
 					To: nbmp.ConnectionMappingPort{
 						ID:       "package-function",
 						Instance: "package-cmaf-hls",
-						PortName: "input2",
+						PortName: "input-720p-package-cmaf-hls",
 					},
 				},
 				{
@@ -376,12 +349,12 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 					From: nbmp.ConnectionMappingPort{
 						ID:       "transcode-function",
 						Instance: "transcode-audio",
-						PortName: "output1",
+						PortName: "output-transcode-audio",
 					},
 					To: nbmp.ConnectionMappingPort{
 						ID:       "package-function",
 						Instance: "package-cmaf-hls",
-						PortName: "input3",
+						PortName: "input-audio-package-cmaf-hls",
 					},
 				},
 			},
@@ -395,18 +368,13 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 						Description: "transcode-1080p",
 						NBMPBrand:   &nagareBrand,
 						InputPorts: []nbmp.Port{{
-							PortName: "input1",
-							Bind: nbmp.PortBinding{
-								StreamID: &inputVideo,
-								Name:     "input1",
+							PortName: "input-transcode-1080p",
+							Bind: &nbmp.PortBinding{
+								StreamID: "input-wf",
 							},
 						}},
 						OutputPorts: []nbmp.Port{{
-							PortName: "output1",
-							Bind: nbmp.PortBinding{
-								// StreamID: "????",
-								Name: "output1",
-							},
+							PortName: "output-transcode-1080p",
 						}},
 					},
 				},
@@ -418,18 +386,13 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 						Description: "transcode-720p",
 						NBMPBrand:   &nagareBrand,
 						InputPorts: []nbmp.Port{{
-							PortName: "input1",
-							Bind: nbmp.PortBinding{
-								StreamID: &inputVideo,
-								Name:     "input1",
+							PortName: "input-transcode-720p",
+							Bind: &nbmp.PortBinding{
+								StreamID: "input-wf",
 							},
 						}},
 						OutputPorts: []nbmp.Port{{
-							PortName: "output1",
-							Bind: nbmp.PortBinding{
-								// StreamID: "????",
-								Name: "output1",
-							},
+							PortName: "output-transcode-720p",
 						}},
 					},
 				},
@@ -441,18 +404,13 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 						Description: "transcode-audio",
 						NBMPBrand:   &nagareBrand,
 						InputPorts: []nbmp.Port{{
-							PortName: "input1",
-							Bind: nbmp.PortBinding{
-								StreamID: &inputVideo,
-								Name:     "input1",
+							PortName: "input-transcode-audio",
+							Bind: &nbmp.PortBinding{
+								StreamID: "input-wf",
 							},
 						}},
 						OutputPorts: []nbmp.Port{{
-							PortName: "output1",
-							Bind: nbmp.PortBinding{
-								// StreamID: "????",
-								Name: "output1",
-							},
+							PortName: "output-transcode-audio",
 						}},
 					},
 				},
@@ -465,75 +423,56 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 						NBMPBrand:   &nagareBrand,
 						InputPorts: []nbmp.Port{
 							{
-								PortName: "input1",
-								Bind: nbmp.PortBinding{
-									// StreamID: "????",
-									Name: "input1",
-								},
+								PortName: "input-1080p-package-cmaf-hls",
 							},
 							{
-								PortName: "input2",
-								Bind: nbmp.PortBinding{
-									// StreamID: "????",
-									Name: "input2",
-								},
+								PortName: "input-720p-package-cmaf-hls",
 							},
 							{
-								PortName: "input3",
-								Bind: nbmp.PortBinding{
-									// StreamID: "????",
-									Name: "input3",
-								},
+								PortName: "input-audio-package-cmaf-hls",
 							},
 						},
 						OutputPorts: []nbmp.Port{
 							{
-								PortName: "output1",
-								Bind: nbmp.PortBinding{
-									StreamID: &outputMasterPlaylist,
-									Name:     "output1",
+								PortName: "output-master-playlist-package-cmaf-hls",
+								Bind: &nbmp.PortBinding{
+									StreamID: "output-master-playlist-wf",
 								},
 							},
 							{
-								PortName: "output2",
-								Bind: nbmp.PortBinding{
-									StreamID: &output1080pPlaylist,
-									Name:     "output2",
+								PortName: "output-1080p-playlist-package-cmaf-hls",
+								Bind: &nbmp.PortBinding{
+									StreamID: "output-1080p-playlist-wf",
 								},
 							},
 							{
-								PortName: "output3",
-								Bind: nbmp.PortBinding{
-									StreamID: &output1080pMedia,
-									Name:     "output3",
+								PortName: "output-1080p-package-cmaf-hls",
+								Bind: &nbmp.PortBinding{
+									StreamID: "output-1080p-wf",
 								},
 							},
 							{
-								PortName: "output4",
-								Bind: nbmp.PortBinding{
-									StreamID: &output720pPlaylist,
-									Name:     "output4",
+								PortName: "output-720p-playlist-package-cmaf-hls",
+								Bind: &nbmp.PortBinding{
+									StreamID: "output-720p-playlist-wf",
 								},
 							},
 							{
-								PortName: "output5",
-								Bind: nbmp.PortBinding{
-									StreamID: &output720pMedia,
-									Name:     "output5",
+								PortName: "output-720p-package-cmaf-hls",
+								Bind: &nbmp.PortBinding{
+									StreamID: "output-720p-wf",
 								},
 							},
 							{
-								PortName: "output6",
-								Bind: nbmp.PortBinding{
-									StreamID: &outputAudioPlaylist,
-									Name:     "output6",
+								PortName: "output-audio-playlist-package-cmaf-hls",
+								Bind: &nbmp.PortBinding{
+									StreamID: "output-audio-playlist-wf",
 								},
 							},
 							{
-								PortName: "output7",
-								Bind: nbmp.PortBinding{
-									StreamID: &outputAudioMedia,
-									Name:     "output7",
+								PortName: "output-audio-package-cmaf-hls",
+								Bind: &nbmp.PortBinding{
+									StreamID: "output-audio-wf",
 								},
 							},
 						},
