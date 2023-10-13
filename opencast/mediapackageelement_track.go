@@ -34,6 +34,7 @@ type Track struct {
 	Transport   StreamingProtocol `xml:"http://mediapackage.opencastproject.org transport,omitempty"`
 	Audio       []AudioStream     `xml:"http://mediapackage.opencastproject.org audio,omitempty"`
 	Video       []VideoStream     `xml:"http://mediapackage.opencastproject.org video,omitempty"`
+	Subtitle    []SubtitleStream  `xml:"http://mediapackage.opencastproject.org subtitle,omitempty"`
 }
 
 type Stream struct {
@@ -150,3 +151,7 @@ const (
 	FileStreamingProtocol
 	UnknownStreamingProtocol
 )
+
+type SubtitleStream struct {
+	Stream
+}
