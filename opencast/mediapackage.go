@@ -25,18 +25,37 @@ import (
 type MediaPackage struct {
 	XMLName xml.Name `xml:"http://mediapackage.opencastproject.org mediapackage"`
 
-	ID       string     `xml:"id,attr"`
-	Start    *time.Time `xml:"start,attr,omitempty"`
-	Duration int64      `xml:"duration,attr,omitempty"`
+	ID string `xml:"id,attr"`
 
-	Title        string        `xml:"http://mediapackage.opencastproject.org title,omitempty"`
-	SeriesTitle  string        `xml:"http://mediapackage.opencastproject.org seriestitle,omitempty"`
-	Language     string        `xml:"http://mediapackage.opencastproject.org language,omitempty"`
-	Series       string        `xml:"http://mediapackage.opencastproject.org series,omitempty"`
-	License      string        `xml:"http://mediapackage.opencastproject.org license,omitempty"`
-	Creators     []string      `xml:"http://mediapackage.opencastproject.org creators>creator,omitempty"`
-	Contributors []string      `xml:"http://mediapackage.opencastproject.org contributors>contributor,omitempty"`
-	Subjects     []string      `xml:"http://mediapackage.opencastproject.org subjects>subject,omitempty"`
+	// Deprecated: This is not guaranteed to be correct. Use the metadata contained in the Dublin Core catalog instead.
+	Start *time.Time `xml:"start,attr,omitempty"`
+
+	// Deprecated: This is not guaranteed to be correct. Use the metadata contained in the Dublin Core catalog instead.
+	Duration int64 `xml:"duration,attr,omitempty"`
+
+	// Deprecated: This is not guaranteed to be correct. Use the metadata contained in the Dublin Core catalog instead.
+	Title string `xml:"http://mediapackage.opencastproject.org title,omitempty"`
+
+	// Deprecated: This is not guaranteed to be correct. Use the metadata contained in the Dublin Core catalog instead.
+	SeriesTitle string `xml:"http://mediapackage.opencastproject.org seriestitle,omitempty"`
+
+	// Deprecated: This is not guaranteed to be correct. Use the metadata contained in the Dublin Core catalog instead.
+	Language string `xml:"http://mediapackage.opencastproject.org language,omitempty"`
+
+	Series string `xml:"http://mediapackage.opencastproject.org series,omitempty"`
+
+	// Deprecated: This is not guaranteed to be correct. Use the metadata contained in the Dublin Core catalog instead.
+	License string `xml:"http://mediapackage.opencastproject.org license,omitempty"`
+
+	// Deprecated: This is not guaranteed to be correct. Use the metadata contained in the Dublin Core catalog instead.
+	Creators []string `xml:"http://mediapackage.opencastproject.org creators>creator,omitempty"`
+
+	// Deprecated: This is not guaranteed to be correct. Use the metadata contained in the Dublin Core catalog instead.
+	Contributors []string `xml:"http://mediapackage.opencastproject.org contributors>contributor,omitempty"`
+
+	// Deprecated: This is not guaranteed to be correct. Use the metadata contained in the Dublin Core catalog instead.
+	Subjects []string `xml:"http://mediapackage.opencastproject.org subjects>subject,omitempty"`
+
 	Media        []Track       `xml:"http://mediapackage.opencastproject.org media>track,omitempty"`
 	Metadata     []Catalog     `xml:"http://mediapackage.opencastproject.org metadata>catalog,omitempty"`
 	Attachments  []Attachment  `xml:"http://mediapackage.opencastproject.org attachments>attachment,omitempty"`
