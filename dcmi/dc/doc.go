@@ -18,4 +18,6 @@ limitations under the License.
 // http://purl.org/dc/elements/1.1/.
 //
 // See http://dublincore.org/schemas/xmls/qdc/2008/02/11/dc.xsd
+//
+// +kubebuilder:object:generate=true
 package dc

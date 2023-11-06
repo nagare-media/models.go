@@ -17,4 +17,6 @@ limitations under the License.
 // dcterms implements the DCMI Metadata Terms ("Dublin Core terms"), i.e. the namespace http://purl.org/dc/terms.
 //
 // See http://dublincore.org/schemas/xmls/qdc/2008/02/11/
+//
+// +kubebuilder:object:generate=true
 package dcterms

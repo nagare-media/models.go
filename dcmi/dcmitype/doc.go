@@ -17,4 +17,6 @@ limitations under the License.
 // dcmitype implements the DCMI Type Vocabulary, i.e. the namespace http://purl.org/dc/dcmitype/.
 //
 // See http://dublincore.org/schemas/xmls/qdc/2008/02/11/dcmitype.xsd
+//
+// +kubebuilder:object:generate=true
 package dcmitype
