@@ -1,3 +1,3 @@
-Vendored from https://github.com/MPEGGroup/NBMP/tree/94ee0c6d4ad88a1820970450426e1da312b7cc6e
+Vendored from https://github.com/MPEGGroup/NBMP/tree/773432604f4a038970558426b8b93ac3cdd02e82
 
 Also see LICENSE.md
