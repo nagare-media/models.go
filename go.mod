@@ -1,6 +1,6 @@
 module github.com/nagare-media/models.go
 
-go 1.22
+go 1.23
 
 require (
 	github.com/google/go-cmp v0.6.0
