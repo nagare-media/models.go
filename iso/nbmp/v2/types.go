@@ -280,10 +280,10 @@ type General struct {
 
 	// default is false
 	// +optional
-	Nonessential bool `json:"nonessential,omitempty"`
+	Nonessential *bool `json:"nonessential,omitempty"`
 
 	// +optional
-	State *State `json:"state"`
+	State *State `json:"state,omitempty"`
 }
 
 type State string
@@ -311,7 +311,7 @@ type TaskGroupItem struct {
 
 	// default is false
 	// +optional
-	NetZero bool `json:"net-zero"`
+	NetZero *bool `json:"net-zero,omitempty"`
 }
 
 type GroupType string
@@ -587,7 +587,7 @@ type ProcessingImage struct {
 	// A value of ‘true’ indicates the image is built dynamically.
 	// default is false
 	// +optional
-	IsDynamic bool `json:"is-dynamic"`
+	IsDynamic *bool `json:"is-dynamic,omitempty"`
 
 	// pointer to the resource implementation, according to IETF RFC 3986
 	// TODO: the JSON schema requires this field; the NBMP specification forbids this field for workflow description
@@ -646,7 +646,7 @@ type ConnectionMapping struct {
 	// the workflow manager based on available resources.
 	// default is false
 	// +optional
-	CoLocated bool `json:"co-located"`
+	CoLocated *bool `json:"co-located,omitempty"`
 
 	// default is true (TODO)
 	// +optional
@@ -813,17 +813,17 @@ type SecurityRequirement struct {
 	// indicates if TLS or DTLS shall be used for the transport of media data
 	// default is false
 	// +optional
-	TLS bool `json:"tls"`
+	TLS *bool `json:"tls,omitempty"`
 
 	// indicates if IPSec tunnel model shall be used for the transport of media data
 	// default is false
 	// +optional
-	IPsec bool `json:"ipsec"`
+	IPsec *bool `json:"ipsec,omitempty"`
 
 	// indicates if MPEG common encryption (ISO/IEC 23001-7) shall be used for the exchange of media data
 	// default is false
 	// +optional
-	CENC bool `json:"cenc"`
+	CENC *bool `json:"cenc,omitempty"`
 }
 
 type WorkflowTaskRequirement struct {
@@ -832,14 +832,14 @@ type WorkflowTaskRequirement struct {
 	// When fused or enhanced, some system tasks may be added or dropped automatically and dynamically.
 	// default is false
 	// +optional
-	FunctionFusible bool `json:"function-fusible"`
+	FunctionFusible *bool `json:"function-fusible,omitempty"`
 
 	// whether the inputs and outputs of a task can be modified or enhanced with system-provided built-in functions such
 	// as media transcoding, media transport buffering for synchronization, or transporting media/metadata data between
 	// tasks/MPEs over networks
 	// default is false
 	// +optional
-	FunctionEnhancable bool `json:"function-enhancable"`
+	FunctionEnhancable *bool `json:"function-enhancable,omitempty"`
 
 	// defines workflow execution modes
 	// default is "streaming"
@@ -1331,8 +1331,9 @@ type Notification struct {
 	// observed
 	//
 	// Value greater than 0: Any value greater than 0 indicates the interval after which the notification is delivered.
-	// default is 0 +optional
-	NotificationInterval uint64 `json:"notification-interval"`
+	// default is 0
+	// +optional
+	NotificationInterval *uint64 `json:"notification-interval,omitempty"`
 }
 
 type NotificationType string
@@ -1359,7 +1360,7 @@ type Assertion struct {
 	// indicates whether the resource supports providing verification information for validating function assertions
 	// default is false
 	// +optional
-	SupportVerification bool `json:"support-verification"`
+	SupportVerification *bool `json:"support-verification,omitempty"`
 
 	// acknowledgement for verification
 	// +optional
@@ -1594,7 +1595,7 @@ type Security struct {
 	// flag whether or not an auth-token gets rotated and renewed
 	// default is false
 	// +optional
-	AuthTokenRotation bool `json:"auth-token-rotation"`
+	AuthTokenRotation *bool `json:"auth-token-rotation,omitempty"`
 }
 
 type SecurityScope string
@@ -1621,7 +1622,7 @@ type Step struct {
 
 	// default is false
 	// +optional
-	VariableDuration bool `json:"variable-duration"`
+	VariableDuration *bool `json:"variable-duration,omitempty"`
 
 	// duration for which the output(s) of resource are independent to any inputs outside of the corresponding duration
 	// (in microseconds).
@@ -1630,11 +1631,11 @@ type Step struct {
 
 	// default is false
 	// +optional
-	SegmentLocation bool `json:"segment-location"`
+	SegmentLocation *bool `json:"segment-location,omitempty"`
 
 	// default is false
 	// +optional
-	SegmentSequence bool `json:"segment-sequence"`
+	SegmentSequence *bool `json:"segment-sequence,omitempty"`
 
 	// +optional
 	SegmentMetadataSupportedFormats []SegmentMetadataSupportedFormat `json:"segment-metadata-supported-formats,omitempty"`
@@ -1725,7 +1726,7 @@ type Capabilities struct {
 
 	// default is false
 	// +optional
-	SecurePersistency bool `json:"secure-persistency"`
+	SecurePersistency *bool `json:"secure-persistency,omitempty"`
 
 	// +optional
 	PersistenceStorageURL []base.URI `json:"persistence-storage-url,omitempty"`
@@ -1835,7 +1836,7 @@ type Schedule struct {
 
 	// default is false
 	// +optional
-	Loop bool `json:"loop"`
+	Loop *bool `json:"loop,omitempty"`
 
 	// default is "failed"
 	Status ScheduleStatus `json:"status,omitempty"`
