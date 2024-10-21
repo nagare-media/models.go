@@ -1827,12 +1827,12 @@ type Schedule struct {
 	ScheduleType *ScheduleType `json:"schedule-type,omitempty"`
 
 	// +optional
+	// elements must be >= 1
 	ScheduleTable []ScheduleTableItem `json:"schedule-table,omitempty"`
 
-	// elements must be >= 1
-	// elements default is 1
+	// default is 1
 	// +optional
-	NumberOfSegments []int64 `json:"number-of-segments,omitempty"`
+	NumberOfSegments *uint64 `json:"number-of-segments,omitempty"`
 
 	// default is false
 	// +optional
