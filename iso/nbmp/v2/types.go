@@ -457,6 +457,7 @@ type MediaParameter struct {
 	// NOTE When this parameter is missing for a workflow, the workflow manager can assign origination/destination
 	// information of the appropriate media processing entity to the media source so the media source/sink can ingest
 	// media using that protocol.
+	// TODO: should this then be optional?
 	CachingServerURL base.URI `json:"caching-server-url"`
 
 	// must not be set for Outputs
@@ -648,7 +649,7 @@ type ConnectionMapping struct {
 	// +optional
 	CoLocated *bool `json:"co-located,omitempty"`
 
-	// default is true (TODO)
+	// default is true
 	// +optional
 	Breakable *bool `json:"breakable,omitempty"`
 
@@ -1720,7 +1721,7 @@ type Capabilities struct {
 	// +optional
 	Connectivity []CapabilityConnectivity `json:"connectivity,omitempty"`
 
-	// default is true (TODO)
+	// default is true
 	// +optional
 	PersistencyCapabilities *bool `json:"persistency-capabilities,omitempty"`
 
