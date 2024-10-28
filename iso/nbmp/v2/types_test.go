@@ -109,14 +109,12 @@ func TestUnmarshalWorkflows(t *testing.T) {
 }
 
 func TestMarshalWorkflowLive(t *testing.T) {
-	var breakable = true
-
 	wf := nbmp.Workflow{
 		Scheme: &nbmp.Scheme{nbmp.SchemaURI},
 		General: nbmp.General{
 			ID:            "7e5b8825-9442-499f-95fe-abf8f03970c7",
 			NBMPBrand:     &nagareBrand,
-			State:         &nbmp.InstantiatedState,
+			State:         ptr(nbmp.InstantiatedState),
 			Name:          "Live workflow",
 			Description:   "A simple live workflow.",
 			PublishedTime: &now,
@@ -128,7 +126,7 @@ func TestMarshalWorkflowLive(t *testing.T) {
 				Name:             "input-wf",
 				MimeType:         "video/mp4",
 				Protocol:         "rtmp",
-				Mode:             &nbmp.PullMediaAccessMode,
+				Mode:             ptr(nbmp.PullMediaAccessMode),
 				CachingServerURL: "rtmp://nagare.media/app/input",
 				Keywords:         []string{},
 			}},
@@ -140,7 +138,7 @@ func TestMarshalWorkflowLive(t *testing.T) {
 				Name:             "output-wf",
 				MimeType:         "video/mp4",
 				Protocol:         "dash-cmaf-ingest",
-				Mode:             &nbmp.PushMediaAccessMode,
+				Mode:             ptr(nbmp.PushMediaAccessMode),
 				CachingServerURL: base.URI("http://nagare.media/cmaf/example.str/Switching(video)/Streams(output.cmfv)"),
 				Keywords:         []string{},
 			}},
@@ -153,7 +151,7 @@ func TestMarshalWorkflowLive(t *testing.T) {
 			ConnectionMap: []nbmp.ConnectionMapping{
 				{
 					ConnectionID: "watermark -> package-cmaf",
-					Breakable:    &breakable,
+					Breakable:    ptr(true),
 					From: nbmp.ConnectionMappingPort{
 						ID:       "watermark-function",
 						Instance: "watermark",
@@ -209,7 +207,7 @@ func TestMarshalWorkflowLive(t *testing.T) {
 
 		Requirement: nbmp.Requirement{
 			WorkflowTask: &nbmp.WorkflowTaskRequirement{
-				ExecutionMode: &nbmp.StreamingExecutionMode,
+				ExecutionMode: ptr(nbmp.StreamingExecutionMode),
 			},
 		},
 
@@ -225,14 +223,12 @@ func TestMarshalWorkflowLive(t *testing.T) {
 }
 
 func TestMarshalWorkflowVoD(t *testing.T) {
-	var breakable = true
-
 	wf := nbmp.Workflow{
 		Scheme: &nbmp.Scheme{nbmp.SchemaURI},
 		General: nbmp.General{
 			ID:            "8406e61f-9ff5-4000-9185-3af62b54108c",
 			NBMPBrand:     &nagareBrand,
-			State:         &nbmp.InstantiatedState,
+			State:         ptr(nbmp.InstantiatedState),
 			Name:          "VoD workflow",
 			Description:   "A simple VoD workflow.",
 			PublishedTime: &now,
@@ -244,7 +240,7 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 				Name:             "input-wf",
 				MimeType:         "video/mp4",
 				Protocol:         "http",
-				Mode:             &nbmp.PullMediaAccessMode,
+				Mode:             ptr(nbmp.PullMediaAccessMode),
 				CachingServerURL: "https://nagare.media/input.mp4",
 				Keywords:         []string{},
 			}},
@@ -256,7 +252,7 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 				Name:             "output-master-playlist-wf",
 				MimeType:         "application/vnd.apple.mpegurl",
 				Protocol:         "s3",
-				Mode:             &nbmp.PushMediaAccessMode,
+				Mode:             ptr(nbmp.PushMediaAccessMode),
 				CachingServerURL: base.URI("s3://nagare.media/output/master.m3u8"),
 				Keywords:         []string{},
 			}, {
@@ -264,7 +260,7 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 				Name:             "output-1080p-playlist-wf",
 				MimeType:         "application/vnd.apple.mpegurl",
 				Protocol:         "s3",
-				Mode:             &nbmp.PushMediaAccessMode,
+				Mode:             ptr(nbmp.PushMediaAccessMode),
 				CachingServerURL: base.URI("s3://nagare.media/output/variant-1080p.m3u8"),
 				Keywords:         []string{},
 			}, {
@@ -272,7 +268,7 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 				Name:             "output-1080p-wf",
 				MimeType:         "video/mp4",
 				Protocol:         "s3",
-				Mode:             &nbmp.PushMediaAccessMode,
+				Mode:             ptr(nbmp.PushMediaAccessMode),
 				CachingServerURL: base.URI("s3://nagare.media/output/1080p.cmfv"),
 				Keywords:         []string{},
 			}, {
@@ -280,7 +276,7 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 				Name:             "output-720p-playlist-wf",
 				MimeType:         "application/vnd.apple.mpegurl",
 				Protocol:         "s3",
-				Mode:             &nbmp.PushMediaAccessMode,
+				Mode:             ptr(nbmp.PushMediaAccessMode),
 				CachingServerURL: base.URI("s3://nagare.media/output/variant-720p.m3u8"),
 				Keywords:         []string{},
 			}, {
@@ -288,7 +284,7 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 				Name:             "output-720p-wf",
 				MimeType:         "video/mp4",
 				Protocol:         "s3",
-				Mode:             &nbmp.PushMediaAccessMode,
+				Mode:             ptr(nbmp.PushMediaAccessMode),
 				CachingServerURL: base.URI("s3://nagare.media/output/720p.cmfv"),
 				Keywords:         []string{},
 			}, {
@@ -296,7 +292,7 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 				Name:             "output-audio-playlist-wf",
 				MimeType:         "application/vnd.apple.mpegurl",
 				Protocol:         "s3",
-				Mode:             &nbmp.PushMediaAccessMode,
+				Mode:             ptr(nbmp.PushMediaAccessMode),
 				CachingServerURL: base.URI("s3://nagare.media/output/variant-audio.m3u8"),
 				Keywords:         []string{},
 			}, {
@@ -304,7 +300,7 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 				Name:             "output-audio-wf",
 				MimeType:         "audio/mp4",
 				Protocol:         "s3",
-				Mode:             &nbmp.PushMediaAccessMode,
+				Mode:             ptr(nbmp.PushMediaAccessMode),
 				CachingServerURL: base.URI("s3://nagare.media/output/audio.cmfa"),
 				Keywords:         []string{},
 			}},
@@ -317,7 +313,7 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 			ConnectionMap: []nbmp.ConnectionMapping{
 				{
 					ConnectionID: "transcode-1080p -> package-cmaf-hls",
-					Breakable:    &breakable,
+					Breakable:    ptr(true),
 					From: nbmp.ConnectionMappingPort{
 						ID:       "transcode-function",
 						Instance: "transcode-1080p",
@@ -331,7 +327,7 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 				},
 				{
 					ConnectionID: "transcode-720p -> package-cmaf-hls",
-					Breakable:    &breakable,
+					Breakable:    ptr(true),
 					From: nbmp.ConnectionMappingPort{
 						ID:       "transcode-function",
 						Instance: "transcode-720p",
@@ -345,7 +341,7 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 				},
 				{
 					ConnectionID: "transcode-audio -> package-cmaf-hls",
-					Breakable:    &breakable,
+					Breakable:    ptr(true),
 					From: nbmp.ConnectionMappingPort{
 						ID:       "transcode-function",
 						Instance: "transcode-audio",
@@ -483,10 +479,10 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 
 		Requirement: nbmp.Requirement{
 			Security: &nbmp.SecurityRequirement{
-				TLS: true,
+				TLS: ptr(true),
 			},
 			WorkflowTask: &nbmp.WorkflowTaskRequirement{
-				ExecutionMode: &nbmp.StepExecutionMode,
+				ExecutionMode: ptr(nbmp.StepExecutionMode),
 			},
 		},
 
@@ -499,4 +495,8 @@ func TestMarshalWorkflowVoD(t *testing.T) {
 	if err != nil {
 		t.Fatalf("could not marshal to JSON: %s:", err)
 	}
+}
+
+func ptr[T any](v T) *T {
+	return &v
 }

@@ -288,12 +288,12 @@ type General struct {
 
 type State string
 
-var (
-	InstantiatedState State = "instantiated"
-	IdleState         State = "idle"
-	RunningState      State = "running"
-	InErrorState      State = "in-error"
-	DestroyedState    State = "destroyed"
+const (
+	InstantiatedState = State("instantiated")
+	IdleState         = State("idle")
+	RunningState      = State("running")
+	InErrorState      = State("in-error")
+	DestroyedState    = State("destroyed")
 )
 
 type TaskGroupItem struct {
@@ -316,17 +316,17 @@ type TaskGroupItem struct {
 
 type GroupType string
 
-var (
-	DistanceGroupType GroupType = "distance"
-	SyncGroupType     GroupType = "sync"
-	VirtualGroupType  GroupType = "virtual"
+const (
+	DistanceGroupType = GroupType("distance")
+	SyncGroupType     = GroupType("sync")
+	VirtualGroupType  = GroupType("virtual")
 )
 
 type GroupMode string
 
-var (
-	SynchronousGroupMode  GroupMode = "synchronous"
-	AsynchronousGroupMode GroupMode = "asynchronous"
+const (
+	SynchronousGroupMode  = GroupMode("synchronous")
+	AsynchronousGroupMode = GroupMode("asynchronous")
 )
 
 type Port struct {
@@ -548,9 +548,9 @@ type MetadataParameter struct {
 
 type MediaAccessMode string
 
-var (
-	PushMediaAccessMode MediaAccessMode = "push"
-	PullMediaAccessMode MediaAccessMode = "pull"
+const (
+	PushMediaAccessMode = MediaAccessMode("push")
+	PullMediaAccessMode = MediaAccessMode("pull")
 )
 
 // This descriptor provides high-level details about the requested media processing of a workflow by listing the set of
@@ -726,14 +726,14 @@ type FunctionRestriction struct {
 
 type Blacklist string
 
-var (
-	RequirementBlacklist     Blacklist = "requirement"
-	ClientAssistantBlacklist Blacklist = "client-assistant"
-	FailOverBlacklist        Blacklist = "fail-over"
-	MonitoringBlacklist      Blacklist = "monitoring"
-	ReportingBlacklist       Blacklist = "reporting"
-	NotificationBlacklist    Blacklist = "notification"
-	SecurityBlacklist        Blacklist = "security"
+const (
+	RequirementBlacklist     = Blacklist("requirement")
+	ClientAssistantBlacklist = Blacklist("client-assistant")
+	FailOverBlacklist        = Blacklist("fail-over")
+	MonitoringBlacklist      = Blacklist("monitoring")
+	ReportingBlacklist       = Blacklist("reporting")
+	NotificationBlacklist    = Blacklist("notification")
+	SecurityBlacklist        = Blacklist("security")
 )
 
 // This descriptor provides requirements parameters that can be configured for the underlying resource.
@@ -859,10 +859,10 @@ type WorkflowTaskRequirement struct {
 
 type ExecutionMode string
 
-var (
-	StreamingExecutionMode ExecutionMode = "streaming"
-	StepExecutionMode      ExecutionMode = "step"
-	HybridExecutionMode    ExecutionMode = "hybrid"
+const (
+	StreamingExecutionMode = ExecutionMode("streaming")
+	StepExecutionMode      = ExecutionMode("step")
+	HybridExecutionMode    = ExecutionMode("hybrid")
 )
 
 type TaskProximityRequirement struct {
@@ -893,9 +893,9 @@ type TaskSplitEfficiency struct {
 
 type TaskSplitEfficiencyNorm string
 
-var (
-	PnormTaskSplitEfficiencyNorm  TaskSplitEfficiencyNorm = "pnorm"
-	CustomTaskSplitEfficiencyNorm TaskSplitEfficiencyNorm = "custom"
+const (
+	PnormTaskSplitEfficiencyNorm  = TaskSplitEfficiencyNorm("pnorm")
+	CustomTaskSplitEfficiencyNorm = TaskSplitEfficiencyNorm("custom")
 )
 
 type ResourceEstimatorsRequirement struct {
@@ -955,6 +955,8 @@ type Parameter struct {
 	Schema map[string]interface{} `json:"schema,omitempty"`
 }
 
+var _ json.Unmarshaler = &Parameter{}
+
 func (p *Parameter) UnmarshalJSON(data []byte) error {
 	type PartialParameter struct {
 		Name        string                 `json:"name"`
@@ -1009,28 +1011,17 @@ func (p *Parameter) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-var (
-	_ json.Unmarshaler = &Parameter{}
-)
-
 type Datatype string
 
-var (
-	BooleanDatatype Datatype = "boolean"
-	IntegerDatatype Datatype = "integer"
-	NumberDatatype  Datatype = "number"
-	StringDatatype  Datatype = "string"
-	ArrayDatatype   Datatype = "array"
+const (
+	BooleanDatatype = Datatype("boolean")
+	IntegerDatatype = Datatype("integer")
+	NumberDatatype  = Datatype("number")
+	StringDatatype  = Datatype("string")
+	ArrayDatatype   = Datatype("array")
 )
 
 type ParameterValue interface{}
-
-var (
-	_ ParameterValue = &BooleanParameterValue{}
-	_ ParameterValue = &IntegerParameterValue{}
-	_ ParameterValue = &NumberParameterValue{}
-	_ ParameterValue = &StringParameterValue{}
-)
 
 type BooleanParameterValue struct {
 	Name string `json:"name"`
@@ -1040,6 +1031,8 @@ type BooleanParameterValue struct {
 	Restrictions bool `json:"restrictions"`
 }
 
+var _ ParameterValue = &BooleanParameterValue{}
+
 type IntegerParameterValue struct {
 	Name string `json:"name"`
 
@@ -1047,6 +1040,8 @@ type IntegerParameterValue struct {
 
 	Restrictions IntegerParameterValueRestrictions `json:"restrictions"`
 }
+
+var _ ParameterValue = &IntegerParameterValue{}
 
 type IntegerParameterValueRestrictions struct {
 	// +optional
@@ -1067,6 +1062,8 @@ type NumberParameterValue struct {
 	Restrictions NumberParameterValueRestrictions `json:"restrictions"`
 }
 
+var _ ParameterValue = &NumberParameterValue{}
+
 type NumberParameterValueRestrictions struct {
 	// +optional
 	MinValue *float64 `json:"min-value,omitempty"`
@@ -1085,6 +1082,8 @@ type StringParameterValue struct {
 
 	Restrictions []string `json:"restrictions"`
 }
+
+var _ ParameterValue = &StringParameterValue{}
 
 // This descriptor provides information for a delayed startup of the underlying resource.
 type StartupDelay struct {
@@ -1169,21 +1168,21 @@ type Failover struct {
 
 type FailoverMode string
 
-var (
+const (
 	// restart the resource
-	RestartImmediatelyFailoverMode FailoverMode = "restart-immediately"
+	RestartImmediatelyFailoverMode = FailoverMode("restart-immediately")
 
 	// restart the resource after a certain delay
-	RestartWithDelayFailoverMode FailoverMode = "restart-with-delay"
+	RestartWithDelayFailoverMode = FailoverMode("restart-with-delay")
 
 	// restart the resource based on available state persistence information
-	ContinueWithLastGoodStateFailoverMode FailoverMode = "continue-with-last-good-state"
+	ContinueWithLastGoodStateFailoverMode = FailoverMode("continue-with-last-good-state")
 
 	// execute backup deployment script given by backup-deployment-url below
-	ExecuteBackupDeploymentFailoverMode FailoverMode = "execute-backup-deployment"
+	ExecuteBackupDeploymentFailoverMode = FailoverMode("execute-backup-deployment")
 
 	// exit the resource
-	ExitFailoverMode FailoverMode = "exit"
+	ExitFailoverMode = FailoverMode("exit")
 )
 
 // This descriptor provides events for the underlying resource. For a function, this descriptor describes the events
@@ -1239,12 +1238,12 @@ type Variable struct {
 
 type VariableType string
 
-var (
-	StringVariableType  VariableType = "string"
-	IntegerVariableType VariableType = "integer"
-	FloatVariableType   VariableType = "float"
-	BooleanVariableType VariableType = "boolean"
-	NumberVariableType  VariableType = "number"
+const (
+	StringVariableType  = VariableType("string")
+	IntegerVariableType = VariableType("integer")
+	FloatVariableType   = VariableType("float")
+	BooleanVariableType = VariableType("boolean")
+	NumberVariableType  = VariableType("number")
 )
 
 // This descriptor provides monitoring information for the underlying resource.
@@ -1296,8 +1295,8 @@ type Reporting struct {
 
 type DeliveryMethod string
 
-var (
-	HTTP_POSTDeliveryMethod DeliveryMethod = "HTTP POST"
+const (
+	HTTP_POSTDeliveryMethod = DeliveryMethod("HTTP POST")
 )
 
 // This descriptor provides notification information for the underlying resource.
@@ -1339,15 +1338,15 @@ type Notification struct {
 
 type NotificationType string
 
-var (
+const (
 	// Indicates capability to send congestion notification information
-	CongestionNotificationType NotificationType = "congestion"
+	CongestionNotificationType = NotificationType("congestion")
 
 	// Indicates capability to send application-specific notification information
-	ApplicationNotificationType NotificationType = "application"
+	ApplicationNotificationType = NotificationType("application")
 
 	// Indicates capability to send system-specific notification information
-	SystemNotificationType NotificationType = "system"
+	SystemNotificationType = NotificationType("system")
 )
 
 // This descriptor provides assertion information for validating the underlying resource.
@@ -1414,47 +1413,47 @@ type AssertionValuePredicate struct {
 
 type AssertionEvaluationCondition string
 
-var (
+const (
 	// provides description to create assertions that check the quality of media processing
-	QualityAssertionEvaluationCondition AssertionEvaluationCondition = "quality"
+	QualityAssertionEvaluationCondition = AssertionEvaluationCondition("quality")
 
 	// provides description to create assertions that check the computational requirements of media processing
-	ComputationalAssertionEvaluationCondition AssertionEvaluationCondition = "computational"
+	ComputationalAssertionEvaluationCondition = AssertionEvaluationCondition("computational")
 
 	// provides description to create assertions that check whether the workflow input is of certain kind
-	InputAssertionEvaluationCondition AssertionEvaluationCondition = "input"
+	InputAssertionEvaluationCondition = AssertionEvaluationCondition("input")
 
 	// provides description to create assertions that check whether the workflow output is of certain kind
-	OutputAssertionEvaluationCondition AssertionEvaluationCondition = "output"
+	OutputAssertionEvaluationCondition = AssertionEvaluationCondition("output")
 )
 
 type AssertionValuePredicateAggregation string
 
-var (
+const (
 	// aggregate based on sum over parameters of individual tasks
-	SumAssertionValuePredicateAggregation AssertionValuePredicateAggregation = "sum"
+	SumAssertionValuePredicateAggregation = AssertionValuePredicateAggregation("sum")
 
 	// aggregate based on minimum
-	MinAssertionValuePredicateAggregation AssertionValuePredicateAggregation = "min"
+	MinAssertionValuePredicateAggregation = AssertionValuePredicateAggregation("min")
 
 	// aggregate based on maximum
-	MaxAssertionValuePredicateAggregation AssertionValuePredicateAggregation = "max"
+	MaxAssertionValuePredicateAggregation = AssertionValuePredicateAggregation("max")
 
 	// aggregate based on average
-	AvgAssertionValuePredicateAggregation AssertionValuePredicateAggregation = "avg"
+	AvgAssertionValuePredicateAggregation = AssertionValuePredicateAggregation("avg")
 )
 
 type AssertionAction string
 
-var (
+const (
 	// rebuild the workflow
-	RebuildAssertionAction AssertionAction = "rebuild"
+	RebuildAssertionAction = AssertionAction("rebuild")
 
 	// restart the workflow with the same tasks to satisfy the assertion
-	RestartAssertionAction AssertionAction = "restart"
+	RestartAssertionAction = AssertionAction("restart")
 
 	// wait for a certain time to continue execution of the workflow
-	WaitAssertionAction AssertionAction = "wait"
+	WaitAssertionAction = AssertionAction("wait")
 )
 
 // This descriptor provides information for the request sent by a task.  It can be used for identifying the repeated and
@@ -1495,19 +1494,19 @@ type Acknowledge struct {
 
 type AcknowledgeStatus string
 
-var (
+const (
 	// The request was fulfilled for this item.
-	FulfilledAcknowledgeStatus AcknowledgeStatus = "fulfilled"
+	FulfilledAcknowledgeStatus = AcknowledgeStatus("fulfilled")
 
 	// The request was not fulfilled for this item.
-	FailedAcknowledgeStatus AcknowledgeStatus = "failed"
+	FailedAcknowledgeStatus = AcknowledgeStatus("failed")
 
 	// This request is not supported for this item.
-	NotSupportedAcknowledgeStatus AcknowledgeStatus = "not-supported"
+	NotSupportedAcknowledgeStatus = AcknowledgeStatus("not-supported")
 
 	// This request was partially fulfilled for this item. In this case, the subitem’s value(s) are the actual values that
 	// are fulfilled.
-	PartiallyFulfilledAcknowledgeStatus AcknowledgeStatus = "partially-fulfilled"
+	PartiallyFulfilledAcknowledgeStatus = AcknowledgeStatus("partially-fulfilled")
 )
 
 // This descriptor provides the list of function repositories to be used in creating a workflow.
@@ -1526,17 +1525,17 @@ type Repository struct {
 
 type RepositoryMode string
 
-var (
+const (
 	// only the listed repositories in this descriptor shall be used for deployment of the workflow.
-	StrictRepositoryMode RepositoryMode = "strict"
+	StrictRepositoryMode = RepositoryMode("strict")
 
 	// the listed repositories in this descriptor shall be used first for deployment of the workflow. If a function is not
 	// found in these repositories, a different repository may be used.
-	PreferredRepositoryMode RepositoryMode = "preferred"
+	PreferredRepositoryMode = RepositoryMode("preferred")
 
 	// the listed repositories in this descriptor may be used first for deployment of the workflow. Other repositories may
 	// also be used.
-	AvailableRepositoryMode RepositoryMode = "available"
+	AvailableRepositoryMode = RepositoryMode("available")
 )
 
 type RepositoryLocation struct {
@@ -1601,15 +1600,15 @@ type Security struct {
 
 type SecurityScope string
 
-var (
+const (
 	// parameters for media and metadata
-	DataSecurityScope SecurityScope = "data"
+	DataSecurityScope = SecurityScope("data")
 
 	// parameters for NBMP functions
-	FunctionSecurityScope SecurityScope = "function"
+	FunctionSecurityScope = SecurityScope("function")
 
 	// parameters for NBMP tasks
-	TaskSecurityScope SecurityScope = "task"
+	TaskSecurityScope = SecurityScope("task")
 )
 
 // This descriptor provides information for stateful and stateless step operation of the underlying resource. A resource
@@ -1671,35 +1670,35 @@ type Step struct {
 
 type StepMode string
 
-var (
+const (
 	// continuous play
-	StreamStepMode StepMode = "stream"
+	StreamStepMode = StepMode("stream")
 
 	// maintain the state of tasks at end each step
-	StatefulStepMode StepMode = "stateful"
+	StatefulStepMode = StepMode("stateful")
 
 	// run in stateless mode without the need for maintaining state
-	StatelessStepMode StepMode = "stateless"
+	StatelessStepMode = StepMode("stateless")
 )
 
 type SegmentMetadataSupportedFormat string
 
-var (
-	NBMPLocationBytestream2022SegmentMetadataSupportedFormat SegmentMetadataSupportedFormat = "nbmp-location-bytestream-2022"
-	NBMPSequenceBytestream2022SegmentMetadataSupportedFormat SegmentMetadataSupportedFormat = "nbmp-sequence-bytestream-2022"
-	NBMPLocationJSON2022SegmentMetadataSupportedFormat       SegmentMetadataSupportedFormat = "nbmp-location-json-2022"
-	NBMPSequenceJSON2022SegmentMetadataSupportedFormat       SegmentMetadataSupportedFormat = "nbmp-sequence-json-2022"
+const (
+	NBMPLocationBytestream2022SegmentMetadataSupportedFormat = SegmentMetadataSupportedFormat("nbmp-location-bytestream-2022")
+	NBMPSequenceBytestream2022SegmentMetadataSupportedFormat = SegmentMetadataSupportedFormat("nbmp-sequence-bytestream-2022")
+	NBMPLocationJSON2022SegmentMetadataSupportedFormat       = SegmentMetadataSupportedFormat("nbmp-location-json-2022")
+	NBMPSequenceJSON2022SegmentMetadataSupportedFormat       = SegmentMetadataSupportedFormat("nbmp-sequence-json-2022")
 )
 
 type HigherDimensionsDescription string
 
-var (
-	WidthHigherDimensionsDescription  HigherDimensionsDescription = "width"
-	HeightHigherDimensionsDescription HigherDimensionsDescription = "height"
-	RGBHigherDimensionsDescription    HigherDimensionsDescription = "RGB"
-	DepthHigherDimensionsDescription  HigherDimensionsDescription = "depth"
-	YUVHigherDimensionsDescription    HigherDimensionsDescription = "YUV"
-	V_PCCHigherDimensionsDescription  HigherDimensionsDescription = "V-PCC"
+const (
+	WidthHigherDimensionsDescription  = HigherDimensionsDescription("width")
+	HeightHigherDimensionsDescription = HigherDimensionsDescription("height")
+	RGBHigherDimensionsDescription    = HigherDimensionsDescription("RGB")
+	DepthHigherDimensionsDescription  = HigherDimensionsDescription("depth")
+	YUVHigherDimensionsDescription    = HigherDimensionsDescription("YUV")
+	V_PCCHigherDimensionsDescription  = HigherDimensionsDescription("V-PCC")
 )
 
 type Capabilities struct {
@@ -1747,12 +1746,12 @@ type ResourceAvailabilityItem struct {
 
 type ResourceAvailabilityItemKey string
 
-var (
-	VCPUResourceAvailabilityItemKey  ResourceAvailabilityItemKey = "vcpu"
-	VGPUResourceAvailabilityItemKey  ResourceAvailabilityItemKey = "vgpu"
-	RAMResourceAvailabilityItemKey   ResourceAvailabilityItemKey = "ram"
-	DiskResourceAvailabilityItemKey  ResourceAvailabilityItemKey = "disk"
-	PowerResourceAvailabilityItemKey ResourceAvailabilityItemKey = "power"
+const (
+	VCPUResourceAvailabilityItemKey  = ResourceAvailabilityItemKey("vcpu")
+	VGPUResourceAvailabilityItemKey  = ResourceAvailabilityItemKey("vgpu")
+	RAMResourceAvailabilityItemKey   = ResourceAvailabilityItemKey("ram")
+	DiskResourceAvailabilityItemKey  = ResourceAvailabilityItemKey("disk")
+	PowerResourceAvailabilityItemKey = ResourceAvailabilityItemKey("power")
 )
 
 type CapabilityConnectivity struct {
@@ -1802,19 +1801,19 @@ type Scale struct {
 
 type ScalingType string
 
-var (
-	MPEScalingType        ScalingType = "MPE"
-	SplitMergeScalingType ScalingType = "split-merge"
+const (
+	MPEScalingType        = ScalingType("MPE")
+	SplitMergeScalingType = ScalingType("split-merge")
 )
 
 type ScalingStatus string
 
-var (
-	CapabilitiesScalingStatus ScalingStatus = "capabilities"
-	ConsiderScalingStatus     ScalingStatus = "consider"
-	RequestScalingStatus      ScalingStatus = "request"
-	PassedScalingStatus       ScalingStatus = "passed"
-	FailedScalingStatus       ScalingStatus = "failed"
+const (
+	CapabilitiesScalingStatus = ScalingStatus("capabilities")
+	ConsiderScalingStatus     = ScalingStatus("consider")
+	RequestScalingStatus      = ScalingStatus("request")
+	PassedScalingStatus       = ScalingStatus("passed")
+	FailedScalingStatus       = ScalingStatus("failed")
 )
 
 type Schedule struct {
@@ -1845,19 +1844,19 @@ type Schedule struct {
 
 type ScheduleType string
 
-var (
-	DurationScheduleType ScheduleType = "duration"
-	SegmentScheduleType  ScheduleType = "segment"
+const (
+	DurationScheduleType = ScheduleType("duration")
+	SegmentScheduleType  = ScheduleType("segment")
 )
 
 type ScheduleStatus string
 
-var (
-	CapabilitiesScheduleStatus ScheduleStatus = "capabilities"
-	ConsiderScheduleStatus     ScheduleStatus = "consider"
-	RequestScheduleStatus      ScheduleStatus = "request"
-	PassedScheduleStatus       ScheduleStatus = "passed"
-	FailedScheduleStatus       ScheduleStatus = "failed"
+const (
+	CapabilitiesScheduleStatus = ScheduleStatus("capabilities")
+	ConsiderScheduleStatus     = ScheduleStatus("consider")
+	RequestScheduleStatus      = ScheduleStatus("request")
+	PassedScheduleStatus       = ScheduleStatus("passed")
+	FailedScheduleStatus       = ScheduleStatus("failed")
 )
 
 type ScheduleTableItem struct {
