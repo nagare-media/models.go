@@ -26,7 +26,7 @@ import (
 
 const (
 	// TODO: update this with the new spec
-	SchemaURI = "urn:mpeg:mpegi:nbmp:2023"
+	SchemaURI = base.URI("urn:mpeg:mpegi:nbmp:2023")
 )
 
 const (
