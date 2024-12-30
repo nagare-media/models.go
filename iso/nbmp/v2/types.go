@@ -353,10 +353,12 @@ type PortBinding struct {
 	Keywords []string `json:"keywords,omitempty"`
 }
 
-// Helper type when dealing with inputs or outputs.
+// Helper interface type when dealing with inputs or outputs.
 type InputOrOutput interface {
 	GetMediaParameters() []MediaParameter
+	SetMediaParameters([]MediaParameter)
 	GetMetadataParameters() []MetadataParameter
+	SetMetadataParameters([]MetadataParameter)
 }
 
 // This descriptor provides the parameters of the underlying resource’s inputs. The input descriptor consists of two
@@ -375,8 +377,16 @@ func (i *Input) GetMediaParameters() []MediaParameter {
 	return i.MediaParameters
 }
 
+func (i *Input) SetMediaParameters(mp []MediaParameter) {
+	i.MediaParameters = mp
+}
+
 func (i *Input) GetMetadataParameters() []MetadataParameter {
 	return i.MetadataParameters
+}
+
+func (i *Input) SetMetadataParameters(mp []MetadataParameter) {
+	i.MetadataParameters = mp
 }
 
 // This descriptor provides the parameters of the underlying resource’s outputs. The output descriptor consists of two
@@ -395,22 +405,42 @@ func (o *Output) GetMediaParameters() []MediaParameter {
 	return o.MediaParameters
 }
 
+func (o *Output) SetMediaParameters(mp []MediaParameter) {
+	o.MediaParameters = mp
+}
+
 func (o *Output) GetMetadataParameters() []MetadataParameter {
 	return o.MetadataParameters
 }
 
+func (o *Output) SetMetadataParameters(mp []MetadataParameter) {
+	o.MetadataParameters = mp
+}
+
+// Helper interface type when dealing with media or metadata parameters.
 type MediaOrMetadataParameter interface {
 	GetStreamID() string
+	SetStreamID(string)
 	GetName() string
+	SetName(string)
 	GetKeywords() []string
+	SetKeywords([]string)
 	GetMimeType() string
+	SetMimeType(string)
 	GetCodecType() *string
+	SetCodecType(*string)
 	GetProtocol() string
+	SetProtocol(string)
 	GetMode() *MediaAccessMode
+	SetMode(*MediaAccessMode)
 	GetAvailabilityDuration() *uint64
+	SetAvailabilityDuration(*uint64)
 	GetTimeout() *uint64
+	SetTimeout(*uint64)
 	GetCachingServerURL() *base.URI
+	SetCachingServerURL(*base.URI)
 	GetCompletionTimeout() *uint64
+	SetCompletionTimeout(*uint64)
 }
 
 type MediaParameter struct {
@@ -511,44 +541,88 @@ func (mp *MediaParameter) GetStreamID() string {
 	return mp.StreamID
 }
 
+func (mp *MediaParameter) SetStreamID(id string) {
+	mp.StreamID = id
+}
+
 func (mp *MediaParameter) GetName() string {
 	return mp.Name
+}
+
+func (mp *MediaParameter) SetName(n string) {
+	mp.Name = n
 }
 
 func (mp *MediaParameter) GetKeywords() []string {
 	return mp.Keywords
 }
 
+func (mp *MediaParameter) SetKeywords(k []string) {
+	mp.Keywords = k
+}
+
 func (mp *MediaParameter) GetMimeType() string {
 	return mp.MimeType
+}
+
+func (mp *MediaParameter) SetMimeType(mt string) {
+	mp.MimeType = mt
 }
 
 func (mp *MediaParameter) GetCodecType() *string {
 	return mp.CodecType
 }
 
+func (mp *MediaParameter) SetCodecType(ct *string) {
+	mp.CodecType = ct
+}
+
 func (mp *MediaParameter) GetProtocol() string {
 	return mp.Protocol
+}
+
+func (mp *MediaParameter) SetProtocol(p string) {
+	mp.Protocol = p
 }
 
 func (mp *MediaParameter) GetMode() *MediaAccessMode {
 	return mp.Mode
 }
 
+func (mp *MediaParameter) SetMode(m *MediaAccessMode) {
+	mp.Mode = m
+}
+
 func (mp *MediaParameter) GetAvailabilityDuration() *uint64 {
 	return mp.AvailabilityDuration
+}
+
+func (mp *MediaParameter) SetAvailabilityDuration(d *uint64) {
+	mp.AvailabilityDuration = d
 }
 
 func (mp *MediaParameter) GetTimeout() *uint64 {
 	return mp.Timeout
 }
 
+func (mp *MediaParameter) SetTimeout(t *uint64) {
+	mp.Timeout = t
+}
+
 func (mp *MediaParameter) GetCachingServerURL() *base.URI {
 	return &mp.CachingServerURL
 }
 
+func (mp *MediaParameter) SetCachingServerURL(u *base.URI) {
+	mp.CachingServerURL = *u // caller responsible for non-nil pointer
+}
+
 func (mp *MediaParameter) GetCompletionTimeout() *uint64 {
 	return mp.CompletionTimeout
+}
+
+func (mp *MediaParameter) SetCompletionTimeout(t *uint64) {
+	mp.CompletionTimeout = t
 }
 
 type MetadataParameter struct {
@@ -638,44 +712,88 @@ func (mp *MetadataParameter) GetStreamID() string {
 	return mp.StreamID
 }
 
+func (mp *MetadataParameter) SetStreamID(id string) {
+	mp.StreamID = id
+}
+
 func (mp *MetadataParameter) GetName() string {
 	return mp.Name
+}
+
+func (mp *MetadataParameter) SetName(n string) {
+	mp.Name = n
 }
 
 func (mp *MetadataParameter) GetKeywords() []string {
 	return mp.Keywords
 }
 
+func (mp *MetadataParameter) SetKeywords(k []string) {
+	mp.Keywords = k
+}
+
 func (mp *MetadataParameter) GetMimeType() string {
 	return mp.MimeType
+}
+
+func (mp *MetadataParameter) SetMimeType(mt string) {
+	mp.MimeType = mt
 }
 
 func (mp *MetadataParameter) GetCodecType() *string {
 	return mp.CodecType
 }
 
+func (mp *MetadataParameter) SetCodecType(ct *string) {
+	mp.CodecType = ct
+}
+
 func (mp *MetadataParameter) GetProtocol() string {
 	return mp.Protocol
+}
+
+func (mp *MetadataParameter) SetProtocol(p string) {
+	mp.Protocol = p
 }
 
 func (mp *MetadataParameter) GetMode() *MediaAccessMode {
 	return mp.Mode
 }
 
+func (mp *MetadataParameter) SetMode(m *MediaAccessMode) {
+	mp.Mode = m
+}
+
 func (mp *MetadataParameter) GetAvailabilityDuration() *uint64 {
 	return mp.AvailabilityDuration
+}
+
+func (mp *MetadataParameter) SetAvailabilityDuration(d *uint64) {
+	mp.AvailabilityDuration = d
 }
 
 func (mp *MetadataParameter) GetTimeout() *uint64 {
 	return mp.Timeout
 }
 
+func (mp *MetadataParameter) SetTimeout(t *uint64) {
+	mp.Timeout = t
+}
+
 func (mp *MetadataParameter) GetCachingServerURL() *base.URI {
 	return mp.CachingServerURL
 }
 
+func (mp *MetadataParameter) SetCachingServerURL(u *base.URI) {
+	mp.CachingServerURL = u
+}
+
 func (mp *MetadataParameter) GetCompletionTimeout() *uint64 {
 	return mp.CompletionTimeout
+}
+
+func (mp *MetadataParameter) SetCompletionTimeout(t *uint64) {
+	mp.CompletionTimeout = t
 }
 
 type MediaAccessMode string
@@ -1153,7 +1271,12 @@ const (
 	ArrayDatatype   = Datatype("array")
 )
 
-type ParameterValue interface{}
+type ParameterValue interface {
+	GetName() string
+	SetName(string)
+	GetID() int64
+	SetID(int64)
+}
 
 type BooleanParameterValue struct {
 	Name string `json:"name"`
@@ -1165,6 +1288,22 @@ type BooleanParameterValue struct {
 
 var _ ParameterValue = &BooleanParameterValue{}
 
+func (pv *BooleanParameterValue) GetName() string {
+	return pv.Name
+}
+
+func (pv *BooleanParameterValue) SetName(n string) {
+	pv.Name = n
+}
+
+func (pv *BooleanParameterValue) GetID() int64 {
+	return pv.ID
+}
+
+func (pv *BooleanParameterValue) SetID(id int64) {
+	pv.ID = id
+}
+
 type IntegerParameterValue struct {
 	Name string `json:"name"`
 
@@ -1174,6 +1313,22 @@ type IntegerParameterValue struct {
 }
 
 var _ ParameterValue = &IntegerParameterValue{}
+
+func (pv *IntegerParameterValue) GetName() string {
+	return pv.Name
+}
+
+func (pv *IntegerParameterValue) SetName(n string) {
+	pv.Name = n
+}
+
+func (pv *IntegerParameterValue) GetID() int64 {
+	return pv.ID
+}
+
+func (pv *IntegerParameterValue) SetID(id int64) {
+	pv.ID = id
+}
 
 type IntegerParameterValueRestrictions struct {
 	// +optional
@@ -1196,6 +1351,22 @@ type NumberParameterValue struct {
 
 var _ ParameterValue = &NumberParameterValue{}
 
+func (pv *NumberParameterValue) GetName() string {
+	return pv.Name
+}
+
+func (pv *NumberParameterValue) SetName(n string) {
+	pv.Name = n
+}
+
+func (pv *NumberParameterValue) GetID() int64 {
+	return pv.ID
+}
+
+func (pv *NumberParameterValue) SetID(id int64) {
+	pv.ID = id
+}
+
 type NumberParameterValueRestrictions struct {
 	// +optional
 	MinValue *float64 `json:"min-value,omitempty"`
@@ -1216,6 +1387,22 @@ type StringParameterValue struct {
 }
 
 var _ ParameterValue = &StringParameterValue{}
+
+func (pv *StringParameterValue) GetName() string {
+	return pv.Name
+}
+
+func (pv *StringParameterValue) SetName(n string) {
+	pv.Name = n
+}
+
+func (pv *StringParameterValue) GetID() int64 {
+	return pv.ID
+}
+
+func (pv *StringParameterValue) SetID(id int64) {
+	pv.ID = id
+}
 
 // This descriptor provides information for a delayed startup of the underlying resource.
 type StartupDelay struct {
