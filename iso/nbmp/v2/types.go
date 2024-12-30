@@ -353,6 +353,12 @@ type PortBinding struct {
 	Keywords []string `json:"keywords,omitempty"`
 }
 
+// Helper type when dealing with inputs or outputs.
+type InputOrOutput interface {
+	GetMediaParameters() []MediaParameter
+	GetMetadataParameters() []MetadataParameter
+}
+
 // This descriptor provides the parameters of the underlying resource’s inputs. The input descriptor consists of two
 // arrays of objects: one for the media inputs and one for metadata inputs.
 type Input struct {
@@ -363,6 +369,16 @@ type Input struct {
 	MetadataParameters []MetadataParameter `json:"metadata-parameters,omitempty"`
 }
 
+var _ InputOrOutput = &Input{}
+
+func (i *Input) GetMediaParameters() []MediaParameter {
+	return i.MediaParameters
+}
+
+func (i *Input) GetMetadataParameters() []MetadataParameter {
+	return i.MetadataParameters
+}
+
 // This descriptor provides the parameters of the underlying resource’s outputs. The output descriptor consists of two
 // arrays of objects: one for the media outputs and one for metadata outputs.
 type Output struct {
@@ -371,6 +387,16 @@ type Output struct {
 
 	// +optional
 	MetadataParameters []MetadataParameter `json:"metadata-parameters,omitempty"`
+}
+
+var _ InputOrOutput = &Output{}
+
+func (o *Output) GetMediaParameters() []MediaParameter {
+	return o.MediaParameters
+}
+
+func (o *Output) GetMetadataParameters() []MetadataParameter {
+	return o.MetadataParameters
 }
 
 type MediaParameter struct {
