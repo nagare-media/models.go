@@ -399,6 +399,20 @@ func (o *Output) GetMetadataParameters() []MetadataParameter {
 	return o.MetadataParameters
 }
 
+type MediaOrMetadataParameter interface {
+	GetStreamID() string
+	GetName() string
+	GetKeywords() []string
+	GetMimeType() string
+	GetCodecType() *string
+	GetProtocol() string
+	GetMode() *MediaAccessMode
+	GetAvailabilityDuration() *uint64
+	GetTimeout() *uint64
+	GetCachingServerURL() *base.URI
+	GetCompletionTimeout() *uint64
+}
+
 type MediaParameter struct {
 	// unique identifier, with the scope of function or task or workflow, to identify the media or metadata stream
 	//
@@ -491,6 +505,52 @@ type MediaParameter struct {
 	CompletionTimeout *uint64 `json:"completion-timeout,omitempty"`
 }
 
+var _ MediaOrMetadataParameter = &MediaParameter{}
+
+func (mp *MediaParameter) GetStreamID() string {
+	return mp.StreamID
+}
+
+func (mp *MediaParameter) GetName() string {
+	return mp.Name
+}
+
+func (mp *MediaParameter) GetKeywords() []string {
+	return mp.Keywords
+}
+
+func (mp *MediaParameter) GetMimeType() string {
+	return mp.MimeType
+}
+
+func (mp *MediaParameter) GetCodecType() *string {
+	return mp.CodecType
+}
+
+func (mp *MediaParameter) GetProtocol() string {
+	return mp.Protocol
+}
+
+func (mp *MediaParameter) GetMode() *MediaAccessMode {
+	return mp.Mode
+}
+
+func (mp *MediaParameter) GetAvailabilityDuration() *uint64 {
+	return mp.AvailabilityDuration
+}
+
+func (mp *MediaParameter) GetTimeout() *uint64 {
+	return mp.Timeout
+}
+
+func (mp *MediaParameter) GetCachingServerURL() *base.URI {
+	return &mp.CachingServerURL
+}
+
+func (mp *MediaParameter) GetCompletionTimeout() *uint64 {
+	return mp.CompletionTimeout
+}
+
 type MetadataParameter struct {
 	// unique identifier, with the scope of function or task or workflow, to identify the media or metadata stream
 	//
@@ -570,6 +630,52 @@ type MetadataParameter struct {
 	// must not be set for Outputs
 	// +optional
 	CompletionTimeout *uint64 `json:"completion-timeout,omitempty"`
+}
+
+var _ MediaOrMetadataParameter = &MetadataParameter{}
+
+func (mp *MetadataParameter) GetStreamID() string {
+	return mp.StreamID
+}
+
+func (mp *MetadataParameter) GetName() string {
+	return mp.Name
+}
+
+func (mp *MetadataParameter) GetKeywords() []string {
+	return mp.Keywords
+}
+
+func (mp *MetadataParameter) GetMimeType() string {
+	return mp.MimeType
+}
+
+func (mp *MetadataParameter) GetCodecType() *string {
+	return mp.CodecType
+}
+
+func (mp *MetadataParameter) GetProtocol() string {
+	return mp.Protocol
+}
+
+func (mp *MetadataParameter) GetMode() *MediaAccessMode {
+	return mp.Mode
+}
+
+func (mp *MetadataParameter) GetAvailabilityDuration() *uint64 {
+	return mp.AvailabilityDuration
+}
+
+func (mp *MetadataParameter) GetTimeout() *uint64 {
+	return mp.Timeout
+}
+
+func (mp *MetadataParameter) GetCachingServerURL() *base.URI {
+	return mp.CachingServerURL
+}
+
+func (mp *MetadataParameter) GetCompletionTimeout() *uint64 {
+	return mp.CompletionTimeout
 }
 
 type MediaAccessMode string
