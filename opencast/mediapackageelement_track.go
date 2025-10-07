@@ -93,7 +93,7 @@ func (res *Resolution) MarshalText() ([]byte, error) {
 		return nil, nil
 	}
 
-	return []byte(fmt.Sprintf("%dx%d", res.Width, res.Height)), nil
+	return fmt.Appendf(nil, "%dx%d", res.Width, res.Height), nil
 }
 
 func (ref *Resolution) UnmarshalText(text []byte) (err error) {
