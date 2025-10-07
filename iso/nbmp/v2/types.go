@@ -867,14 +867,14 @@ type StaticImageInfo struct {
 	PatchURL *string `json:"patch-url,omitempty"`
 
 	// +optional
-	PatchScript map[string]interface{} `json:"patch-script,omitempty"`
+	PatchScript map[string]any `json:"patch-script,omitempty"`
 }
 
 type DynamicImageInfo struct {
 	// URL (according to IETF RFC 3986) defining information object scheme or information needed for dynamic build
 	Scheme base.URI `json:"scheme"`
 
-	Information map[string]interface{} `json:"information"`
+	Information map[string]any `json:"information"`
 }
 
 type ConnectionMapping struct {
@@ -1198,21 +1198,21 @@ type Parameter struct {
 	// must be set for array datatype
 	// TODO: this is an array in the JSON schema, but must (likely) be an JSON schema object.
 	// +optional
-	Schema map[string]interface{} `json:"schema,omitempty"`
+	Schema map[string]any `json:"schema,omitempty"`
 }
 
 var _ json.Unmarshaler = &Parameter{}
 
 func (p *Parameter) UnmarshalJSON(data []byte) error {
 	type PartialParameter struct {
-		Name        string                 `json:"name"`
-		ID          int64                  `json:"id"`
-		Description *string                `json:"discription,omitempty"` // TODO: spelling
-		Datatype    Datatype               `json:"datatype"`
-		Conditions  []int64                `json:"conditions,omitempty"`
-		Exclusions  []int64                `json:"exclusions,omitempty"`
-		Values      []json.RawMessage      `json:"values,omitempty"`
-		Schema      map[string]interface{} `json:"schema,omitempty"`
+		Name        string            `json:"name"`
+		ID          int64             `json:"id"`
+		Description *string           `json:"discription,omitempty"` // TODO: spelling
+		Datatype    Datatype          `json:"datatype"`
+		Conditions  []int64           `json:"conditions,omitempty"`
+		Exclusions  []int64           `json:"exclusions,omitempty"`
+		Values      []json.RawMessage `json:"values,omitempty"`
+		Schema      map[string]any    `json:"schema,omitempty"`
 	}
 
 	pp := PartialParameter{}
@@ -1440,7 +1440,7 @@ type ClientAssistant struct {
 	// shall not be present for function description documents
 	//
 	// +optional
-	MeasurementCollectionList map[string]interface{} `json:"measurement-collection-list,omitempty"`
+	MeasurementCollectionList map[string]any `json:"measurement-collection-list,omitempty"`
 
 	// list of objects where each object represents different type information from NBMP source
 	//
@@ -1449,7 +1449,7 @@ type ClientAssistant struct {
 	// shall not be present for function description documents
 	//
 	// +optional
-	SourceAssistanceInformation map[string]interface{} `json:"source-assistance-information,omitempty"`
+	SourceAssistanceInformation map[string]any `json:"source-assistance-information,omitempty"`
 }
 
 type Failover struct {
@@ -1571,10 +1571,10 @@ type Monitoring struct {
 	Variable []Variable `json:"variable,omitempty"`
 
 	// +optional
-	SystemEvents []map[string]interface{} `json:"system-events,omitempty"`
+	SystemEvents []map[string]any `json:"system-events,omitempty"`
 
 	// +optional
-	SystemVariables []map[string]interface{} `json:"system-variables,omitempty"`
+	SystemVariables []map[string]any `json:"system-variables,omitempty"`
 }
 
 // This descriptor provides reporting information for the underlying resource.
@@ -1586,10 +1586,10 @@ type Reporting struct {
 	Variable []Variable `json:"variable,omitempty"`
 
 	// +optional
-	SystemEvents []map[string]interface{} `json:"system-events,omitempty"`
+	SystemEvents []map[string]any `json:"system-events,omitempty"`
 
 	// +optional
-	SystemVariables []map[string]interface{} `json:"system-variables,omitempty"`
+	SystemVariables []map[string]any `json:"system-variables,omitempty"`
 
 	// describes the type of report, defined by the NBMP source or workflow manager
 	ReportType string `json:"report-type"`
@@ -1623,10 +1623,10 @@ type Notification struct {
 	Variable []Variable `json:"variable,omitempty"`
 
 	// +optional
-	SystemEvents []map[string]interface{} `json:"system-events,omitempty"`
+	SystemEvents []map[string]any `json:"system-events,omitempty"`
 
 	// +optional
-	SystemVariables []map[string]interface{} `json:"system-variables,omitempty"`
+	SystemVariables []map[string]any `json:"system-variables,omitempty"`
 
 	// time for notification
 	NotificationTime time.Time `json:"notification-time"`
@@ -1700,7 +1700,7 @@ type AssertionValuePredicate struct {
 	EvaluationCondition AssertionEvaluationCondition `json:"evaluation-condition"`
 
 	// value against which the parameter value will be checked
-	CheckValue map[string]interface{} `json:"check-value"`
+	CheckValue map[string]any `json:"check-value"`
 
 	// aggregation function to be used while evaluating assertion across all tasks in the workflow
 	Aggregation AssertionValuePredicateAggregation `json:"aggregation"`
