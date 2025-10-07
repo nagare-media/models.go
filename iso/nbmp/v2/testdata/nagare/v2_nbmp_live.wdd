@@ -1,12 +1,11 @@
 {
   "scheme": {
-    "uri": "urn:mpeg:mpegi:nbmp:2023"
+    "uri": "urn:mpeg:mpegi:nbmp:2020"
   },
   "general": {
     "id": "7e5b8825-9442-499f-95fe-abf8f03970c7",
     "name": "Live workflow",
     "description": "A simple live workflow.",
-    "nbmp-brand": "urn:nagare-media:engine:schema:nbmp:v1apha1",
     "published-time": "2023-01-01T23:48:48.723348+01:00",
     "state": "instantiated"
   },

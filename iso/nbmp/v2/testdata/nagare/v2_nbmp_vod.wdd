@@ -1,12 +1,11 @@
 {
   "scheme": {
-    "uri": "urn:mpeg:mpegi:nbmp:2023"
+    "uri": "urn:mpeg:mpegi:nbmp:2020"
   },
   "general": {
     "id": "8406e61f-9ff5-4000-9185-3af62b54108c",
     "name": "VoD workflow",
     "description": "A simple VoD workflow.",
-    "nbmp-brand": "urn:nagare-media:engine:schema:nbmp:v1apha1",
     "published-time": "2023-01-01T23:49:34.706237+01:00",
     "state": "instantiated"
   },
